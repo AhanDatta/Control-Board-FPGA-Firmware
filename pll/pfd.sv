@@ -31,5 +31,5 @@ module pfd (
     d_ff ref_ff(.d (1), .clk (ref_clk), .rstn (fb_sig), .q (ref_clk_out));
     d_ff chip_ff(.d (1), .clk (chip_clk), .rstn (fb_sig), .q (chip_clk_out));
 
-    assign phase_signal = ref_clk_out - chip_clk_out;
+    assign phase_signal = ref_clk_out ^ chip_clk_out;
 endmodule

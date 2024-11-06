@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import Xil_prj_utils.project as project
+
+if __name__ == "__main__":
+   #identify if this is called from a softlink
+   if not os.path.basename(sys.argv[0]) == "project" and len(sys.argv) >= 2:
+      sys.argv.insert(2, os.path.basename(sys.argv[0]))
+      
+   project.project()
+

@@ -1,0 +1,3 @@
+[submodule "Xil_prj_utils"]
+	path = Xil_prj_utils
+	url = git@github.com:pastika/Xil_prj_utils.git

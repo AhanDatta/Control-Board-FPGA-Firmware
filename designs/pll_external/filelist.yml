@@ -3,8 +3,9 @@
 #
 hdl:
   - shared/ip_repo/pll_external/AD4008_read.sv
-# sim:
-#
+sim:
+  - simulation_designs/AD4008_enumulator.sv
+  - simulation_designs/AD4008_testbench.sv
 ip_files:
    - shared/ip_repo/pll_external/component.xml
 #

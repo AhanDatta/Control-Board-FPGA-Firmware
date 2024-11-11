@@ -4,8 +4,8 @@
 hdl:
   - shared/ip_repo/pll_external/AD4008_read.sv
 sim:
-  - simulation_designs/AD4008_enumulator.sv
-  - simulation_designs/AD4008_testbench.sv
+  - designs/pll_external/hdl/AD4008_emulator.sv
+  - designs/pll_external/hdl/AD4008_testbench.sv
 ip_files:
    - shared/ip_repo/pll_external/component.xml
 #
@@ -26,4 +26,4 @@ xdcTarget: shared/ip_repo/pll_external/xdc/vivado_target.xdc
 # Top level module name 
 #
 topMod: AD4008_read
-# topSim: testBench
+topSim: AD4008_testbench

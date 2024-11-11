@@ -23,9 +23,9 @@ module AD4008_read #(
     integer readin_counter;
     logic sck_enable;
     logic read_in_progress;
-    logic sync_arestn;
+    logic sresetn;
 
-    assign sync_arestn = aresetn || read_in_progress; //ensures ADC always gets read out properly
+    assign sresetn = aresetn || read_in_progress; //ensures ADC always gets read out properly
 
     //in psuedocode: sck=clk if (sck_enable==1) else sck = 0
     ODDRE1 #(
@@ -43,8 +43,8 @@ module AD4008_read #(
    );
 
     //Main state machine
-    always_ff @(posedge clk or negedge sync_arestn) begin
-        if (!sync_arestn) begin
+    always_ff @(posedge clk or negedge sresetn) begin
+        if (!sresetn) begin
             state <= RESET;
             raw_data <= '0;
             sck_enable <= '0;

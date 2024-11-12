@@ -4,7 +4,6 @@ module DAC8411_write #(
     parameter DAC_WIDTH = 16
 ) (
     input logic [DAT_WIDTH-1:0] data_in;
-    input logic new_data_flag;
     input logic aresetn; //async, as allowed by the syncn interupt feature
     input logic clk; //same freq as AD4008
     output logic sclk; //write clock
@@ -15,22 +14,10 @@ module DAC8411_write #(
 
     state_t state;
     logic [DAC_WIDTH-1:0] latched_data_in;
-    logic latched_new_data_flag;
-    logic sclk_enable;
-    integer write_counter;
+    logic [7:0] write_counter;
 
-    assign sclk = clk;
+    assign sclk = ~clk; //since data is read on negedge of sclk, and we want to use negedge clk, we do this inversion
 
-    always_ff @(posedge new_data_flag or negedge aresetn) begin
-        if (!aresetn) begin
-            latched_data_in <= '0;
-            latched_new_data_flag <= 0;
-        end
-        else begin
-            latched_data_in <= data_in;
-            latched_new_data_flag <= 1;
-        end
-    end
 
     //main state machine
     always_ff @(negedge clk or negedge aresetn) begin
@@ -48,36 +35,35 @@ module DAC8411_write #(
                     serial_data_out <= 0;
                 end
 
-                IDLE:
+                IDLE: //State is here to reset syncn
                 begin
                     syncn <= 1;
                     serial_data_out <= 0;
-                    if (latched_new_data_flag) begin
-                        state <= INIT_CONVERSION;
-                        latched_new_data_flag <= 0;
-                    end
-                    else begin
-                        state <= IDLE;
-                    end
+                    state <= INIT_CONVERSION;
                 end
 
                 INIT_CONVERSION:
                 begin
                     syncn <= 0;
                     serial_data_out <= 0; 
-                    write_counter <= DAC_WIDTH+1; //+2 from the DAC width for first 2 Mode bits
+                    write_counter <= DAC_WIDTH + 8 - 1; //need 24 clk cycles to complete a full transaction
+                    latched_data_in <= data_in;
                     state <= WRITE_DATA;
                 end
 
                 WRITE_DATA:
                 begin
-                    if (write_counter == DAC_WIDTH+1 || write_counter == DAC_WIDTH) begin //sets mode to normal
+                    if (write_counter == DAC_WIDTH+7 || write_counter == DAC_WIDTH+6) begin //sets DAC mode to normal, as per datasheet
                         serial_data_out <= 0;
                     end
-                    else begin
-                        serial_data_out <= latched_data_in[write_counter];
+                    else if (write_counter > 8'd5) begin
+                        serial_data_out <= latched_data_in[write_counter - 6]; //start sending data on 21st bit
+                    end
+                    else begin //last 6 bits are ignored
+                        serial_data_out <= 0;
                     end
 
+                    //handles indexing and reseting syncn
                     write_counter <= write_counter - 1;
                     if (write_counter == 0) begin
                         state <= IDLE;

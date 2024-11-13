@@ -12,6 +12,7 @@ module AD4008_read #(
     input logic data_in, //Also acts as the busy signal, detailed in above datasheet
     output logic cnv,
     output logic sck,
+    output logic sresetn, //To check if the reset has happened yet
     output logic new_data_flag, //For the dac8411 driver to start writing
     output logic [ADC_WIDTH-1:0] amplified_data
 );
@@ -23,7 +24,6 @@ module AD4008_read #(
     integer readin_counter;
     logic sck_enable;
     logic read_in_progress;
-    logic sresetn;
 
     assign sresetn = aresetn || read_in_progress; //ensures ADC always gets read out properly
 

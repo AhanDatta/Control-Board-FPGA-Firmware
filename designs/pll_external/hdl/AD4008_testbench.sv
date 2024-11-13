@@ -14,6 +14,7 @@ module AD4008_testbench #(
     logic clk;
     logic aresetn;
     logic new_data_flag;
+    logic sresetn;
     logic [ADC_WIDTH-1:0] amplified_data;
 
     always #10 clk = ~clk;
@@ -24,6 +25,7 @@ module AD4008_testbench #(
         .data_in (sdo),
         .cnv (cnv),
         .sck (sck),
+        .sresetn (sresetn),
         .new_data_flag (new_data_flag),
         .amplified_data (amplified_data)
     );
@@ -38,7 +40,7 @@ module AD4008_testbench #(
     //external reseting the driver
     task ext_reset ();
         aresetn = 0;
-        @(posedge clk);
+        wait (sresetn == 1'b0);
         @(negedge clk);
         aresetn = 1;
 
@@ -49,8 +51,8 @@ module AD4008_testbench #(
     always @(posedge clk, negedge clk) begin
     if (DBG_READOUT) begin
         $display(
-        "time: %0d, clk: %0b, aresetn: %0b, internal_data: %0b, amplified_data: %0b, new_data_flag: %0b, cnv: %0b, sdo: %0b, sck: %0b",
-        $time, clk, aresetn, AD4008_read_inst.raw_data, amplified_data, new_data_flag, cnv, sdo, sck);
+        "time: %0d, clk: %0b, aresetn: %0b, sresetn: %0b, internal_data: %0b, amplified_data: %0b, new_data_flag: %0b, cnv: %0b, sdo: %0b, sck: %0b",
+        $time, clk, aresetn, sresetn, AD4008_read_inst.raw_data, amplified_data, new_data_flag, cnv, sdo, sck);
 
         if(clk == 0) begin
         $display("--------------------------------------------------------------------------------------------------------------------------------------------------");

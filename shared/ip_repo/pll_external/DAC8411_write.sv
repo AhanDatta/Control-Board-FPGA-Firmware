@@ -3,12 +3,12 @@
 module DAC8411_write #(
     parameter DAC_WIDTH = 16
 ) (
-    input logic [DAT_WIDTH-1:0] data_in;
-    input logic aresetn; //async, as allowed by the syncn interupt feature
-    input logic clk; //same freq as AD4008
-    output logic sclk; //write clock
-    output logic serial_data_out;
-    output logic syncn; //Acts as active-low cnv signal, as detailed in datasheet above
+    input logic [DAC_WIDTH-1:0] data_in,
+    input logic aresetn, //async, as allowed by the syncn interupt feature
+    input logic clk, //same freq as AD4008
+    output logic sclk, //write clock
+    output logic serial_data_out,
+    output logic syncn //Acts as active-low cnv signal, as detailed in datasheet above
 );
     typedef enum { RESET, IDLE, INIT_CONVERSION, WRITE_DATA } state_t;
 
@@ -45,15 +45,15 @@ module DAC8411_write #(
                 INIT_CONVERSION:
                 begin
                     syncn <= 0;
-                    serial_data_out <= 0; 
-                    write_counter <= DAC_WIDTH + 8 - 1; //need 24 clk cycles to complete a full transaction
+                    serial_data_out <= 0; //first bit of data
+                    write_counter <= DAC_WIDTH + 8 - 2; //need 24 clk cycles to complete a full transaction, first is already sent
                     latched_data_in <= data_in;
                     state <= WRITE_DATA;
                 end
 
                 WRITE_DATA:
                 begin
-                    if (write_counter == DAC_WIDTH+7 || write_counter == DAC_WIDTH+6) begin //sets DAC mode to normal, as per datasheet
+                    if (write_counter == DAC_WIDTH+6) begin //sets DAC mode to normal, as per datasheet
                         serial_data_out <= 0;
                     end
                     else if (write_counter > 8'd5) begin

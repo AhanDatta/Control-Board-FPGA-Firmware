@@ -52,7 +52,6 @@ module DAC8411_testbench#(
         #50;
         ext_reset();
 
-        
     end
 
 endmodule

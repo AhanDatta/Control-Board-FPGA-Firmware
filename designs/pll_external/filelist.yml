@@ -2,6 +2,7 @@
 # HDL files
 #
 hdl:
+  - shared/ip_repo/pll_external/pll_external.sv
   - shared/ip_repo/pll_external/AD4008_read.sv
   - shared/ip_repo/pll_external/DAC8411_write.sv
 sim:

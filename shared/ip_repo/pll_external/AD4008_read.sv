@@ -63,6 +63,7 @@ module AD4008_read #(
                 begin
                     read_in_progress <= 0;
                     cnv <= 1;
+                    sck_enable <= 0;
                     state <= WAIT_FOR_RESULT;
                     amplified_data <= raw_data * GAIN;
                     new_data_flag <= 1;

@@ -19,8 +19,10 @@ designs/**/bd/**
 
 **/.svn/
 
-AD4008_driver/
+#project list
+/pll_external/
 
+#vivado file types
 *.xci
 *.xcix
 *.xpr

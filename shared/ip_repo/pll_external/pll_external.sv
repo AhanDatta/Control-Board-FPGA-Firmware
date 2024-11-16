@@ -1,6 +1,6 @@
 module pll_external #(
-    parameter ADC_WIDTH = 16;
-    parameter DAC_WIDTH = 16;
+    parameter ADC_WIDTH = 16,
+    parameter DAC_WIDTH = 16
 ) (
     input logic clk, //for both adc and dac drivers
     input logic adc_resetn, //needs to be held

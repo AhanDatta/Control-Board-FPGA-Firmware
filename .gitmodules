@@ -1,3 +1,6 @@
 [submodule "Xil_prj_utils"]
 	path = Xil_prj_utils
 	url = git@github.com:pastika/Xil_prj_utils.git
+[submodule "shared/ip_repo/UtilityIP"]
+	path = shared/ip_repo/UtilityIP
+	url = git@github.com:FTBF/UtilityIP.git

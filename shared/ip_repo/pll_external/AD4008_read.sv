@@ -4,11 +4,11 @@
 //Put the signal on an output for the DAC
 
 module AD4008_read #(
-    parameter GAIN = 2,
     parameter ADC_WIDTH = 16
 ) (
     input logic clk, //same freq as DAC8411
     input logic aresetn,
+    input logic [15:0] GAIN,
     input logic data_in, //Also acts as the busy signal, detailed in above datasheet
     output logic cnv,
     output logic sck,

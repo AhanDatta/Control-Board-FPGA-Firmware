@@ -59,6 +59,9 @@
         <spirit:language>SystemVerilog</spirit:language>
         <spirit:modelName>AD4008_read</spirit:modelName>
         <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_baylor_edu_IPIF_common_IPIF_common_1_0__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
@@ -74,6 +77,9 @@
         <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
         <spirit:language>SystemVerilog</spirit:language>
         <spirit:modelName>AD4008_read</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_baylor_edu_IPIF_common_IPIF_common_1_0__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
@@ -231,6 +237,26 @@
         <spirit:name>AD4008_read.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_baylor_edu_IPIF_common_IPIF_common_1_0__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="baylor.edu" xilinx:library="IPIF_common" xilinx:name="IPIF_common" xilinx:version="1.0">
+            <xilinx:mode xilinx:name="copy_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_baylor_edu_IPIF_common_IPIF_common_1_0__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="baylor.edu" xilinx:library="IPIF_common" xilinx:name="IPIF_common" xilinx:version="1.0">
+            <xilinx:mode xilinx:name="copy_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>

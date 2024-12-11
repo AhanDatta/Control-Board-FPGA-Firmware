@@ -5,6 +5,8 @@ hdl:
   - shared/ip_repo/pll_external/pll_external.sv
   - shared/ip_repo/pll_external/AD4008_read.sv
   - shared/ip_repo/pll_external/DAC8411_write.sv
+  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
+  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 sim:
   - designs/pll_external/hdl/AD4008_emulator.sv
   - designs/pll_external/hdl/AD4008_testbench.sv

@@ -1,20 +1,15 @@
-module pll_external #(
-    parameter ADC_WIDTH = 16,
-    parameter DAC_WIDTH = 16,
+//chip SPI documentation found here: https://www.overleaf.com/9261836185kyrcvjqcqhnc#db7835
+
+module SPI_driver_wrapper #(
     parameter integer C_S_AXI_DATA_WIDTH = 32,
     parameter integer C_S_AXI_ADDR_WIDTH = 32,
     parameter integer N_REG = 4
 ) (
-    input logic clk, //for both adc and dac drivers
-    input logic adc_resetn, //needs to be held
-    input logic input_from_adc,
-    output logic adc_sck,
-    output logic adc_cnv,
-    output logic adc_resetn_confirm,
-    input logic dac_resetn, 
-    output logic dac_sclk,
-    output logic dac_write,
-    output logic dac_syncn,
+    input logic clk,
+    input logic rstn,
+    input logic serial_in,
+    output logic spi_clk,
+    output logic serial_out,
 
     input wire                                   IPIF_clk,
                                                 
@@ -34,25 +29,25 @@ module pll_external #(
     output logic                                 IPIF_IP2Bus_Error
 );
 
-    logic [ADC_WIDTH-1:0] amplified_data;
-
     assign IPIF_IP2Bus_Error = 0;
    
    typedef struct       packed{
       // Register 3
-      logic [31:0]      padding3;
+      logic             new_command;
+      logic             rstn;
+      logic [30:0]      padding3;
       // Register 2
-      logic [31:0]      padding2;
+      logic [23:0]      padding2;
+      logic [7:0]       register_addr;
       // Register 1
-      logic [15:0]      padding1;
-      logic [15:0]      gain;
+      logic [23:0]      padding1;
+      logic [7:0]       write_data;
       // Register 0
-      logic [29:0]      padding0;
-      logic             dac_resetn;
-      logic             adc_resetn;
+      logic [23:0]      padding0;
+      logic [7:0]       data_read_from_reg;
    } param_t;
-   
-   param_t params_from_IP; //use this
+
+    param_t params_from_IP; //use this
    param_t params_from_bus;
    param_t params_to_IP; //use this
    param_t params_to_bus;
@@ -64,6 +59,8 @@ module pll_external #(
       params_from_IP.padding1   = '0;
       params_from_IP.padding2   = '0;
       params_from_IP.padding3   = '0;
+
+      params_from_IP.data_read_from_reg = data_read_from_reg;
    end
    
    IPIF_parameterDecode
@@ -105,25 +102,20 @@ module pll_external #(
     .params_to_bus(params_to_bus)
     );
 
-    AD4008_read adc_in (
-        .clk (clk),
-        .aresetn (adc_resetn & params_to_IP.adc_resetn),
-        .data_in (input_from_adc),
-        .GAIN (gain),
-        .cnv (adc_cnv),
-        .sck (adc_sck),
-        .sresetn (adc_resetn_confirm),
-        .new_data_flag (),
-        .amplified_data (amplified_data)
-    );
+  assign logic full_rstn = rstn & params_to_IP.rstn;
 
-    DAC8411_write dac_out (
-        .clk (clk),
-        .aresetn (dac_resetn & params_to_IP.dac_resetn),
-        .data_in (amplified_data),
-        .sclk (dac_sclk),
-        .serial_data_out (dac_write),
-        .syncn (dac_syncn)
-    );
+  logic [7:0] data_read_from_reg;
+
+  SPI_driver driver_inst (
+    .rstn (full_rstn),
+    .clk (clk),
+    .serial_in (serial_in),
+    .new_command (params_to_IP.new_command),
+    .register_addr (params_to_IP.register_addr),
+    .write_data (params_to_IP.write_data),
+    .data_read_from_reg (data_read_from_reg),
+    .serial_out (serial_out),
+    .spi_clk (spi_clk)
+  );
 
 endmodule

@@ -21,6 +21,7 @@ designs/**/bd/**
 
 #project list
 /pll_external/
+/SPI_driver/
 
 #vivado file types
 *.xci

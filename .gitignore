@@ -12,6 +12,7 @@ designs/**/bd/**
 *.pdf
 *.png
 *.root
+*.bd
 #*#
 
 **pycache**
@@ -22,6 +23,8 @@ designs/**/bd/**
 #project list
 /pll_external/
 /SPI_driver/
+/control_board_bd/
+/main_design/
 
 #vivado file types
 *.xci

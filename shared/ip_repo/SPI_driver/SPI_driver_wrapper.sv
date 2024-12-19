@@ -31,9 +31,13 @@ module SPI_driver_wrapper #(
 
     assign IPIF_IP2Bus_Error = 0;
    
-   typedef struct       packed{
+  //add section for read data
+  //add section for starting address
+  //add section for number of words
+
+   typedef struct       packed{ 
       // Register 3
-      logic             new_command;
+      logic             new_command; //Should reset after some time
       logic             rstn;
       logic [30:0]      padding3;
       // Register 2
@@ -43,7 +47,8 @@ module SPI_driver_wrapper #(
       logic [23:0]      padding1;
       logic [7:0]       write_data;
       // Register 0
-      logic [23:0]      padding0;
+      logic [22:0]      padding0;
+      logic             transaction_complete;
       logic [7:0]       data_read_from_reg;
    } param_t;
 
@@ -60,6 +65,7 @@ module SPI_driver_wrapper #(
       params_from_IP.padding2   = '0;
       params_from_IP.padding3   = '0;
 
+      params_from_IP.transaction_complete = transaction_complete;
       params_from_IP.data_read_from_reg = data_read_from_reg;
    end
    
@@ -105,6 +111,7 @@ module SPI_driver_wrapper #(
   assign logic full_rstn = rstn & params_to_IP.rstn;
 
   logic [7:0] data_read_from_reg;
+  logic transaction_complete;
 
   SPI_driver driver_inst (
     .rstn (full_rstn),
@@ -115,7 +122,11 @@ module SPI_driver_wrapper #(
     .write_data (params_to_IP.write_data),
     .data_read_from_reg (data_read_from_reg),
     .serial_out (serial_out),
-    .spi_clk (spi_clk)
+    .spi_clk (spi_clk),
+    .transaction_complete (transaction_complete)
   );
+
+  // Project Manage > Language Templates > Verilog > XPM > XPM_FIFO
+  //add read block which puts all bytes into synch FIFO
 
 endmodule

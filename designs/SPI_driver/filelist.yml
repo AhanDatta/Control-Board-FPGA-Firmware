@@ -6,8 +6,12 @@ hdl:
   # - shared/ip_repo/SPI_driver/SPI_driver_wrapper.sv
   # - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
   # - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
-# sim:
-#   - 
+sim:
+  - designs/SPI_driver/hdl/PICO.sv
+  - designs/SPI_driver/hdl/PSEC5_Digital_August_Revised.sv
+  - designs/SPI_driver/hdl/serial_out_mux.sv
+  - designs/SPI_driver/hdl/SPI_peripheral.sv
+  - designs/SPI_driver/hdl/SPI_driver_testbench.sv
 # ip_files:
 #    - 
 #
@@ -27,5 +31,5 @@ xdcTarget: shared/ip_repo/pll_external/xdc/vivado_target.xdc
 #
 # Top level module name 
 #
-topMod: 
-topSim: 
+topMod: spi_driver
+topSim: SPI_driver_testbench

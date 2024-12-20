@@ -115,6 +115,8 @@ module SPI_driver_wrapper #(
 
   logic [7:0] data_read_from_reg;
   logic write_complete;
+  logic read_complete;
+  logic fifo_wr_en;
 
   SPI_driver driver (
     //common inputs
@@ -124,19 +126,21 @@ module SPI_driver_wrapper #(
     .serial_in (serial_in),
     .new_command (params_to_IP.new_command),
 
-    //read inputs
-    .start_read_register_addr (start_read_register_addr),
-    .num_regs_to_read (num_regs_to_read),
-
     //write inputs
     .write_register_addr (params_to_IP.write_register_addr),
     .write_data (params_to_IP.write_data),
+
+    //read inputs
+    .start_read_register_addr (start_read_register_addr),
+    .num_regs_to_read (num_regs_to_read),
 
     //outputs
     .data_read_from_reg (data_read_from_reg),
     .serial_out (serial_out),
     .spi_clk (spi_clk),
-    .write_complete (write_complete)
+    .write_complete (write_complete),
+    .read_complete (read_complete),
+    .fifo_wr_en (fifo_wr_en)
   );
 
   // Project Manage > Language Templates > Verilog > XPM > XPM_FIFO

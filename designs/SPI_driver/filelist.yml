@@ -3,6 +3,8 @@
 #
 hdl:
   - shared/ip_repo/SPI_driver/SPI_write.sv
+  - shared/ip_repo/SPI_driver/SPI_read.sv
+  - shared/ip_repo/SPI_driver/SPI_output_mux.sv
   - shared/ip_repo/SPI_driver/SPI_driver.sv
   # - shared/ip_repo/SPI_driver/SPI_driver_wrapper.sv
   # - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv

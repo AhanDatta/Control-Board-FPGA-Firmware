@@ -37,18 +37,21 @@ module SPI_driver_wrapper #(
 
    typedef struct       packed{ 
       // Register 3
+      logic [28:0]      padding3;
       logic             new_command; //Should reset after some time
       logic             rstn;
-      logic [30:0]      padding3;
+      logic             is_write; 
       // Register 2
-      logic [23:0]      padding2;
-      logic [7:0]       register_addr;
+      logic [15:0]      padding2;
+      logic [7:0]       num_regs_to_read;
+      logic [7:0]       start_read_register_addr;
       // Register 1
-      logic [23:0]      padding1;
+      logic [15:0]      padding1;
+      logic [7:0]       write_register_addr;
       logic [7:0]       write_data;
       // Register 0
       logic [22:0]      padding0;
-      logic             transaction_complete;
+      logic             write_complete;
       logic [7:0]       data_read_from_reg;
    } param_t;
 
@@ -65,7 +68,7 @@ module SPI_driver_wrapper #(
       params_from_IP.padding2   = '0;
       params_from_IP.padding3   = '0;
 
-      params_from_IP.transaction_complete = transaction_complete;
+      params_from_IP.write_complete = write_complete;
       params_from_IP.data_read_from_reg = data_read_from_reg;
    end
    
@@ -111,19 +114,29 @@ module SPI_driver_wrapper #(
   assign logic full_rstn = rstn & params_to_IP.rstn;
 
   logic [7:0] data_read_from_reg;
-  logic transaction_complete;
+  logic write_complete;
 
-  SPI_driver driver_inst (
+  SPI_driver driver (
+    //common inputs
+    .is_write (is_write),
     .rstn (full_rstn),
     .clk (clk),
     .serial_in (serial_in),
     .new_command (params_to_IP.new_command),
-    .register_addr (params_to_IP.register_addr),
+
+    //read inputs
+    .start_read_register_addr (start_read_register_addr),
+    .num_regs_to_read (num_regs_to_read),
+
+    //write inputs
+    .write_register_addr (params_to_IP.write_register_addr),
     .write_data (params_to_IP.write_data),
+
+    //outputs
     .data_read_from_reg (data_read_from_reg),
     .serial_out (serial_out),
     .spi_clk (spi_clk),
-    .transaction_complete (transaction_complete)
+    .write_complete (write_complete)
   );
 
   // Project Manage > Language Templates > Verilog > XPM > XPM_FIFO

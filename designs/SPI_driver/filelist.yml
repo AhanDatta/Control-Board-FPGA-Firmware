@@ -2,6 +2,7 @@
 # HDL files
 #
 hdl:
+  - shared/ip_repo/SPI_driver/SPI_write.sv
   - shared/ip_repo/SPI_driver/SPI_driver.sv
   # - shared/ip_repo/SPI_driver/SPI_driver_wrapper.sv
   # - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
@@ -11,7 +12,7 @@ sim:
   - designs/SPI_driver/hdl/PSEC5_Digital_August_Revised.sv
   - designs/SPI_driver/hdl/serial_out_mux.sv
   - designs/SPI_driver/hdl/SPI_peripheral.sv
-  - designs/SPI_driver/hdl/SPI_driver_testbench.sv
+  - designs/SPI_driver/hdl/SPI_write_testbench.sv
 # ip_files:
 #    - 
 #

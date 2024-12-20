@@ -77,7 +77,7 @@ module SPI_driver_testbench ();
     logic wr_serial_out; //from peripheral
 
     //instantiating all the components
-    spi_driver control (
+    SPI_write control (
         //inputs
         .rstn (fpga_rstn),
         .clk (clk),

@@ -46,11 +46,12 @@ module SPI_driver #(
         .new_command (new_command),
         .register_addr (write_register_addr),
         .write_data (write_data),
+        .is_write (is_write),
 
         //outputs
-        .data_read_from_reg (data_read_from_reg),
-        .serial_out (serial_out),
-        .spi_clk (spi_clk),
+        .data_read_from_reg (data_read_during_write),
+        .serial_out (write_serial_out),
+        .spi_clk (write_spi_clk),
         .transaction_complete (write_complete)
     );
 
@@ -62,11 +63,12 @@ module SPI_driver #(
         .new_command (new_command),
         .num_regs_to_read (num_regs_to_read),
         .start_read_register_addr (start_read_register_addr),
+        .is_write (is_write),
 
         //outputs
         .data_read_from_reg (data_read_during_read),
         .serial_out (read_serial_out),
-        .spi_clk (read_spi_clk)
+        .spi_clk (read_spi_clk),
         .read_complete (read_complete),
         .read_one_byte_complete (read_one_byte_complete)
     );
@@ -83,16 +85,16 @@ module SPI_driver #(
         .write_complete (write_complete),
 
         //read inputs
-        .data_read_during_read (data_read_during_read);
-        .read_serial_out (read_serial_out);
-        .read_spi_clk (read_spi_clk);
-        .read_one_byte_complete (read_one_byte_complete);
+        .data_read_during_read (data_read_during_read),
+        .read_serial_out (read_serial_out),
+        .read_spi_clk (read_spi_clk),
+        .read_one_byte_complete (read_one_byte_complete),
 
         //final outputs
         .data_read_from_reg (data_read_from_reg),
         .serial_out (serial_out),
         .spi_clk (spi_clk),
         .fifo_wr_en (fifo_wr_en)
-    )
+    );
 
 endmodule

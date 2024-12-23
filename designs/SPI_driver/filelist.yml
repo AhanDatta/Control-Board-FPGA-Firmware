@@ -15,6 +15,7 @@ sim:
   - designs/SPI_driver/hdl/serial_out_mux.sv
   - designs/SPI_driver/hdl/SPI_peripheral.sv
   - designs/SPI_driver/hdl/SPI_write_testbench.sv
+  - designs/SPI_driver/hdl/SPI_driver_testbench.sv
 # ip_files:
 #    - 
 #
@@ -34,5 +35,5 @@ xdcTarget: shared/ip_repo/pll_external/xdc/vivado_target.xdc
 #
 # Top level module name 
 #
-topMod: spi_driver
+topMod: SPI_driver
 topSim: SPI_driver_testbench

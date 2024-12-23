@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module SPI_write_testbench ();
+module SPI_driver_testbench ();
 
     //clocks and reset
     logic clk; //fpga
@@ -15,8 +15,11 @@ module SPI_write_testbench ();
 
     //inputs to control
     logic new_command;
-    logic [7:0] addr;
+    logic [7:0] write_addr;
     logic [7:0] write_data;
+    logic [7:0] num_regs_to_read;
+    logic [7:0] start_read_register_addr;
+    logic is_write;
 
     //input to peripheral
     logic [7:0] pll_locked;
@@ -32,7 +35,9 @@ module SPI_write_testbench ();
 
     //outputs of control
     logic [7:0] data_read_from_reg;
-    logic transaction_complete;
+    logic write_complete;
+    logic read_complete;
+    logic fifo_wr_en;
 
     //output from peripheral
     logic clk_enable;
@@ -77,20 +82,31 @@ module SPI_write_testbench ();
     logic wr_serial_out; //from peripheral
 
     //instantiating all the components
-    SPI_write control (
-        //inputs
+    SPI_driver control (
+        //common inputs
         .rstn (fpga_rstn),
         .clk (clk),
         .serial_in (poci),
         .new_command (new_command),
-        .register_addr (addr),
+
+        //write inputs
+        .write_register_addr (write_addr),
         .write_data (write_data),
+
+        //read inputs
+        .num_regs_to_read (num_regs_to_read),
+        .start_read_register_addr (start_read_register_addr),
+
+        //mux input
+        .is_write (is_write),
         
         //outputs
         .data_read_from_reg (data_read_from_reg),
         .serial_out (pico),
         .spi_clk (spi_clk),
-        .transaction_complete (transaction_complete)
+        .write_complete (write_complete),
+        .read_complete (read_complete),
+        .fifo_wr_en (fifo_wr_en)
     );
 
     SPI peripheral (
@@ -195,6 +211,34 @@ module SPI_write_testbench ();
         end 
     endtask
 
+    task write_to_peripheral (logic [7:0] addr, logic [7:0] data);
+        write_addr <= addr;
+        write_data <= data;
+        num_regs_to_read <= '0;
+        start_read_register_addr <= '0;
+        is_write <= 1'b1;
+        new_command <= 1'b1;
+
+        wait_n_clk(2);
+        new_command <= 0'b0;
+
+        @(posedge write_complete);
+    endtask
+
+    task read_from_peripheral (logic [7:0] addr, logic [7:0] num_regs);
+        write_addr <= '0;
+        write_data <= '0;
+        num_regs_to_read <= num_regs;
+        start_read_register_addr <= addr;
+        is_write <= 1'b0;
+        new_command <= 1'b1;
+
+        wait_n_clk(2);
+        new_command <= 0'b0;
+
+        @(posedge read_complete);
+    endtask
+
 
     //START OF SIMULATION   
     initial begin
@@ -255,8 +299,11 @@ module SPI_write_testbench ();
 
         //initializing input to control
         new_command <= 1'b0;
-        addr <= 8'b0;
+        write_addr <= 8'b0;
         write_data <= 8'b0;
+        num_regs_to_read <= '0;
+        start_read_register_addr <= '0;
+        is_write <= 0;
 
         //initializing resets and clocks
         fpga_rstn <= 1'b1;
@@ -270,40 +317,25 @@ module SPI_write_testbench ();
         chip_reset();
 
        //writing to tcm
-       addr <= 8'b0000_0001; //address for tcm
-       write_data <= 8'b1010_1010;
-       new_command <= 1'b1;
-
-       wait_n_clk(2);
-       new_command <= 0'b0;
-
-       //waiting for transaction to finish
-       @(posedge transaction_complete)
+       write_to_peripheral(8'b0000_0001, 8'b1111_0000);
 
        //waiting for a reset
        wait_n_clk(10);
 
-       //writing to tcm
-       addr <= 8'b0000_0010; //address 3
-       write_data <= 8'b0000_0010;
-       new_command <= 1'b1; //readout
+       //writing start to instruction
+       write_to_peripheral(8'b0000_0010, 8'b0000_0011);
 
-       wait_n_clk(2);
-       new_command <= 0'b0;
-       
-       //waiting for transaction to finish
-       @(posedge transaction_complete)
-       
        //waiting for a reset
        wait_n_clk(10);
 
-        //sending command to read from register 8
-        addr <= 8'b0000_1000;
-        write_data <= 8'b0;
-        new_command <= 1'b1;
+       //writing readout to instruction
+       write_to_peripheral(8'b0000_0010, 8'b0000_0010);
 
-        wait_n_clk(2);
-        new_command <= 0'b0;
+       //waiting for a reset
+       wait_n_clk(10);
+
+       //reading out channel one
+       read_from_peripheral(8'b0000_0100, 8'b0000_0111);
     end
 
 endmodule

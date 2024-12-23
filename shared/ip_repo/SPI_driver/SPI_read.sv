@@ -7,6 +7,7 @@ module SPI_read #(
     input logic new_command,
     input logic [7:0] num_regs_to_read,
     input logic [REG_WIDTH-1:0] start_read_register_addr,
+    input logic is_write,
 
     output logic [REG_WIDTH-1:0] data_read_from_reg,
     output logic serial_out,
@@ -27,6 +28,7 @@ module SPI_read #(
     logic spi_clk_en;
     logic [7:0] bit_counter;
     logic [REG_WIDTH-1:0] start_addr;
+    logic [7:0] num_regs;
     logic [REG_WIDTH-1:0] serial_in_buffer;
 
     //clock generation
@@ -55,16 +57,17 @@ module SPI_read #(
             serial_out <= 1'b0;
         end
         else begin
+            prev_new_command <= new_command;
             case (current_state) 
 
                 IDLE: begin
-                    prev_new_command <= new_command;
                     bit_counter <= '0;
                     read_complete <= 1'b0;
                     read_one_byte_complete <= 1'b0;
                     spi_clk_en <= 1'b0;
-                    if (new_command && ~prev_new_command) begin
+                    if (new_command && ~prev_new_command && ~is_write) begin
                         //capture input parameters
+                        num_regs <= num_regs_to_read;
                         start_addr <= start_read_register_addr;
                         current_state <= SEND_ADDRESS;
                     end
@@ -85,7 +88,7 @@ module SPI_read #(
                 end
 
                 READ_DATA: begin
-                    if (bit_counter < (num_regs_to_read*REG_WIDTH)-1) begin
+                    if (bit_counter < (num_regs*REG_WIDTH)-1) begin
                         if (bit_counter % 8 == 1 && bit_counter != 8'b1) begin //signals to put the read byte into FIFO
                             data_read_from_reg <= serial_in_buffer;
                             read_one_byte_complete <= 1'b1;

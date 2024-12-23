@@ -8,6 +8,8 @@ module SPI_write #(
     input logic new_command,
     input logic [REG_WIDTH-1:0] register_addr,
     input logic [REG_WIDTH*(MSG_LEN-1)-1:0] write_data,
+    input logic is_write,
+
     output logic [REG_WIDTH*(MSG_LEN-1)-1:0] data_read_from_reg,
     output logic serial_out,
     output logic spi_clk,
@@ -56,14 +58,14 @@ module SPI_write #(
             spi_clk_en <= 1'b0;
         end
         else begin
+            prev_new_command <= new_command;
             case (current_state)
 
                 IDLE: begin
-                    prev_new_command <= new_command;
                     bit_counter <= '0;
                     transaction_complete <= 1'b0;
                     spi_clk_en <= 1'b0;
-                    if (new_command && ~prev_new_command) begin
+                    if (new_command && ~prev_new_command && is_write) begin
                         //capture input parameters
                         addr <= register_addr;
                         data_to_write <= write_data;

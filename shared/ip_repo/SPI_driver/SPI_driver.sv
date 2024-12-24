@@ -6,6 +6,7 @@ module SPI_driver #(
     input logic clk,
     input logic serial_in,
     input logic new_command,
+    input logic is_write,
 
     //write inputs
     input logic [REG_WIDTH-1:0] write_register_addr,
@@ -14,9 +15,6 @@ module SPI_driver #(
     //read inputs
     input logic [7:0] num_regs_to_read,
     input logic [7:0] start_read_register_addr,
-
-    //mux inputs
-    input logic is_write,
 
     //outputs
     output logic [REG_WIDTH-1:0] data_read_from_reg,

@@ -157,11 +157,11 @@ module SPI_driver_testbench ();
                 .RSTB (chip_rstn),
                 .DISCRIMINATOR_OUTPUT (DISCRIMINATOR_OUTPUT),
                 .SPI_CLK (spi_clk),
-                .CA (CA0),
-                .CB (CB0),
-                .CC (CC0),
-                .CD (CD0),
-                .CE (CE0),
+                .CA ({{"CA"}, {i}}),
+                .CB ({{"CB"}, {i}}),
+                .CC ({{"CC"}, {i}}),
+                .CD ({{"CD"}, {i}}),
+                .CE ({{"CE"}, {i}}),
                 .MODE (smode_t'(mode[1:0])),
                 .DISCRIMINATOR_POLARITY (disc_polarity[0]),
                 .SELECT_REG (select_reg),
@@ -252,11 +252,11 @@ module SPI_driver_testbench ();
         CD0 <= 10'b0000001111;
         CE0 <= 10'b1111111100;
 
-        CA1 <= 10'b0000010000;
-        CB1 <= 10'b0000100000;
-        CC1 <= 10'b0001000000;
-        CD1 <= 10'b0010000000;
-        CE1 <= 10'b0100000000;
+        CA1 <= 10'b1111111111;
+        CB1 <= 10'b1111111111;
+        CC1 <= 10'b1111111111;
+        CD1 <= 10'b1111111111;
+        CE1 <= 10'b1111111111;
 
         CA2 <= 10'b1111111111;
         CB2 <= 10'b1111100000;
@@ -335,7 +335,7 @@ module SPI_driver_testbench ();
        wait_n_clk(10);
 
        //reading out channel one
-       read_from_peripheral(8'b0000_0100, 8'b0000_0111);
+       read_from_peripheral(8'b0000_1011, 8'b0000_0111);
     end
 
 endmodule

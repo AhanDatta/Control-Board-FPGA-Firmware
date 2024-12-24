@@ -89,7 +89,7 @@ module SPI_read #(
 
                 READ_DATA: begin
                     if (bit_counter < (num_regs*REG_WIDTH)-1) begin
-                        if (bit_counter % 8 == 1 && bit_counter != 8'b1) begin //signals to put the read byte into FIFO
+                        if (bit_counter % 8 == 0 && bit_counter != 8'b0) begin //signals to put the read byte into FIFO
                             data_read_from_reg <= serial_in_buffer;
                             read_one_byte_complete <= 1'b1;
                         end

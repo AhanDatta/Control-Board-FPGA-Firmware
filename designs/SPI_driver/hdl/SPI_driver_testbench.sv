@@ -26,11 +26,11 @@ module SPI_driver_testbench ();
 
     //inputs to each channel
     //counts held in each channel
-    logic [9:0] CA0, CA1, CA2, CA3, CA4, CA5, CA6, CA7;
-    logic [9:0] CB0, CB1, CB2, CB3, CB4, CB5, CB6, CB7;
-    logic [9:0] CC0, CC1, CC2, CC3, CC4, CC5, CC6, CC7;
-    logic [9:0] CD0, CD1, CD2, CD3, CD4, CD5, CD6, CD7;
-    logic [9:0] CE0, CE1, CE2, CE3, CE4, CE5, CE6, CE7;
+    logic [9:0] CA [8];
+    logic [9:0] CB [8];
+    logic [9:0] CC [8];
+    logic [9:0] CD [8];
+    logic [9:0] CE [8];
     logic DISCRIMINATOR_OUTPUT;
 
     //outputs of control
@@ -157,11 +157,11 @@ module SPI_driver_testbench ();
                 .RSTB (chip_rstn),
                 .DISCRIMINATOR_OUTPUT (DISCRIMINATOR_OUTPUT),
                 .SPI_CLK (spi_clk),
-                .CA ({{"CA"}, {i}}),
-                .CB ({{"CB"}, {i}}),
-                .CC ({{"CC"}, {i}}),
-                .CD ({{"CD"}, {i}}),
-                .CE ({{"CE"}, {i}}),
+                .CA (CA[i]),
+                .CB (CB[i]),
+                .CC (CC[i]),
+                .CD (CD[i]),
+                .CE (CE[i]),
                 .MODE (smode_t'(mode[1:0])),
                 .DISCRIMINATOR_POLARITY (disc_polarity[0]),
                 .SELECT_REG (select_reg),
@@ -246,53 +246,53 @@ module SPI_driver_testbench ();
         DISCRIMINATOR_OUTPUT = 1'b0;
 
         //initializing Channel Values, CA-CE
-        CA0 <= 10'b0000000011;
-        CB0 <= 10'b0011111111;
-        CC0 <= 10'b1111000000;
-        CD0 <= 10'b0000001111;
-        CE0 <= 10'b1111111100;
+        CA[0] <= 10'b0000000011;
+        CB[0] <= 10'b0011111111;
+        CC[0] <= 10'b1111000000;
+        CD[0] <= 10'b0000001111;
+        CE[0] <= 10'b1111111100;
 
-        CA1 <= 10'b1111111111;
-        CB1 <= 10'b1111111111;
-        CC1 <= 10'b1111111111;
-        CD1 <= 10'b1111111111;
-        CE1 <= 10'b1111111111;
+        CA[1] <= 10'b1111111110;
+        CB[1] <= 10'b1111111111;
+        CC[1] <= 10'b1111111111;
+        CD[1] <= 10'b1111111111;
+        CE[1] <= 10'b1111100000;
 
-        CA2 <= 10'b1111111111;
-        CB2 <= 10'b1111100000;
-        CC2 <= 10'b0000011111;
-        CD2 <= 10'b1111000011;
-        CE2 <= 10'b1010101010;
+        CA[2] <= 10'b1111111111;
+        CB[2] <= 10'b1111100000;
+        CC[2] <= 10'b0000011111;
+        CD[2] <= 10'b1111000011;
+        CE[2] <= 10'b1010101010;
 
-        CA3 <= 10'b1010100101;
-        CB3 <= 10'b1001010101;
-        CC3 <= 10'b0010011011;
-        CD3 <= 10'b0100001111;
-        CE3 <= 10'b0100100111;
+        CA[3] <= 10'b1010100101;
+        CB[3] <= 10'b1001010101;
+        CC[3] <= 10'b0010011011;
+        CD[3] <= 10'b0100001111;
+        CE[3] <= 10'b0100100111;
 
-        CA4 <= 10'b0011101011;
-        CB4 <= 10'b0101010101;
-        CC4 <= 10'b0011010111;
-        CD4 <= 10'b1111011101;
-        CE4 <= 10'b1111101110;
+        CA[4] <= 10'b0011101011;
+        CB[4] <= 10'b0101010101;
+        CC[4] <= 10'b0011010111;
+        CD[4] <= 10'b1111011101;
+        CE[4] <= 10'b1111101110;
 
-        CA5 <= 10'b0101111010;
-        CB5 <= 10'b0000010001;
-        CC5 <= 10'b0101000100;
-        CD5 <= 10'b0010011010;
-        CE5 <= 10'b0101000010;
+        CA[5] <= 10'b0101111010;
+        CB[5] <= 10'b0000010001;
+        CC[5] <= 10'b0101000100;
+        CD[5] <= 10'b0010011010;
+        CE[5] <= 10'b0101000010;
 
-        CA6 <= 10'b0010010010;
-        CB6 <= 10'b1001010001;
-        CC6 <= 10'b0100110010;
-        CD6 <= 10'b0101001101;
-        CE6 <= 10'b1000101010;
+        CA[6] <= 10'b0010010010;
+        CB[6] <= 10'b1001010001;
+        CC[6] <= 10'b0100110010;
+        CD[6] <= 10'b0101001101;
+        CE[6] <= 10'b1000101010;
 
-        CA7 <= 10'b1001001001;
-        CB7 <= 10'b1001010101;
-        CC7 <= 10'b0101010011;
-        CD7 <= 10'b1001010101;
-        CE7 <= 10'b0101010100;
+        CA[7] <= 10'b1001001001;
+        CB[7] <= 10'b1001010101;
+        CC[7] <= 10'b0101010011;
+        CD[7] <= 10'b1001010101;
+        CE[7] <= 10'b0101010100;
 
         //input to peripheral
         pll_locked <= 8'b00000000;
@@ -335,7 +335,7 @@ module SPI_driver_testbench ();
        wait_n_clk(10);
 
        //reading out channel one
-       read_from_peripheral(8'b0000_1011, 8'b0000_0111);
+       read_from_peripheral(8'b0000_1011, 8'b0000_0010);
     end
 
 endmodule

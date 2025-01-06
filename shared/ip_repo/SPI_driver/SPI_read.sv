@@ -26,7 +26,7 @@ module SPI_read #(
     spi_state_t current_state;
     logic prev_new_command;
     logic spi_clk_en;
-    logic [7:0] bit_counter;
+    logic [11:0] bit_counter;
     logic [REG_WIDTH-1:0] start_addr;
     logic [7:0] num_regs;
     logic [REG_WIDTH-1:0] serial_in_buffer;

@@ -7,6 +7,7 @@ module SPI_driver_wrapper #(
 
     parameter integer FIFO_DEPTH = 2048 
 ) (
+    //core functionality
     input logic clk,
     input logic rstn,
     input logic serial_in,
@@ -28,7 +29,17 @@ module SPI_driver_wrapper #(
     output logic [(C_S_AXI_DATA_WIDTH-1) : 0]    IPIF_IP2Bus_Data,
     output logic                                 IPIF_IP2Bus_WrAck,
     output logic                                 IPIF_IP2Bus_RdAck,
-    output logic                                 IPIF_IP2Bus_Error
+    output logic                                 IPIF_IP2Bus_Error,
+
+    //FIFO
+    input logic fifo_rd_en,
+    output logic fifo_not_empty,
+    output logic fifo_full,
+    output logic [7:0] fifo_dout,
+
+    //flags
+    output logic read_complete,
+    output logic write_complete
 );
 
     assign IPIF_IP2Bus_Error = 0;
@@ -150,6 +161,13 @@ module SPI_driver_wrapper #(
   // Project Manage > Language Templates > Verilog > XPM > XPM_FIFO
   //add read block which puts all bytes into synch FIFO
 
+  logic empty;
+  assign fifo_not_empty = ~empty;
+
+  always_ff @(posedge clk) begin
+    fifo_rst <= ~full_rstn;
+  end
+
   xpm_fifo_sync #(
       .CASCADE_HEIGHT(0),        // DECIMAL
       .DOUT_RESET_VALUE("0"),    // String
@@ -182,14 +200,14 @@ module SPI_driver_wrapper #(
       .dbiterr(),             // 1-bit output: Double Bit Error: Indicates that the ECC decoder detected
                                      // a double-bit error and data in the FIFO core is corrupted.
 
-      .dout(),                   // READ_DATA_WIDTH-bit output: Read Data: The output data bus is driven
+      .dout(fifo_dout),                   // READ_DATA_WIDTH-bit output: Read Data: The output data bus is driven
                                      // when reading the FIFO.
 
-      .empty(),                 // 1-bit output: Empty Flag: When asserted, this signal indicates that the
+      .empty(empty),                 // 1-bit output: Empty Flag: When asserted, this signal indicates that the
                                      // FIFO is empty. Read requests are ignored when the FIFO is empty,
                                      // initiating a read while empty is not destructive to the FIFO.
 
-      .full(),                   // 1-bit output: Full Flag: When asserted, this signal indicates that the
+      .full(fifo_full),                   // 1-bit output: Full Flag: When asserted, this signal indicates that the
                                      // FIFO is full. Write requests are ignored when the FIFO is full,
                                      // initiating a write when the FIFO is full is not destructive to the
                                      // contents of the FIFO.
@@ -234,17 +252,17 @@ module SPI_driver_wrapper #(
       .din(data_read_from_reg),                     // WRITE_DATA_WIDTH-bit input: Write Data: The input data bus used when
                                      // writing the FIFO.
 
-      .injectdbiterr(), // 1-bit input: Double Bit Error Injection: Injects a double bit error if
+      .injectdbiterr(1'b0), // 1-bit input: Double Bit Error Injection: Injects a double bit error if
                                      // the ECC feature is used on block RAMs or UltraRAM macros.
 
-      .injectsbiterr(), // 1-bit input: Single Bit Error Injection: Injects a single bit error if
+      .injectsbiterr(1'b0), // 1-bit input: Single Bit Error Injection: Injects a single bit error if
                                      // the ECC feature is used on block RAMs or UltraRAM macros.
 
-      .rd_en(),                 // 1-bit input: Read Enable: If the FIFO is not empty, asserting this
+      .rd_en(fifo_rd_en),                 // 1-bit input: Read Enable: If the FIFO is not empty, asserting this
                                      // signal causes data (on dout) to be read from the FIFO. Must be held
                                      // active-low when rd_rst_busy is active high.
 
-      .rst(),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
+      .rst(fifo_rst),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
                                      // unstable at the time of applying reset, but reset must be released only
                                      // after the clock(s) is/are stable.
 

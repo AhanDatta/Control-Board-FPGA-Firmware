@@ -25,6 +25,10 @@ designs/**/bd/**
 /SPI_driver/
 /control_board_bd/
 /main_design/
+/main_ADC/
+
+#odd vivado files
+shared/ip_repo/vv_index.xml
 
 #vivado file types
 *.xci
@@ -38,6 +42,7 @@ designs/**/bd/**
 *.prf
 *.db
 *.wdf
+*.tcl
 
 
 *.hex

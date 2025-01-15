@@ -8,7 +8,7 @@ module SPI_driver_wrapper #(
     parameter integer FIFO_DEPTH = 2048 
 ) (
     //core functionality
-    input logic clk,
+    input logic clk, //~40 MHz
     input logic rstn,
     input logic serial_in,
     output logic spi_clk,

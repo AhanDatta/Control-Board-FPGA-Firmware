@@ -5,7 +5,7 @@ module DAC8411_write #(
 ) (
     input logic [DAC_WIDTH-1:0] data_in,
     input logic aresetn, //async, as allowed by the syncn interupt feature
-    input logic clk, //same freq as AD4008
+    input logic clk, //same freq as AD4008, <20 MHz
     output logic sclk, //write clock
     output logic serial_data_out,
     output logic syncn //Acts as active-low cnv signal, as detailed in datasheet above

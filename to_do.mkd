@@ -1,0 +1,17 @@
+# SPI
+    - Verify that the FIFO is working properly
+    - Implement reading from the FIFO
+# Pll External
+    - Implement fixed-point gain stage after the ADC read
+# AD9228 (Main ADC)
+    - Implement the main data read state machine (look at LTC2333_read for example)
+    - Find where IDDRE1 simulation file is/if vivado found it
+    - Implement/verify the asynch FIFO
+    - Implement the SPI write (or understand how the prepackaged block works)
+# LTC2600 (Main DAC)
+    - Implement controls and writing to the DAC (https://www.analog.com/media/en/technical-documentation/data-sheets/2600fe.pdf)
+# Main Design 
+    - Package all the necessary IPs
+    - Put together the blocks
+    - Check the logic levels for each module (Create xdc file & spreadsheet for pin number <-> signal mapping ex: https://docs.google.com/spreadsheets/d/15U5vb2UzfglZmfIKdkIeGOlO6R88vk2dX_n9gQ0hhtg/edit?gid=0#gid=0)
+    - Write guide

@@ -32,7 +32,7 @@ module AD9228_single_ch_read #(
     input logic fifo_rd_en,
     output logic fifo_not_empty,
     output logic fifo_full,
-    output logic [7:0] fifo_dout,
+    output logic [7:0] fifo_dout
 );
 
     logic din;

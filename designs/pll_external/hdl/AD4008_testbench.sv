@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ps/1ps
 
 module AD4008_testbench #(
     parameter ADC_WIDTH = 16
@@ -12,6 +12,7 @@ module AD4008_testbench #(
     logic [ADC_WIDTH-1:0] fake_data;
 
     logic clk;
+    logic [15:0] GAIN;
     logic aresetn;
     logic new_data_flag;
     logic sresetn;
@@ -25,6 +26,7 @@ module AD4008_testbench #(
         .data_in (sdo),
         .cnv (cnv),
         .sck (sck),
+        .GAIN (GAIN),
         .sresetn (sresetn),
         .new_data_flag (new_data_flag),
         .amplified_data (amplified_data)
@@ -65,6 +67,7 @@ module AD4008_testbench #(
         fake_data = 'b10101010_10101010;
         clk = 1;
         aresetn = 1;
+        GAIN = 16'd2;
         #50;
         ext_reset();
 

@@ -13,4 +13,4 @@ module diff_to_single_ended (
         .O(single_out)          // Single-ended output
     );
 
-endmodule;
+endmodule

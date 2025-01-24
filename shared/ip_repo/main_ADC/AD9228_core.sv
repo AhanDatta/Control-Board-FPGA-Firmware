@@ -1,8 +1,8 @@
 module AD9228_core #(
-   parameter DATA_WIDTH = 12,
-   parameter NUM_READS_BITS = 16;
+   parameter DATA_WIDTH = 12
 )(
     input logic rstn,
+    input logic clk, //sampling clock
 
     //adc inputs
     input logic din,
@@ -14,44 +14,91 @@ module AD9228_core #(
 );
 
     logic [DATA_WIDTH-1:0] des_data_incomplete;
-    logic data_q1;
-    logic data_q2;
-    logic fco_prev;
+    logic [1:0] data_q;
+    logic [3:0] dco_counter;
 
+   //Clocking in data on both clock edges
     IDDRE1 #(
       .DDR_CLK_EDGE("OPPOSITE_EDGE"), // IDDRE1 mode (OPPOSITE_EDGE, SAME_EDGE, SAME_EDGE_PIPELINED)
-      .IS_CB_INVERTED(1'b0),          // Optional inversion for CB
+      .IS_CB_INVERTED(1'b1),          // Optional inversion for CB
       .IS_C_INVERTED(1'b0)            // Optional inversion for C
    )
    IDDRE1_inst (
-      .Q1(data_q1), // 1-bit output: Registered parallel output 1
-      .Q2(data_q2), // 1-bit output: Registered parallel output 2
+      .Q1(data_q[0]), // 1-bit output: Registered parallel output 1
+      .Q2(data_q[1]), // 1-bit output: Registered parallel output 2
       .C(dco),   // 1-bit input: High-speed clock
-      .CB(~dco), // 1-bit input: Inversion of High-speed clock C
+      .CB(dco), // 1-bit input: Inversion of High-speed clock C
       .D(din),   // 1-bit input: Serial Data Input
-      .R(~rstn)    // 1-bit input: Active-High Async Reset
+      .R(rstn)    // 1-bit input: Active-High Async Reset
    );
+
+   // IDDR #(
+   //    .DDR_CLK_EDGE("OPPOSITE_EDGE"), // "OPPOSITE_EDGE", "SAME_EDGE" 
+   //                                    //    or "SAME_EDGE_PIPELINED" 
+   //    .INIT_Q1(1'b0), // Initial value of Q1: 1'b0 or 1'b1
+   //    .INIT_Q2(1'b0), // Initial value of Q2: 1'b0 or 1'b1
+   //    .SRTYPE("SYNC") // Set/Reset type: "SYNC" or "ASYNC" 
+   // ) IDDR_inst (
+   //    .Q1(data_q[0]), // 1-bit output for positive edge of clock
+   //    .Q2(data_q[1]), // 1-bit output for negative edge of clock
+   //    .C(dco),   // 1-bit clock input
+   //    .CE(1'b1), // 1-bit clock enable input
+   //    .D(din),   // 1-bit DDR data input
+   //    .R(!rstn),   // 1-bit reset
+   //    .S()    // 1-bit set
+   // );
+
+   //combinatorically reads in data
+   assign des_data = {des_data_incomplete[DATA_WIDTH-3:0], data_q};
+
+   //latch for sending data to FIFO
+   logic latch;
+   logic latch_z;
+   logic latch_z2;
+   logic latch_pulse;
+   assign latch_pulse = (latch_z2 == 1'b0) && (latch_z == 1'b1);
+   assign read_complete = latch_pulse;
 
    //main data collection state machine
    always_ff @(negedge rstn or posedge dco) begin
       if (!rstn) begin
          des_data_incomplete <= '0;
-         des_data <= '0;
-         read_complete <= 1'b0;
-         fco_prev <= 1'b0;
+         latch <= 1'b0;
+         dco_counter <= '0;
       end
       else begin
-         //handles the case of starting a new word
-         if(fco & ~fco_prev) begin
-            des_data <= des_data_incomplete;
-            read_complete <= 1'b1;
+         des_data_incomplete <= des_data;
+         if (dco_counter == 'd5) begin
+            dco_counter <= '0;
+            latch <= 1'b1;
          end
          else begin
-            read_complete <= 1'b0;
+            dco_counter <= dco_counter + 1;
+            latch <= 1'b0;
          end
-
-         des_data_incomplete <= {des_data_incomplete[DATA_WIDTH-3:0], data_q1, data_q2};
-         fco_prev <= fco;
       end
-   end   
+   end
+
+   //clock domain crossing into clk 
+   xpm_cdc_single #(
+      .DEST_SYNC_FF(2),   // DECIMAL; range: 2-10
+      .INIT_SYNC_FF(0),   // DECIMAL; 0=disable simulation init values, 1=enable simulation init values
+      .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
+      .SRC_INPUT_REG(1)   // DECIMAL; 0=do not register input, 1=register input
+   )
+   xpm_cdc_single_inst (
+      .dest_out(latch_z), // 1-bit output: src_in synchronized to the destination clock domain. This output is registered.
+      .dest_clk(clk), // 1-bit input: Clock signal for the destination clock domain.
+      .src_in(latch)      // 1-bit input: Input signal to be synchronized to dest_clk domain.
+   );
+
+   //setting latch_z2 as one clk cycle behind
+   always_ff @(posedge clk or negedge rstn) begin
+      if (!rstn) begin
+         latch_z2 <= 1'b0;
+      end
+      else begin
+         latch_z2 <= latch_z;
+      end
+   end
 endmodule

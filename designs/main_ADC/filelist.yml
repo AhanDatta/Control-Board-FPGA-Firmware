@@ -2,13 +2,13 @@
 # HDL files
 #
 hdl:
-  - shared/ip_repo/main_ADC/AD9228_single_ch_read.sv
   - shared/ip_repo/main_ADC/AD9228_core.sv
-  - shared/ip_repo/main_ADC/diff_to_single_ended.sv
-  - shared/ip_repo/main_ADC/single_ended_to_diff.sv
+  # - shared/ip_repo/main_ADC/AD9228_single_ch_read.sv
+  # - shared/ip_repo/main_ADC/diff_to_single_ended.sv
+  # - shared/ip_repo/main_ADC/single_ended_to_diff.sv
 sim:
   - designs/main_ADC/hdl/AD9228_core_testbench.sv
-  - designs/main_ADC/hdl/AD9228_core_emulator.sv
+  # - designs/main_ADC/hdl/AD9228_single_ch_emulator.sv
 # ip_files:
 #    - 
 #
@@ -28,5 +28,5 @@ xdcTarget: shared/ip_repo/pll_external/xdc/vivado_target.xdc
 #
 # Top level module name 
 #
-topMod: AD9228_single_ch_read
-topSim: 
+topMod: AD9228_core
+topSim: AD9228_core_testbench

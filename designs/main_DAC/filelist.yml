@@ -1,0 +1,28 @@
+#
+# HDL files
+#
+hdl:
+   - shared/ip_repo/main_DAC/LTC2600_write.sv
+sim:
+  # - designs/main_ADC/hdl/AD9228_core_testbench.sv
+# ip_files:
+#    - 
+#
+# IP repositories for the design 
+#
+ip_repo:
+  - shared/ip_repo
+#
+# project specific XDC files below 
+#
+#xdc:
+#
+# Vivado target xdc file
+#
+xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
+
+#
+# Top level module name 
+#
+topMod: 
+topSim: 

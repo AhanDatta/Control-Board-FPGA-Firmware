@@ -23,7 +23,7 @@ ip_repo:
 #
 # Vivado target xdc file
 #
-xdcTarget: shared/ip_repo/pll_external/xdc/vivado_target.xdc
+xdcTarget: shared/ip_repo/main_ADC/xdc/vivado_target.xdc
 
 #
 # Top level module name 

@@ -5,11 +5,11 @@
     - Implement fixed-point gain stage after the ADC read
 # AD9228 (Main ADC)
     - Implement the main data read state machine (look at LTC2333_read for example)
-    - Find where IDDRE1 simulation file is/if vivado found it
     - Implement/verify the asynch FIFO
     - Implement the SPI write (or understand how the prepackaged block works)
 # LTC2600 (Main DAC)
-    - Implement controls and writing to the DAC (https://www.analog.com/media/en/technical-documentation/data-sheets/2600fe.pdf)
+    - Implement reading from DAC
+    - Verify writing to the DAC
 # Main Design 
     - Package all the necessary IPs
     - Put together the blocks

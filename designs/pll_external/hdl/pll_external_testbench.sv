@@ -1,3 +1,6 @@
+//Must be greater than 1ps/ps
+`timescale 1ns/1ps
+
 module pll_external_testbench #(
     parameter DAC_WIDTH = 16
 ) ();

@@ -1,3 +1,4 @@
+//Must be greater than 1ps/ps
 `timescale 1ns/1ps
 
 module SPI_driver_testbench ();

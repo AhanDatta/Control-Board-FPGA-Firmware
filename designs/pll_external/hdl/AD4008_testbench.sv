@@ -1,4 +1,5 @@
-`timescale 1ps/1ps
+//Must be greater than 1ps/ps
+`timescale 1ns/1ps
 
 module AD4008_testbench #(
     parameter ADC_WIDTH = 16

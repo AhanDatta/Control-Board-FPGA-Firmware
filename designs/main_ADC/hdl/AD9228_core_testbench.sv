@@ -1,4 +1,5 @@
-`timescale 1ps/1ps
+//Must be greater than 1ps/ps
+`timescale 1ns/1ps
 
 module AD9228_core_testbench #(
     parameter integer DATA_WIDTH = 12
@@ -70,6 +71,7 @@ module AD9228_core_testbench #(
 
         do_reset();
         #9;
+        #200;
         send_data(held_data);
     end
 endmodule

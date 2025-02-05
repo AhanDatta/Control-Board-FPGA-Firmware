@@ -4,7 +4,7 @@
 # Pll External
     - Implement fixed-point gain stage after the ADC read
 # AD9228 (Main ADC)
-    - Implement the main data read state machine (look at LTC2333_read for example)
+    - Verify the main data read state machine (look at LTC2333_read for example)
     - Implement/verify the asynch FIFO
     - Implement the SPI write (or understand how the prepackaged block works)
 # LTC2600 (Main DAC)

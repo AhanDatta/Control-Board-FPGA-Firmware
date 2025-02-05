@@ -3,6 +3,7 @@
 #
 hdl:
    - shared/ip_repo/main_DAC/LTC2600_write.sv
+   - shared/ip_repo/main_DAC/LTC2600_write_wrapper.sv
 sim:
   # - designs/main_ADC/hdl/AD9228_core_testbench.sv
 # ip_files:
@@ -19,10 +20,10 @@ ip_repo:
 #
 # Vivado target xdc file
 #
-xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
+# xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
 
 #
 # Top level module name 
 #
-topMod: 
+topMod: LTC2600_write
 topSim: 

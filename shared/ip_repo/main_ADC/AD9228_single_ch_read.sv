@@ -64,6 +64,7 @@ module AD9228_single_ch_read #(
     AD9228_core core_inst (
         //inputs
         .rstn (rstn),
+        .clk (clk),
 
         //adc inputs
         .din (din),

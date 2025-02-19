@@ -4,11 +4,12 @@
 //Put the signal on an output for the DAC
 
 module AD4008_read #(
-    parameter ADC_WIDTH = 16
+    parameter ADC_WIDTH = 16,
+    parameter NUM_FRAC_BITS = 8 //8,8 bit fixed point numbers
 ) (
     input logic clk, //same freq as DAC8411
     input logic aresetn,
-    input logic [15:0] GAIN,
+    input logic [15:0] GAIN, 
     input logic data_in, //Also acts as the busy signal, detailed in above datasheet
     output logic cnv,
     output logic sck,
@@ -21,6 +22,7 @@ module AD4008_read #(
 
     state_t state;
     logic [ADC_WIDTH-1:0] raw_data;
+    logic [2*ADC_WIDTH-1:0] temp_amplified_data;
     integer readin_counter;
     logic sck_enable;
     logic read_in_progress;
@@ -42,6 +44,8 @@ module AD4008_read #(
       .SR(1'b0)  // 1-bit input: Active-High Async Reset
    );
 
+    assign amplified_data = temp_amplified_data[ADC_WIDTH-1:0];
+
     //Main state machine
     always_ff @(posedge clk or negedge sresetn) begin
         if (!sresetn) begin
@@ -50,7 +54,7 @@ module AD4008_read #(
             sck_enable <= '0;
             new_data_flag <= 0;
             cnv <= 0;
-            amplified_data <= '0;
+            temp_amplified_data <= '0;
         end 
         else begin
             case (state)
@@ -65,7 +69,7 @@ module AD4008_read #(
                     cnv <= 1;
                     sck_enable <= 0;
                     state <= WAIT_FOR_RESULT;
-                    amplified_data <= raw_data * GAIN;
+                    temp_amplified_data <= (raw_data * GAIN) >> (NUM_FRAC_BITS-1);
                     new_data_flag <= 1;
                 end
 

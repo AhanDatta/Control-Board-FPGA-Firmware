@@ -1,17 +1,19 @@
 # SPI
-    - Verify that the FIFO is working properly
-    - Implement reading from the FIFO
+    - Verification
+    - Package IP
 # Pll External
-    - Implement fixed-point gain stage after the ADC read
+    - N/A
 # AD9228 (Main ADC)
-    - Verify the main data read state machine (look at LTC2333_read for example)
-    - Implement/verify the asynch FIFO
-    - Implement the SPI write (or understand how the prepackaged block works)
+    - Verification
+    - Implement the SPI write from Utility_IP
 # LTC2600 (Main DAC)
-    - Implement reading from DAC
-    - Verify writing to the DAC
+    - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
     - Package all the necessary IPs
     - Put together the blocks
     - Check the logic levels for each module (Create xdc file & spreadsheet for pin number <-> signal mapping ex: https://docs.google.com/spreadsheets/d/15U5vb2UzfglZmfIKdkIeGOlO6R88vk2dX_n9gQ0hhtg/edit?gid=0#gid=0)
+    - Put voltages in the spreadsheet
     - Write guide
+
+# Block Diagram
+    - Voltage label wires

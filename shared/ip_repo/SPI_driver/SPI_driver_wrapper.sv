@@ -126,12 +126,13 @@ module SPI_driver_wrapper #(
     .params_to_bus(params_to_bus)
     );
 
-  assign logic full_rstn = rstn & params_to_IP.rstn;
+  assign full_rstn = rstn & params_to_IP.rstn;
 
   logic [7:0] data_read_from_reg;
   logic write_complete;
   logic read_complete;
   logic fifo_wr_en;
+  logic full_rstn;
 
   SPI_driver driver (
     //common inputs

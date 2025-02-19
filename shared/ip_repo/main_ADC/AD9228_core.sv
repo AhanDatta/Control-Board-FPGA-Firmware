@@ -1,5 +1,5 @@
 module AD9228_core #(
-   parameter DATA_WIDTH = 12
+   parameter integer DATA_WIDTH = 12
 )(
     input logic rstn,
     input logic clk, //sampling clock

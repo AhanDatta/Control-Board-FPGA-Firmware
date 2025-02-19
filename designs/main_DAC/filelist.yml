@@ -4,10 +4,12 @@
 hdl:
    - shared/ip_repo/main_DAC/LTC2600_write.sv
    - shared/ip_repo/main_DAC/LTC2600_write_wrapper.sv
+   - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
+   - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 sim:
-  # - designs/main_ADC/hdl/AD9228_core_testbench.sv
-# ip_files:
-#    - 
+  - designs/main_DAC/LTC2600_write_testbench.sv
+ip_files:
+   - shared/ip_repo/main_DAC/component.xml
 #
 # IP repositories for the design 
 #
@@ -20,10 +22,10 @@ ip_repo:
 #
 # Vivado target xdc file
 #
-# xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
+xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
 
 #
 # Top level module name 
 #
-topMod: LTC2600_write
-topSim: 
+topMod: LTC2600_write_wrapper
+topSim: LTC2600_write_testbench

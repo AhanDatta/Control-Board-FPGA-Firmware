@@ -26,6 +26,7 @@ designs/**/bd/**
 /control_board_bd/
 /main_design/
 /main_ADC/
+/main_DAC/
 
 #odd vivado files
 shared/ip_repo/vv_index.xml

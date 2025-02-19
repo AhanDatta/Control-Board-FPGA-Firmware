@@ -68,7 +68,7 @@ module AD4008_testbench #(
         fake_data = 'b10101010_10101010;
         clk = 1;
         aresetn = 1;
-        GAIN = 16'd2;
+        GAIN = 16'b00000000_10000000;
         #50;
         ext_reset();
 

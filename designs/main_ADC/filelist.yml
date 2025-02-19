@@ -3,14 +3,16 @@
 #
 hdl:
   - shared/ip_repo/main_ADC/AD9228_core.sv
-  # - shared/ip_repo/main_ADC/AD9228_single_ch_read.sv
-  # - shared/ip_repo/main_ADC/diff_to_single_ended.sv
-  # - shared/ip_repo/main_ADC/single_ended_to_diff.sv
+  - shared/ip_repo/main_ADC/AD9228_single_ch_read.sv
+  - shared/ip_repo/main_ADC/AD9228_read.sv
+  - shared/ip_repo/main_ADC/diff_to_single_ended.sv
+  - shared/ip_repo/main_ADC/single_ended_to_diff.sv
+  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
+  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 sim:
   - designs/main_ADC/hdl/AD9228_core_testbench.sv
-  # - designs/main_ADC/hdl/AD9228_single_ch_emulator.sv
-# ip_files:
-#    - 
+ip_files:
+   - shared/ip_repo/main_ADC/component.xml
 #
 # IP repositories for the design 
 #
@@ -23,10 +25,10 @@ ip_repo:
 #
 # Vivado target xdc file
 # 
-# xdcTarget: shared/ip_repo/main_ADC/xdc/vivado_target.xdc
+xdcTarget: shared/ip_repo/main_ADC/xdc/vivado_target.xdc
 
 #
 # Top level module name 
 #
-topMod: AD9228_core
+topMod: AD9228_read
 topSim: AD9228_core_testbench

@@ -23,7 +23,6 @@ module LTC2600_write #(
     input logic [DATA_WIDTH-1:0] data,
 
     //DAC wires
-    input logic sdo,
     output logic sck,
     output logic sdi,
     output logic csb,

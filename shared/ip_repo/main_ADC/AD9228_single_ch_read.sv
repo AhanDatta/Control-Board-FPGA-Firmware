@@ -13,7 +13,7 @@
 
 module AD9228_single_ch_read #(
     parameter integer FIFO_DEPTH = 2048,
-    parameter DATA_WIDTH = 12
+    parameter integer DATA_WIDTH = 12
 )(
     //common inputs
     input logic clk,

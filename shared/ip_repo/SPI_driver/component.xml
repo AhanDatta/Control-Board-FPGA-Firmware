@@ -181,6 +181,30 @@
         </spirit:portMap>
       </spirit:portMaps>
     </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>FIFO_interface</spirit:name>
+      <spirit:busType spirit:vendor="user.org" spirit:library="user" spirit:name="IP_interface" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="user.org" spirit:library="user" spirit:name="IP_interface_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>rdata</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>fifo_dout</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ren</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>fifo_rd_en</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:memoryMaps>
     <spirit:memoryMap>
@@ -779,8 +803,8 @@
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-02-19T19:52:39Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>4</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-02-20T21:48:52Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@b173cb9_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@e58788e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
@@ -790,11 +814,24 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@792aa911_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@432fdb31_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@3a5618b8_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4455345e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e9f0fd5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3795948c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@197fa229_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c6598ce_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f3e3e6f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@233e4e0b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@529dae8a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14ff4c01_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37997b30_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7cfede6d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bd67ba7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@579dab92_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/SPI_driver</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.2</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="a28eb4b2"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="70ccf94e"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="9ffb2bf1"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="8d3a32e8"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="f685bcce"/>

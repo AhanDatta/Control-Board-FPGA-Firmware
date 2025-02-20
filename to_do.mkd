@@ -1,19 +1,23 @@
 # SPI
     - Verification
-    - Package IP
 # Pll External
     - N/A
 # AD9228 (Main ADC)
     - Verification
     - Implement the SPI write from Utility_IP
+    - Fix FCO/DCO generate block
+    - Add a read address to the FIFO information (mux)
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
-    - Package all the necessary IPs
-    - Put together the blocks
+    - Repackage IPs to include FIFO interface
+    - Check quad_spi clock frequency ratios
+    - Add a new axi_to_ipif mux for each IPIF interface
+    - Make all external pins external
+    - Create address map (microprocessor level)
+    - Simulate at top level to check for AXI
     - Check the logic levels for each module (Create xdc file & spreadsheet for pin number <-> signal mapping ex: https://docs.google.com/spreadsheets/d/15U5vb2UzfglZmfIKdkIeGOlO6R88vk2dX_n9gQ0hhtg/edit?gid=0#gid=0)
     - Put voltages in the spreadsheet
     - Write guide
-
 # Block Diagram
     - Voltage label wires

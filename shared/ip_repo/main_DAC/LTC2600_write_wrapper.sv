@@ -19,6 +19,7 @@ module LTC2600_write_wrapper #(
 
     //IPIF interface
     //configuration parameter interface 
+    input logic                                  IPIF_clk,
     input logic                                  IPIF_Bus2IP_resetn,
     input logic [(C_S_AXI_ADDR_WIDTH-1) : 0]     IPIF_Bus2IP_Addr, //unused
     input logic                                  IPIF_Bus2IP_RNW, //unused

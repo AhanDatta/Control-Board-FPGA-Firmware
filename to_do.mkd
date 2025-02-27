@@ -10,11 +10,8 @@
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
-    - Repackage IPs to include FIFO interface
-    - Check quad_spi clock frequency ratios
-    - Add a new axi_to_ipif mux for each IPIF interface
-    - Make all external pins external
-    - Create address map (microprocessor level)
+    - Understand how to connect fifo_read_clk
+    - Check quad_spi clock frequency ratios (30 MHz output), simulate
     - Simulate at top level to check for AXI
     - Check the logic levels for each module (Create xdc file & spreadsheet for pin number <-> signal mapping ex: https://docs.google.com/spreadsheets/d/15U5vb2UzfglZmfIKdkIeGOlO6R88vk2dX_n9gQ0hhtg/edit?gid=0#gid=0)
     - Put voltages in the spreadsheet

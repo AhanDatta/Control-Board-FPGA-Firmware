@@ -25,14 +25,15 @@ module AD9228_read #(
 
     //FIFO connections (indexed by channel)
     input logic [$clog2(NUM_CHANNELS)-1:0] fifo_addr,
-    input logic [NUM_CHANNELS-1 : 0] fifo_rd_en,
-    input logic [NUM_CHANNELS-1 : 0] fifo_rd_clk,
-    output logic [NUM_CHANNELS-1 : 0] fifo_not_empty,
-    output logic [NUM_CHANNELS-1 : 0] fifo_full,
-    output logic [DATA_WIDTH-1:0] fifo_dout,
+    input logic [NUM_CHANNELS-1:0] fifo_rd_en,
+    input logic fifo_rd_clk,
+    output logic fifo_not_empty,
+    output logic fifo_full,
+    output logic fifo_dout,
 
     //IPIF interface
     //configuration parameter interface 
+    input logic                                  IPIF_clk,
     input logic                                  IPIF_Bus2IP_resetn,
     input logic [(C_S_AXI_ADDR_WIDTH-1) : 0]     IPIF_Bus2IP_Addr, //unused
     input logic                                  IPIF_Bus2IP_RNW, //unused
@@ -114,6 +115,8 @@ module AD9228_read #(
 
     logic sample_clk;
     logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
+    logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
+    logic [NUM_CHANNELS-1:0] premux_fifo_full;
 
     //generating each of the channels
     genvar i;
@@ -131,9 +134,9 @@ module AD9228_read #(
                 .dco_n (dco_n),
 
                 .fifo_rd_en (fifo_rd_en[i]),
-                .fifo_rd_clk (fifo_rd_clk[i]),
-                .fifo_not_empty (fifo_not_empty[i]),
-                .fifo_full (fifo_full[i]),
+                .fifo_rd_clk (fifo_rd_clk),
+                .fifo_not_empty (premux_fifo_not_empty[i]),
+                .fifo_full (premux_fifo_full[i]),
                 .fifo_dout (premux_fifo_dout[i])
             );
         end
@@ -142,10 +145,14 @@ module AD9228_read #(
     //Muxing the fifo dout
     always_comb begin
         if (!rstn) begin
-            fifo_dout <= '0;
+            fifo_dout = '0;
+            fifo_not_empty = 0;
+            fifo_full = 0;
         end
         else begin
-            fifo_dout <= premux_fifo_dout[fifo_addr];
+            fifo_dout = premux_fifo_dout[fifo_addr];
+            fifo_not_empty = premux_fifo_not_empty[fifo_addr];
+            fifo_full = premux_fifo_full[fifo_addr];
         end
     end
 

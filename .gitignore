@@ -43,7 +43,6 @@ shared/ip_repo/vv_index.xml
 *.prf
 *.db
 *.wdf
-*.tcl
 
 
 *.hex

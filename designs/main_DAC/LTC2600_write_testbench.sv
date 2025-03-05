@@ -78,6 +78,10 @@ module LTC2600_write_testbench #(
         ext_reset();
 
         send_data(4'b0001, 4'b1000, 16'haaaa);
+        
+        wait(csb == 1'b1);
+        
+        send_data(4'b0011, 4'b0101, 16'hffff);
     end
 
 endmodule

@@ -4,9 +4,6 @@
     - N/A
 # AD9228 (Main ADC)
     - Verification
-    - Implement the SPI write from Utility_IP
-    - Fix FCO/DCO generate block
-    - Add a read address to the FIFO information (mux)
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 

@@ -129,10 +129,9 @@ module SPI_driver_wrapper #(
   assign full_rstn = rstn & params_to_IP.rstn;
 
   logic [7:0] data_read_from_reg;
-  logic write_complete;
-  logic read_complete;
   logic fifo_wr_en;
   logic full_rstn;
+  logic fifo_rst;
 
   SPI_driver driver (
     //common inputs

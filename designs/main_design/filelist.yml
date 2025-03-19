@@ -1,15 +1,11 @@
-#
-# HDL files
-#
-#hdl:
+# #
+# # HDL files
+# #
+hdl:
+  - designs/main_design/cb_block_design_2.bd
 # sim:
-#   - designs/ITA-BPM-DAQ/hdl/testBench.sv
-#   - shared/hdl/LTC2333_digitalModel.sv
-#
-# BD files
-#
-bd:
-  - designs/main_design/bd/cb_block_design.bd
+# ip_files:
+  #  - shared/ip_repo/main_DAC/component.xml
 #
 # IP repositories for the design 
 #
@@ -18,15 +14,14 @@ ip_repo:
 #
 # project specific XDC files below 
 #
-# xdc:
-#   - designs/ITA-BPM-DAQ/xdc/ITA-BPM-DAQ.xdc
+#xdc:
 #
 # Vivado target xdc file
-#
-xdcTarget: designs/main_design/xdc/vivado_target.xdc
+# 
+# xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
 
 #
-# Top level modle name 
+# Top level module name 
 #
 topMod: cb_block_design_wrapper
-# topSim: testBench
+# topSim: 

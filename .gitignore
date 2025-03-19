@@ -13,6 +13,8 @@ designs/**/bd/**
 *.png
 *.root
 *.bd
+*.bda
+*.ui
 #*#
 
 **pycache**
@@ -27,6 +29,7 @@ designs/**/bd/**
 /main_design/
 /main_ADC/
 /main_DAC/
+/main_design_2/
 
 #odd vivado files
 shared/ip_repo/vv_index.xml

@@ -1,8 +1,8 @@
 # #
 # # HDL files
-# #
-hdl:
-  - designs/main_design/cb_block_design_2.bd
+# 
+# hdl:
+#   - 
 # sim:
 # ip_files:
   #  - shared/ip_repo/main_DAC/component.xml
@@ -11,6 +11,8 @@ hdl:
 #
 ip_repo:
   - shared/ip_repo
+bd:
+  - designs/main_design/cb_block_design_2.bd
 #
 # project specific XDC files below 
 #

@@ -1,12 +1,12 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x7036A75879FCA77E",
+      "boundary_crc": "0x12F4F2745FA3FBF",
       "device": "xck26-sfvc784-2LV-c",
       "gen_directory": "../../../../main_design_2.gen/sources_1/bd/cb_block_design_2",
       "name": "cb_block_design_2",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
-      "synth_flow_mode": "Hierarchical",
+      "synth_flow_mode": "None",
       "tool_version": "2021.2",
       "validated": "true"
     },
@@ -76,29 +76,29 @@
       }
     },
     "ports": {
-      "dco_p_0": {
+      "AD9228_dco_p_0": {
         "direction": "I"
       },
-      "fco_n_0": {
+      "AD9228_fco_n_0": {
         "direction": "I"
       },
-      "fco_p_0": {
+      "AD9228_fco_p_0": {
         "direction": "I"
       },
-      "din_n_0": {
+      "AD9228_din_n_0": {
         "direction": "I",
         "left": "3",
         "right": "0"
       },
-      "din_p_0": {
+      "AD9228_din_p_0": {
         "direction": "I",
         "left": "3",
         "right": "0"
       },
-      "dco_n_0": {
+      "AD9228_dco_n_0": {
         "direction": "I"
       },
-      "clk_p_0": {
+      "AD9228_clk_p_0": {
         "type": "clk",
         "direction": "O",
         "parameters": {
@@ -124,7 +124,7 @@
           }
         }
       },
-      "clk_n_0": {
+      "AD9228_clk_n_0": {
         "type": "clk",
         "direction": "O",
         "parameters": {
@@ -150,32 +150,32 @@
           }
         }
       },
-      "dco_p_1": {
+      "AD9228_dco_p_1": {
         "direction": "I"
       },
-      "fco_n_1": {
+      "AD9228_fco_n_1": {
         "direction": "I"
       },
-      "fco_p_1": {
+      "AD9228_fco_p_1": {
         "direction": "I"
       },
-      "din_n_1": {
+      "AD9228_din_n_1": {
         "direction": "I",
         "left": "3",
         "right": "0"
       },
-      "dco_n_1": {
+      "AD9228_dco_n_1": {
         "direction": "I"
       },
-      "din_p_1": {
+      "AD9228_din_p_1": {
         "direction": "I",
         "left": "3",
         "right": "0"
       },
-      "input_from_adc_0": {
+      "AD4008_data_in": {
         "direction": "I"
       },
-      "serial_in_0": {
+      "spi_serial_in_0": {
         "direction": "I"
       },
       "spi_clk_0": {
@@ -204,47 +204,99 @@
           }
         }
       },
-      "serial_out_0": {
+      "spi_serial_out_0": {
         "direction": "O"
       },
-      "adc_sck_0": {
+      "AD4008_sck_0": {
         "direction": "O"
       },
-      "dac_write_0": {
+      "DAC8411_write_0": {
         "direction": "O"
       },
-      "dac_sclk_0": {
+      "DAC8411_sclk_0": {
         "direction": "O"
       },
-      "dac_syncn_0": {
+      "DAC8411_syncn_0": {
         "direction": "O"
       },
-      "adc_cnv_0": {
+      "AD4008_cnv_0": {
         "direction": "O"
       },
-      "csb_0": {
+      "LTC2600_csb_0": {
         "direction": "O"
       },
-      "sdi_0": {
+      "LTC2600_sdi_0": {
         "direction": "O"
       },
-      "sck_0": {
+      "LTC2600_sck_0": {
         "direction": "O"
       },
-      "clrb_0": {
+      "LTC2600_clrb_0": {
         "direction": "O"
       },
-      "sdi_1": {
+      "LTC2600_sdi_1": {
         "direction": "O"
       },
-      "clrb_1": {
+      "LTC2600_clrb_1": {
         "direction": "O"
       },
-      "csb_1": {
+      "LTC2600_csb_1": {
         "direction": "O"
       },
-      "sck_1": {
+      "LTC2600_sck_1": {
         "direction": "O"
+      },
+      "AD9228_clk_p_1": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "cb_block_design_2_AD9228_read_1_0_clk_p",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "AD9228_clk_n_1": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "cb_block_design_2_AD9228_read_1_0_clk_n",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       }
     },
     "components": {
@@ -2330,64 +2382,82 @@
           "LTC2600_write_wrapper_1/IPIF_clk"
         ]
       },
+      "AD9228_din_n_0_1": {
+        "ports": [
+          "AD9228_din_n_0",
+          "AD9228_read_0/din_n"
+        ]
+      },
       "AD9228_read_0_clk_n": {
         "ports": [
           "AD9228_read_0/clk_n",
-          "clk_n_0"
+          "AD9228_clk_n_0"
         ]
       },
       "AD9228_read_0_clk_p": {
         "ports": [
           "AD9228_read_0/clk_p",
-          "clk_p_0"
+          "AD9228_clk_p_0"
+        ]
+      },
+      "AD9228_read_1_clk_n": {
+        "ports": [
+          "AD9228_read_1/clk_n",
+          "AD9228_clk_n_1"
+        ]
+      },
+      "AD9228_read_1_clk_p": {
+        "ports": [
+          "AD9228_read_1/clk_p",
+          "AD9228_clk_p_1"
         ]
       },
       "LTC2600_write_wrapper_0_clrb": {
         "ports": [
           "LTC2600_write_wrapper_0/clrb",
-          "clrb_0"
+          "LTC2600_clrb_0"
         ]
       },
       "LTC2600_write_wrapper_0_csb": {
         "ports": [
           "LTC2600_write_wrapper_0/csb",
-          "csb_0"
+          "LTC2600_csb_0"
         ]
       },
       "LTC2600_write_wrapper_0_sck": {
         "ports": [
           "LTC2600_write_wrapper_0/sck",
-          "sck_0"
+          "LTC2600_sck_0"
         ]
       },
       "LTC2600_write_wrapper_0_sdi": {
         "ports": [
           "LTC2600_write_wrapper_0/sdi",
-          "sdi_0"
+          "LTC2600_sdi_0"
         ]
       },
       "LTC2600_write_wrapper_1_clrb": {
         "ports": [
           "LTC2600_write_wrapper_1/clrb",
-          "clrb_1"
+          "LTC2600_clrb_1"
         ]
       },
       "LTC2600_write_wrapper_1_csb": {
         "ports": [
           "LTC2600_write_wrapper_1/csb",
-          "csb_1"
+          "LTC2600_csb_1"
         ]
       },
       "LTC2600_write_wrapper_1_sck": {
         "ports": [
           "LTC2600_write_wrapper_1/sck",
-          "sck_1"
+          "LTC2600_sck_1"
         ]
       },
       "LTC2600_write_wrapper_1_sdi": {
         "ports": [
           "LTC2600_write_wrapper_1/sdi",
-          "sdi_1"
+          "LTC2600_sdi_1"
         ]
       },
       "Net": {
@@ -2402,7 +2472,7 @@
       "SPI_driver_wrapper_0_serial_out": {
         "ports": [
           "SPI_driver_wrapper_0/serial_out",
-          "serial_out_0"
+          "spi_serial_out_0"
         ]
       },
       "SPI_driver_wrapper_0_spi_clk": {
@@ -2432,110 +2502,104 @@
       },
       "dco_n_0_1": {
         "ports": [
-          "dco_n_0",
+          "AD9228_dco_n_0",
           "AD9228_read_0/dco_n"
         ]
       },
       "dco_n_1_1": {
         "ports": [
-          "dco_n_1",
+          "AD9228_dco_n_1",
           "AD9228_read_1/dco_n"
         ]
       },
       "dco_p_0_1": {
         "ports": [
-          "dco_p_0",
+          "AD9228_dco_p_0",
           "AD9228_read_0/dco_p"
         ]
       },
       "dco_p_1_1": {
         "ports": [
-          "dco_p_1",
+          "AD9228_dco_p_1",
           "AD9228_read_1/dco_p"
-        ]
-      },
-      "din_n_0_1": {
-        "ports": [
-          "din_n_0",
-          "AD9228_read_0/din_n"
         ]
       },
       "din_n_1_1": {
         "ports": [
-          "din_n_1",
+          "AD9228_din_n_1",
           "AD9228_read_1/din_n"
         ]
       },
       "din_p_0_1": {
         "ports": [
-          "din_p_0",
+          "AD9228_din_p_0",
           "AD9228_read_0/din_p"
         ]
       },
       "din_p_1_1": {
         "ports": [
-          "din_p_1",
+          "AD9228_din_p_1",
           "AD9228_read_1/din_p"
         ]
       },
       "fco_n_0_1": {
         "ports": [
-          "fco_n_0",
+          "AD9228_fco_n_0",
           "AD9228_read_0/fco_n"
         ]
       },
       "fco_n_1_1": {
         "ports": [
-          "fco_n_1",
+          "AD9228_fco_n_1",
           "AD9228_read_1/fco_n"
         ]
       },
       "fco_p_0_1": {
         "ports": [
-          "fco_p_0",
+          "AD9228_fco_p_0",
           "AD9228_read_0/fco_p"
         ]
       },
       "fco_p_1_1": {
         "ports": [
-          "fco_p_1",
+          "AD9228_fco_p_1",
           "AD9228_read_1/fco_p"
         ]
       },
       "input_from_adc_0_1": {
         "ports": [
-          "input_from_adc_0",
+          "AD4008_data_in",
           "pll_external_0/input_from_adc"
         ]
       },
       "pll_external_0_adc_cnv": {
         "ports": [
           "pll_external_0/adc_cnv",
-          "adc_cnv_0"
+          "AD4008_cnv_0"
         ]
       },
       "pll_external_0_adc_sck": {
         "ports": [
           "pll_external_0/adc_sck",
-          "adc_sck_0"
+          "AD4008_sck_0"
         ]
       },
       "pll_external_0_dac_sclk": {
         "ports": [
           "pll_external_0/dac_sclk",
-          "dac_sclk_0"
+          "DAC8411_sclk_0"
         ]
       },
       "pll_external_0_dac_syncn": {
         "ports": [
           "pll_external_0/dac_syncn",
-          "dac_syncn_0"
+          "DAC8411_syncn_0"
         ]
       },
       "pll_external_0_dac_write": {
         "ports": [
           "pll_external_0/dac_write",
-          "dac_write_0"
+          "DAC8411_write_0"
         ]
       },
       "proc_sys_reset_0_peripheral_aresetn": {
@@ -2575,9 +2639,9 @@
           "clk_wiz_0/resetn"
         ]
       },
-      "serial_in_0_1": {
+      "spi_serial_in_0_1": {
         "ports": [
-          "serial_in_0",
+          "spi_serial_in_0",
           "SPI_driver_wrapper_0/serial_in"
         ]
       },

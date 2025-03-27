@@ -12,7 +12,7 @@
 ip_repo:
   - shared/ip_repo
 bd:
-  - designs/main_design/cb_block_design_2.bd
+  - designs/main_design/bd/cb_block_design_2.bd
 #
 # project specific XDC files below 
 #
@@ -25,5 +25,5 @@ bd:
 #
 # Top level module name 
 #
-topMod: cb_block_design_wrapper
+topMod: cb_block_design_2_wrapper
 # topSim: 

@@ -3,7 +3,6 @@
     "design_info": {
       "boundary_crc": "0x12F4F2745FA3FBF",
       "device": "xck26-sfvc784-2LV-c",
-      "gen_directory": "../../../../main_design_2.gen/sources_1/bd/cb_block_design_2",
       "name": "cb_block_design_2",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "None",
@@ -303,8 +302,6 @@
       "zynq_ultra_ps_e_0": {
         "vlnv": "xilinx.com:ip:zynq_ultra_ps_e:3.3",
         "xci_name": "cb_block_design_2_zynq_ultra_ps_e_0_0",
-        "xci_path": "ip\\cb_block_design_2_zynq_ultra_ps_e_0_0\\cb_block_design_2_zynq_ultra_ps_e_0_0.xci",
-        "inst_hier_path": "zynq_ultra_ps_e_0",
         "parameters": {
           "PSU_DDR_RAM_HIGHADDR_OFFSET": {
             "value": "0x00000002"
@@ -401,14 +398,10 @@
       },
       "proc_sys_reset_0": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
-        "xci_name": "cb_block_design_2_proc_sys_reset_0_0",
-        "xci_path": "ip\\cb_block_design_2_proc_sys_reset_0_0\\cb_block_design_2_proc_sys_reset_0_0.xci",
-        "inst_hier_path": "proc_sys_reset_0"
+        "xci_name": "cb_block_design_2_proc_sys_reset_0_0"
       },
       "axi_interconnect_0": {
         "vlnv": "xilinx.com:ip:axi_interconnect:2.1",
-        "xci_path": "ip\\cb_block_design_2_axi_interconnect_0_0\\cb_block_design_2_axi_interconnect_0_0.xci",
-        "inst_hier_path": "axi_interconnect_0",
         "xci_name": "cb_block_design_2_axi_interconnect_0_0",
         "parameters": {
           "NUM_MI": {
@@ -691,8 +684,6 @@
           "xbar": {
             "vlnv": "xilinx.com:ip:axi_crossbar:2.1",
             "xci_name": "cb_block_design_2_xbar_0",
-            "xci_path": "ip\\cb_block_design_2_xbar_0\\cb_block_design_2_xbar_0.xci",
-            "inst_hier_path": "axi_interconnect_0/xbar",
             "parameters": {
               "NUM_MI": {
                 "value": "11"
@@ -831,8 +822,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_0",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_0\\cb_block_design_2_auto_pc_0.xci",
-                "inst_hier_path": "axi_interconnect_0/m00_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -988,8 +977,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_1",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_1\\cb_block_design_2_auto_pc_1.xci",
-                "inst_hier_path": "axi_interconnect_0/m02_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1145,8 +1132,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_2",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_2\\cb_block_design_2_auto_pc_2.xci",
-                "inst_hier_path": "axi_interconnect_0/m04_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1246,8 +1231,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_3",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_3\\cb_block_design_2_auto_pc_3.xci",
-                "inst_hier_path": "axi_interconnect_0/m05_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1347,8 +1330,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_4",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_4\\cb_block_design_2_auto_pc_4.xci",
-                "inst_hier_path": "axi_interconnect_0/m06_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1448,8 +1429,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_5",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_5\\cb_block_design_2_auto_pc_5.xci",
-                "inst_hier_path": "axi_interconnect_0/m07_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1605,8 +1584,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_6",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_6\\cb_block_design_2_auto_pc_6.xci",
-                "inst_hier_path": "axi_interconnect_0/m09_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1706,8 +1683,6 @@
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "xci_name": "cb_block_design_2_auto_pc_7",
-                "xci_path": "ip\\cb_block_design_2_auto_pc_7\\cb_block_design_2_auto_pc_7.xci",
-                "inst_hier_path": "axi_interconnect_0/m10_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
                     "value": "AXI4LITE"
@@ -1969,8 +1944,6 @@
       "axi_to_ipif_mux_1": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_1_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_1_0\\cb_block_design_2_axi_to_ipif_mux_1_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_1",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -1980,8 +1953,6 @@
       "axi_to_ipif_mux_2": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_2_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_2_0\\cb_block_design_2_axi_to_ipif_mux_2_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_2",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -1991,8 +1962,6 @@
       "axi_to_ipif_mux_3": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_3_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_3_0\\cb_block_design_2_axi_to_ipif_mux_3_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_3",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -2002,8 +1971,6 @@
       "axi_to_ipif_mux_4": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_4_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_4_0\\cb_block_design_2_axi_to_ipif_mux_4_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_4",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -2013,8 +1980,6 @@
       "axi_to_ipif_mux_5": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_5_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_5_0\\cb_block_design_2_axi_to_ipif_mux_5_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_5",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -2024,8 +1989,6 @@
       "axi_to_ipif_mux_6": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_6_0",
-        "xci_path": "ip\\cb_block_design_2_axi_to_ipif_mux_6_0\\cb_block_design_2_axi_to_ipif_mux_6_0.xci",
-        "inst_hier_path": "axi_to_ipif_mux_6",
         "parameters": {
           "N_CHIP": {
             "value": "1"
@@ -2035,8 +1998,6 @@
       "clk_wiz_0": {
         "vlnv": "xilinx.com:ip:clk_wiz:6.0",
         "xci_name": "cb_block_design_2_clk_wiz_0_0",
-        "xci_path": "ip\\cb_block_design_2_clk_wiz_0_0\\cb_block_design_2_clk_wiz_0_0.xci",
-        "inst_hier_path": "clk_wiz_0",
         "parameters": {
           "CLKOUT1_JITTER": {
             "value": "120.381"
@@ -2126,39 +2087,27 @@
       },
       "AXI_Full_IPIF_0": {
         "vlnv": "user.org:user:AXI_Full_IPIF:1.0",
-        "xci_name": "cb_block_design_2_AXI_Full_IPIF_0_0",
-        "xci_path": "ip\\cb_block_design_2_AXI_Full_IPIF_0_0\\cb_block_design_2_AXI_Full_IPIF_0_0.xci",
-        "inst_hier_path": "AXI_Full_IPIF_0"
+        "xci_name": "cb_block_design_2_AXI_Full_IPIF_0_0"
       },
       "AXI_Full_IPIF_1": {
         "vlnv": "user.org:user:AXI_Full_IPIF:1.0",
-        "xci_name": "cb_block_design_2_AXI_Full_IPIF_1_0",
-        "xci_path": "ip\\cb_block_design_2_AXI_Full_IPIF_1_0\\cb_block_design_2_AXI_Full_IPIF_1_0.xci",
-        "inst_hier_path": "AXI_Full_IPIF_1"
+        "xci_name": "cb_block_design_2_AXI_Full_IPIF_1_0"
       },
       "AXI_Full_IPIF_2": {
         "vlnv": "user.org:user:AXI_Full_IPIF:1.0",
-        "xci_name": "cb_block_design_2_AXI_Full_IPIF_2_0",
-        "xci_path": "ip\\cb_block_design_2_AXI_Full_IPIF_2_0\\cb_block_design_2_AXI_Full_IPIF_2_0.xci",
-        "inst_hier_path": "AXI_Full_IPIF_2"
+        "xci_name": "cb_block_design_2_AXI_Full_IPIF_2_0"
       },
       "AD9228_read_0": {
         "vlnv": "xilinx.com:user:AD9228_read:1.0",
-        "xci_name": "cb_block_design_2_AD9228_read_0_0",
-        "xci_path": "ip\\cb_block_design_2_AD9228_read_0_0\\cb_block_design_2_AD9228_read_0_0.xci",
-        "inst_hier_path": "AD9228_read_0"
+        "xci_name": "cb_block_design_2_AD9228_read_0_0"
       },
       "AD9228_read_1": {
         "vlnv": "xilinx.com:user:AD9228_read:1.0",
-        "xci_name": "cb_block_design_2_AD9228_read_1_0",
-        "xci_path": "ip\\cb_block_design_2_AD9228_read_1_0\\cb_block_design_2_AD9228_read_1_0.xci",
-        "inst_hier_path": "AD9228_read_1"
+        "xci_name": "cb_block_design_2_AD9228_read_1_0"
       },
       "axi_quad_spi_0": {
         "vlnv": "xilinx.com:ip:axi_quad_spi:3.2",
         "xci_name": "cb_block_design_2_axi_quad_spi_0_0",
-        "xci_path": "ip\\cb_block_design_2_axi_quad_spi_0_0\\cb_block_design_2_axi_quad_spi_0_0.xci",
-        "inst_hier_path": "axi_quad_spi_0",
         "parameters": {
           "C_SCK_RATIO": {
             "value": "2"
@@ -2168,8 +2117,6 @@
       "axi_quad_spi_1": {
         "vlnv": "xilinx.com:ip:axi_quad_spi:3.2",
         "xci_name": "cb_block_design_2_axi_quad_spi_1_0",
-        "xci_path": "ip\\cb_block_design_2_axi_quad_spi_1_0\\cb_block_design_2_axi_quad_spi_1_0.xci",
-        "inst_hier_path": "axi_quad_spi_1",
         "parameters": {
           "C_SCK_RATIO": {
             "value": "2"
@@ -2178,27 +2125,19 @@
       },
       "pll_external_0": {
         "vlnv": "xilinx.com:user:pll_external:1.0",
-        "xci_name": "cb_block_design_2_pll_external_0_0",
-        "xci_path": "ip\\cb_block_design_2_pll_external_0_0\\cb_block_design_2_pll_external_0_0.xci",
-        "inst_hier_path": "pll_external_0"
+        "xci_name": "cb_block_design_2_pll_external_0_0"
       },
       "SPI_driver_wrapper_0": {
         "vlnv": "xilinx.com:user:SPI_driver_wrapper:1.0",
-        "xci_name": "cb_block_design_2_SPI_driver_wrapper_0_0",
-        "xci_path": "ip\\cb_block_design_2_SPI_driver_wrapper_0_0\\cb_block_design_2_SPI_driver_wrapper_0_0.xci",
-        "inst_hier_path": "SPI_driver_wrapper_0"
+        "xci_name": "cb_block_design_2_SPI_driver_wrapper_0_0"
       },
       "LTC2600_write_wrapper_0": {
         "vlnv": "xilinx.com:user:LTC2600_write_wrapper:1.0",
-        "xci_name": "cb_block_design_2_LTC2600_write_wrapper_0_0",
-        "xci_path": "ip\\cb_block_design_2_LTC2600_write_wrapper_0_0\\cb_block_design_2_LTC2600_write_wrapper_0_0.xci",
-        "inst_hier_path": "LTC2600_write_wrapper_0"
+        "xci_name": "cb_block_design_2_LTC2600_write_wrapper_0_0"
       },
       "LTC2600_write_wrapper_1": {
         "vlnv": "xilinx.com:user:LTC2600_write_wrapper:1.0",
-        "xci_name": "cb_block_design_2_LTC2600_write_wrapper_1_0",
-        "xci_path": "ip\\cb_block_design_2_LTC2600_write_wrapper_1_0\\cb_block_design_2_LTC2600_write_wrapper_1_0.xci",
-        "inst_hier_path": "LTC2600_write_wrapper_1"
+        "xci_name": "cb_block_design_2_LTC2600_write_wrapper_1_0"
       }
     },
     "interface_nets": {

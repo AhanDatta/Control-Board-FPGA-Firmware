@@ -30,6 +30,7 @@ designs/**/bd/**
 /main_ADC/
 /main_DAC/
 /main_design_2/
+/read_rst_trig/
 
 #odd vivado files
 shared/ip_repo/vv_index.xml
@@ -46,6 +47,7 @@ shared/ip_repo/vv_index.xml
 *.prf
 *.db
 *.wdf
+*.tcl
 
 
 *.hex

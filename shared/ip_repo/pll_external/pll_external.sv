@@ -72,7 +72,7 @@ module pll_external #(
      .N_REG(N_REG),
      .PARAM_T(param_t),
      .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
-     .SELF_RESET(128'b1)
+     .SELF_RESET(128'b11)
      ) parameterDecoder 
    (
     .clk(IPIF_clk),

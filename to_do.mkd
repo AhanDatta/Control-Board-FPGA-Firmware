@@ -4,6 +4,11 @@
     - N/A
 # AD9228 (Main ADC)
     - N/A
+# read_rst_trig 
+    - Control the main ADC synchronously from this block, triggered in software/from chip
+    - Possible delay needed between clock for this block and AD9228 drivers
+    - Consolidate the IPIF interface from AD9228_read into this block
+    - Create a trigger counter in the IPIF interface
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
@@ -20,3 +25,5 @@
     - Write guide
 # Block Diagram
     - Voltage label wires
+# Misc
+    - Check self reset parameter in the parameter_decoders for each block

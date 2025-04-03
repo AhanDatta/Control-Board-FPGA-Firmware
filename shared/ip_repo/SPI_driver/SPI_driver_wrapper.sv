@@ -50,10 +50,10 @@ module SPI_driver_wrapper #(
 
    typedef struct       packed{ 
       // Register 3
-      logic [28:0]      padding3;
-      logic             new_command; //Should reset after some time
-      logic             rstn;
-      logic             is_write; 
+      logic [21:0]      padding3;
+      logic             read_complete;
+      logic             write_complete;
+      logic [7:0]       data_read_from_reg;
       // Register 2
       logic [15:0]      padding2;
       logic [7:0]       num_regs_to_read;
@@ -63,10 +63,10 @@ module SPI_driver_wrapper #(
       logic [7:0]       write_register_addr;
       logic [7:0]       write_data;
       // Register 0
-      logic [21:0]      padding0;
-      logic             read_complete;
-      logic             write_complete;
-      logic [7:0]       data_read_from_reg;
+      logic [28:0]      padding0;
+      logic             is_write; 
+      logic             new_command; //Should reset after some time
+      logic             rstn;
    } param_t;
 
     param_t params_from_IP; //use this
@@ -93,7 +93,7 @@ module SPI_driver_wrapper #(
      .N_REG(N_REG),
      .PARAM_T(param_t),
      .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
-     .SELF_RESET(128'b1)
+     .SELF_RESET(128'b11)
      ) parameterDecoder 
    (
     .clk(IPIF_clk),

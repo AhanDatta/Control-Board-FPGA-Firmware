@@ -1,13 +1,13 @@
 module read_rst_trig #(
     parameter integer TRIGGER_COUNTER_LENGTH = 16,
-    parameter integer NUM_DATA = 1024,
+    parameter integer NUM_DATA = 1280,
 
     parameter integer C_S_AXI_DATA_WIDTH = 32,
     parameter integer C_S_AXI_ADDR_WIDTH = 32,
     parameter integer N_REG = 4
 )(
     input logic rstn, //FPGA reset
-    input logic clk, //65 MHz, gated to chip_read_clk and AD9228_clk
+    input logic clk, //40 MHz, gated to chip_read_clk and AD9228_clk
     input logic trig_from_chip, //From chip
 
     output logic chip_rst,

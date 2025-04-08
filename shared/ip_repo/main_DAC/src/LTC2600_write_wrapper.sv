@@ -35,17 +35,17 @@ module LTC2600_write_wrapper #(
 
     typedef struct       packed{ 
       // Register 3
-      logic [30:0]      padding3;
-      logic             send_new_cmd;
+      logic [7:0]      padding3;
+      logic [3:0]       command;
+      logic [3:0]       address;
+      logic[DATA_WIDTH-1:0] data;
       // Register 2
       logic [31:0]      padding2;
       // Register 1
       logic [31:0]      padding1;
       // Register 0
-      logic [7:0]      padding0;
-      logic [3:0]       command;
-      logic [3:0]       address;
-      logic[DATA_WIDTH-1:0] data;
+      logic [30:0]      padding0;
+      logic             send_new_cmd;
    } param_t;
 
     param_t params_from_IP; //use this

@@ -8,7 +8,7 @@ module AD9228_read #(
     parameter integer DATA_WIDTH = 12
 ) (
     //common inputs
-    input logic clk, //65 Mhz
+    input logic clk, // <65 Mhz
     input logic rstn,
     input logic read_en,
 
@@ -30,7 +30,7 @@ module AD9228_read #(
     input logic fifo_rd_clk,
     output logic fifo_not_empty,
     output logic fifo_full,
-    output logic fifo_dout,
+    output logic fifo_dout
 );
 
     logic sample_clk;

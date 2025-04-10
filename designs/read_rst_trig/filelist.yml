@@ -7,9 +7,9 @@ hdl:
   - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 # sim:
 #   - 
-# ip_files:
-#    - 
-#
+ip_files:
+   - shared/ip_repo/read_rst_trig/component.xml
+
 # IP repositories for the design 
 #
 ip_repo:

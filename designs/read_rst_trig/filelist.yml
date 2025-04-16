@@ -27,4 +27,4 @@ ip_repo:
 # Top level module name 
 #
 topMod: read_rst_trig
-topSim: 
+#topSim: 

@@ -7,8 +7,6 @@ hdl:
   - shared/ip_repo/main_ADC/AD9228_read.sv
   - shared/ip_repo/main_ADC/diff_to_single_ended.sv
   - shared/ip_repo/main_ADC/single_ended_to_diff.sv
-  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
-  - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 sim:
   - designs/main_ADC/hdl/AD9228_core_testbench.sv
 ip_files:

@@ -30,7 +30,7 @@ module AD9228_read #(
     input logic fifo_rd_clk,
     output logic fifo_not_empty,
     output logic fifo_full,
-    output logic fifo_dout,
+    output logic fifo_dout
 );
 
     logic sample_clk;
@@ -45,6 +45,7 @@ module AD9228_read #(
             AD9228_single_ch_read  AD9228_single_ch_read_inst (
                 .clk (clk),
                 .rstn (rstn),
+                .read_en (read_en),
 
                 .din_p (din_p[i]),
                 .din_n (din_n[i]),
@@ -77,19 +78,7 @@ module AD9228_read #(
     end
 
     //gating the sampling clock on the IPIF command
-    always_comb begin
-        if (!rstn) begin
-            sample_clk = 1'b0;
-        end
-        else begin
-            if (read_en) begin
-                sample_clk = clk;
-            end
-            else begin 
-                sample_clk = 1'b0;
-            end
-        end
-    end
+    assign sample_clk = clk;
 
     single_ended_to_diff adc_clk_conv (
         .single_in (sample_clk),

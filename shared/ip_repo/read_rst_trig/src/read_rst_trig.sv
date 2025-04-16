@@ -39,7 +39,7 @@ module read_rst_trig #(
    
     typedef struct       packed{
       // Register 3
-      logic [15:0]      padding3;
+      logic [31-TRIGGER_COUNTER_LENGTH:0]      padding3;
       logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter;
       // Register 2
       logic [31:0]      padding2;

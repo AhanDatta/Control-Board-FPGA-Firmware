@@ -67,7 +67,7 @@ module LTC2600_write_wrapper #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b0}),
      .SELF_RESET(128'b1)
      ) parameterDecoder 
    (

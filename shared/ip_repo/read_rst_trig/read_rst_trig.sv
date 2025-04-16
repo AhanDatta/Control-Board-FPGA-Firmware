@@ -39,7 +39,7 @@ module read_rst_trig #(
    
     typedef struct       packed{
       // Register 3
-      logic [15:0]      padding3;
+      logic [31-TRIGGER_COUNTER_LENGTH:0]      padding3;
       logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter;
       // Register 2
       logic [31:0]      padding2;
@@ -72,7 +72,7 @@ module read_rst_trig #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b0}),
      .SELF_RESET(128'b111)
      ) parameterDecoder 
    (
@@ -142,7 +142,7 @@ module read_rst_trig #(
         .DELAY_VALUE(5),                // Output delay tap setting
         .IS_CLK_INVERTED(1'b0),         // Optional inversion for CLK
         .IS_RST_INVERTED(1'b1),         // Optional inversion for RST
-        .REFCLK_FREQUENCY(300.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
+        .REFCLK_FREQUENCY(400.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
         .SIM_DEVICE("ULTRASCALE_PLUS"), // Set the device version for simulation functionality (ULTRASCALE,
                                         // ULTRASCALE_PLUS, ULTRASCALE_PLUS_ES1, ULTRASCALE_PLUS_ES2)
         .UPDATE_MODE("ASYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,

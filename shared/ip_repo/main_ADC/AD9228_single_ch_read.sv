@@ -18,6 +18,7 @@ module AD9228_single_ch_read #(
     //common inputs
     input logic clk,
     input logic rstn,
+    input logic read_en,
 
     //AD9228 inputs
     input logic din_p,
@@ -185,7 +186,7 @@ module AD9228_single_ch_read #(
       .wr_clk(clk),               // 1-bit input: Write clock: Used for write operation. wr_clk must be a
                                      // free running clock.
 
-      .wr_en(read_complete)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
+      .wr_en(read_complete && read_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
                                      // signal causes data (on din) to be written to the FIFO. Must be held
                                      // active-low when rst or wr_rst_busy is active high.
 

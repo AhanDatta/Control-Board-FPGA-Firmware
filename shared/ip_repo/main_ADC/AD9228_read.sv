@@ -2,9 +2,6 @@
 
 module AD9228_read #(
     parameter integer NUM_CHANNELS = 4,
-    parameter integer C_S_AXI_DATA_WIDTH = 32,
-    parameter integer C_S_AXI_ADDR_WIDTH = 32,
-    parameter integer N_REG = 4,
     parameter integer DATA_WIDTH = 12
 ) (
     //common inputs
@@ -45,6 +42,7 @@ module AD9228_read #(
             AD9228_single_ch_read  AD9228_single_ch_read_inst (
                 .clk (clk),
                 .rstn (rstn),
+                .read_en (read_en),
 
                 .din_p (din_p[i]),
                 .din_n (din_n[i]),
@@ -77,19 +75,7 @@ module AD9228_read #(
     end
 
     //gating the sampling clock on the IPIF command
-    always_comb begin
-        if (!rstn) begin
-            sample_clk = 1'b0;
-        end
-        else begin
-            if (read_en) begin
-                sample_clk = clk;
-            end
-            else begin 
-                sample_clk = 1'b0;
-            end
-        end
-    end
+    assign sample_clk = clk;
 
     single_ended_to_diff adc_clk_conv (
         .single_in (sample_clk),

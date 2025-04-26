@@ -42,7 +42,6 @@ module AD9228_single_ch_read #(
 
     //fifo logic
     logic [DATA_WIDTH-1:0] des_data;
-    logic read_complete;
 
     diff_to_single_ended din_conv (
         .diff_p (din_p),
@@ -73,8 +72,7 @@ module AD9228_single_ch_read #(
         .dco (dco),
 
         //outputs
-        .des_data (des_data),
-        .read_complete (read_complete)
+        .des_data (des_data)
     );
 
     xpm_fifo_async #(
@@ -84,7 +82,7 @@ module AD9228_single_ch_read #(
       .ECC_MODE("no_ecc"),       // String
       .FIFO_MEMORY_TYPE("auto"), // String
       .FIFO_READ_LATENCY(1),     // DECIMAL
-      .FIFO_WRITE_DEPTH(2048),   // DECIMAL
+      .FIFO_WRITE_DEPTH(FIFO_DEPTH),   // DECIMAL
       .FULL_RESET_VALUE(0),      // DECIMAL
       .PROG_EMPTY_THRESH(10),    // DECIMAL
       .PROG_FULL_THRESH(10),     // DECIMAL
@@ -186,7 +184,7 @@ module AD9228_single_ch_read #(
       .wr_clk(clk),               // 1-bit input: Write clock: Used for write operation. wr_clk must be a
                                      // free running clock.
 
-      .wr_en(read_complete && read_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
+      .wr_en(read_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
                                      // signal causes data (on din) to be written to the FIFO. Must be held
                                      // active-low when rst or wr_rst_busy is active high.
 

@@ -3,10 +3,8 @@
 # Pll External
     - N/A
 # AD9228 (Main ADC)
-    - Check if turning the sample clk on/off is ok?
-    - If not, use AD9228_read_en to time putting the right data into the fifo
+    - use AD9228_read_en to time putting the right data into the fifo
 # read_rst_trig 
-    - Control the main ADC synchronously from this block, triggered in software/from chip
     - ~~Shift AD9228 read_en by one clk cycle~~
     - ~~Put odelay on AD9228_clk (read how to program the delay)~~
 # LTC2600 (Main DAC)
@@ -25,6 +23,3 @@
     - Write guide
 # Block Diagram
     - Voltage label wires
-# Misc
-    - Fix pedestals & biases & thres from the kria
-    - Add a new DAC to accomodate 20 signals

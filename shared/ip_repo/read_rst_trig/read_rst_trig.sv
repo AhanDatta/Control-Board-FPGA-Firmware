@@ -139,7 +139,7 @@ module read_rst_trig #(
         .CASCADE("NONE"),               // Cascade setting (MASTER, NONE, SLAVE_END, SLAVE_MIDDLE)
         .DELAY_FORMAT("TIME"),          // (COUNT, TIME)
         .DELAY_TYPE("FIXED"),           // Set the type of tap delay line (FIXED, VARIABLE, VAR_LOAD)
-        .DELAY_VALUE(5),                // Output delay tap setting
+        .DELAY_VALUE(5),                // Output delay tap setting | LESS THAN 7 TO SATISFY TIMING (FCO high and data latched within one clock cycle of clk)
         .IS_CLK_INVERTED(1'b0),         // Optional inversion for CLK
         .IS_RST_INVERTED(1'b1),         // Optional inversion for RST
         .REFCLK_FREQUENCY(400.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).

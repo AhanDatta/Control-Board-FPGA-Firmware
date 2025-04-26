@@ -16,7 +16,6 @@ module AD9228_core_testbench #(
     logic fco;
     logic dco;
     logic [DATA_WIDTH-1:0] held_data;
-    logic read_complete;
 
     logic [DATA_WIDTH-1:0] des_data;
 
@@ -28,8 +27,7 @@ module AD9228_core_testbench #(
         .fco (fco),
         .dco (dco),
 
-        .des_data (des_data),
-        .read_complete (read_complete)
+        .des_data (des_data)
     );
 
     task send_data (logic [DATA_WIDTH-1:0] data_to_send);
@@ -43,8 +41,7 @@ module AD9228_core_testbench #(
             dco = ~dco;
             d = data_to_send[DATA_WIDTH - 1 - i];
             
-            @(posedge clk);
-            @(negedge clk);
+            @(posedge clk or negedge clk);
         end
     endtask
 
@@ -62,16 +59,23 @@ module AD9228_core_testbench #(
 
     initial begin
         clk = 1'b0;
-        held_data = 'b011111_111111;
+        rstn = 1'b1;
+        held_data = 12'h555;
 
         d = 1'b0;
         fco = 1'b0;
         dco = 1'b0;
         sclk = 1'b0;
+        #200;
 
         do_reset();
         #9;
-        #200;
+        send_data(12'h0);
+        send_data(12'h0);
+        //#200;
         send_data(held_data);
+        held_data = 12'b111111_111111;
+        send_data(held_data);
+        send_data(12'h0);
     end
 endmodule

@@ -5,8 +5,7 @@
 # AD9228 (Main ADC)
     - use AD9228_read_en to time putting the right data into the fifo
 # read_rst_trig 
-    - ~~Shift AD9228 read_en by one clk cycle~~
-    - ~~Put odelay on AD9228_clk (read how to program the delay)~~
+    - Implement delay control block
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 

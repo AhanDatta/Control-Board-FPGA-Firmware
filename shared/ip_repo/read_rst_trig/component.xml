@@ -229,6 +229,22 @@
         </spirit:portMap>
       </spirit:portMaps>
     </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>delay_set_clk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>delay_set_clk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:memoryMaps>
     <spirit:memoryMap>
@@ -249,7 +265,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>b80e4066</spirit:value>
+            <spirit:value>fb3d2c0f</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -265,7 +281,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>b80e4066</spirit:value>
+            <spirit:value>fb3d2c0f</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -326,6 +342,19 @@
       </spirit:port>
       <spirit:port>
         <spirit:name>delay_clk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>delay_set_clk</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -681,9 +710,13 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
+        <spirit:name>ODELAY_set_ctrl.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
         <spirit:name>read_rst_trig.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_6536643a</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_ea897663</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -704,6 +737,10 @@
       </spirit:file>
       <spirit:file>
         <spirit:name>../UtilityIP/IPIF_common/IPIF_parameterDecode.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>ODELAY_set_ctrl.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -790,8 +827,8 @@
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>4</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-04-16T18:52:05Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-04-30T20:52:29Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@4b29a4cc_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@23bae5a0_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
@@ -821,14 +858,25 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@6e2950d2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@774fb3f2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@70d6894b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26f65ff4_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4232a92b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8f12419_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ab4ccbc_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52146403_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38b80781_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@739c720e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7293ef71_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f9e7db0_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27e0cb32_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@675c9d61_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/read_rst_trig</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.2</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="30ac3310"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="35098ee2"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="9ffb2bf1"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="8bc17c5a"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="55e1cf38"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="23bde490"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="12d1b052"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a3dad7ab"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="495cf0b7"/>
     </xilinx:packagingInfo>

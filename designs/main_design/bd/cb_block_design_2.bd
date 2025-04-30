@@ -1745,19 +1745,19 @@
         "xci_name": "cb_block_design_2_clk_wiz_0_0",
         "parameters": {
           "CLKOUT1_JITTER": {
-            "value": "162.635"
+            "value": "120.381"
           },
           "CLKOUT1_PHASE_ERROR": {
-            "value": "87.180"
+            "value": "78.394"
           },
           "CLKOUT1_REQUESTED_OUT_FREQ": {
             "value": "20"
           },
           "CLKOUT2_JITTER": {
-            "value": "139.241"
+            "value": "106.390"
           },
           "CLKOUT2_PHASE_ERROR": {
-            "value": "87.180"
+            "value": "78.394"
           },
           "CLKOUT2_REQUESTED_OUT_FREQ": {
             "value": "40"
@@ -1766,10 +1766,10 @@
             "value": "true"
           },
           "CLKOUT3_JITTER": {
-            "value": "132.842"
+            "value": "102.261"
           },
           "CLKOUT3_PHASE_ERROR": {
-            "value": "87.180"
+            "value": "78.394"
           },
           "CLKOUT3_REQUESTED_OUT_FREQ": {
             "value": "50"
@@ -1778,15 +1778,27 @@
             "value": "true"
           },
           "CLKOUT4_JITTER": {
-            "value": "90.202"
+            "value": "71.150"
           },
           "CLKOUT4_PHASE_ERROR": {
-            "value": "87.180"
+            "value": "78.394"
           },
           "CLKOUT4_REQUESTED_OUT_FREQ": {
             "value": "400"
           },
           "CLKOUT4_USED": {
+            "value": "true"
+          },
+          "CLKOUT5_JITTER": {
+            "value": "83.349"
+          },
+          "CLKOUT5_PHASE_ERROR": {
+            "value": "78.394"
+          },
+          "CLKOUT5_REQUESTED_OUT_FREQ": {
+            "value": "160.000"
+          },
+          "CLKOUT5_USED": {
             "value": "true"
           },
           "CLK_OUT1_PORT": {
@@ -1801,29 +1813,35 @@
           "CLK_OUT4_PORT": {
             "value": "clk_400M"
           },
+          "CLK_OUT5_PORT": {
+            "value": "clk_160M"
+          },
           "MMCM_CLKFBOUT_MULT_F": {
-            "value": "12.375"
+            "value": "16.500"
           },
           "MMCM_CLKIN2_PERIOD": {
-            "value": "10.000"
+            "value": "10.0"
           },
           "MMCM_CLKOUT0_DIVIDE_F": {
-            "value": "60.000"
+            "value": "80.000"
           },
           "MMCM_CLKOUT1_DIVIDE": {
-            "value": "30"
+            "value": "40"
           },
           "MMCM_CLKOUT2_DIVIDE": {
-            "value": "24"
+            "value": "32"
           },
           "MMCM_CLKOUT3_DIVIDE": {
-            "value": "3"
+            "value": "4"
+          },
+          "MMCM_CLKOUT4_DIVIDE": {
+            "value": "10"
           },
           "MMCM_DIVCLK_DIVIDE": {
             "value": "1"
           },
           "NUM_OUT_CLKS": {
-            "value": "4"
+            "value": "5"
           },
           "RESET_PORT": {
             "value": "resetn"
@@ -2164,6 +2182,12 @@
         "ports": [
           "SPI_driver_wrapper_0/spi_clk",
           "spi_clk_0"
+        ]
+      },
+      "clk_wiz_0_clk_160M": {
+        "ports": [
+          "clk_wiz_0/clk_160M",
+          "read_rst_trig_0/delay_set_clk"
         ]
       },
       "clk_wiz_0_clk_20M": {

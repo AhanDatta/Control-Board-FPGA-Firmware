@@ -7,15 +7,16 @@ module read_rst_trig #(
     parameter integer N_REG = 4
 )(
     input logic rstn, //FPGA reset
-    input logic clk, //40 MHz, gated to chip_read_clk and AD9228_clk
-    input logic trig_from_chip, //From chip
+    input logic clk, //40 MHz, gated to chip_read_clk and with delay to AD9228_clk
+    input logic trig_from_chip, //From chip, data ready to read out
     input logic delay_clk, //400 MHz
+    input logic delay_set_clk, //160 MHz
 
     output logic chip_rst,
     output logic trig_to_chip,
     output logic chip_read_clk,
     output logic AD9228_clk,
-    output logic AD9228_read_en,
+    output logic AD9228_read_en, //FIFO wr_en
 
     input wire                                   IPIF_clk,
                                                 
@@ -42,7 +43,8 @@ module read_rst_trig #(
       logic [31-TRIGGER_COUNTER_LENGTH:0]      padding3;
       logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter;
       // Register 2
-      logic [31:0]      padding2;
+      logic [22:0]      padding2;
+      logic [8:0]       delay_target;
       // Register 1
       logic [31:0]      padding1;
       // Register 0
@@ -72,7 +74,7 @@ module read_rst_trig #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b0}),
      .SELF_RESET(128'b111)
      ) parameterDecoder 
    (
@@ -118,6 +120,11 @@ module read_rst_trig #(
     logic [TRIGGER_COUNTER_LENGTH-1:0] trigger_counter;
     logic chip_read_clk_en;
 
+    logic [8:0] delay_set_value;
+    logic [8:0] delay_out;
+    logic delay_wr;
+    logic delay_ready;
+
     assign chip_rst = params_to_IP.chip_rst;
     assign trig_to_chip = params_to_IP.trig_to_chip;
 
@@ -134,32 +141,41 @@ module read_rst_trig #(
         end
     end
 
-    assign AD9228_clk = clk; 
+    ODELAY_set_ctrl ODELAY_set_ctrl_inst (
+        .rstb (rstn),
+        .clk160 (delay_set_clk),
+        .delay_target (params_to_IP.delay_target),
+        .delay_out (delay_out),
+        .delay_set_value (delay_set_value),
+        .delay_wr (delay_wr),
+        .delay_ready (delay_ready)
+    );
+
     ODELAYE3 #(
         .CASCADE("NONE"),               // Cascade setting (MASTER, NONE, SLAVE_END, SLAVE_MIDDLE)
-        .DELAY_FORMAT("TIME"),          // (COUNT, TIME)
-        .DELAY_TYPE("FIXED"),           // Set the type of tap delay line (FIXED, VARIABLE, VAR_LOAD)
-        .DELAY_VALUE(5),                // Output delay tap setting
+        .DELAY_FORMAT("COUNT"),          // (COUNT, TIME)
+        .DELAY_TYPE("VAR_LOAD"),           // Set the type of tap delay line (FIXED, VARIABLE, VAR_LOAD)
+        .DELAY_VALUE(0),                // Output delay tap setting 
         .IS_CLK_INVERTED(1'b0),         // Optional inversion for CLK
         .IS_RST_INVERTED(1'b1),         // Optional inversion for RST
-        .REFCLK_FREQUENCY(300.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
+        .REFCLK_FREQUENCY(400.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
         .SIM_DEVICE("ULTRASCALE_PLUS"), // Set the device version for simulation functionality (ULTRASCALE,
                                         // ULTRASCALE_PLUS, ULTRASCALE_PLUS_ES1, ULTRASCALE_PLUS_ES2)
-        .UPDATE_MODE("ASYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
+        .UPDATE_MODE("SYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
                                         // SYNC)
     )
     ODELAYE3_inst (
         .CASC_OUT(),       // 1-bit output: Cascade delay output to IDELAY input cascade
-        .CNTVALUEOUT(), // 9-bit output: Counter value output
+        .CNTVALUEOUT(delay_out), // 9-bit output: Counter value output
         .DATAOUT(AD9228_clk),         // 1-bit output: Delayed data from ODATAIN input port
         .CASC_IN(),         // 1-bit input: Cascade delay input from slave IDELAY CASCADE_OUT
         .CASC_RETURN(), // 1-bit input: Cascade delay returning from slave IDELAY DATAOUT
         .CE(),                   // 1-bit input: Active-High enable increment/decrement input
         .CLK(delay_clk),                 // 1-bit input: Clock input
-        .CNTVALUEIN(),   // 9-bit input: Counter value input
+        .CNTVALUEIN(delay_set_value),   // 9-bit input: Counter value input
         .EN_VTC(),           // 1-bit input: Keep delay constant over VT
         .INC(),                 // 1-bit input: Increment/Decrement tap delay input
-        .LOAD(),               // 1-bit input: Load DELAY_VALUE input
+        .LOAD(delay_wr),               // 1-bit input: Load DELAY_VALUE input
         .ODATAIN(clk),         // 1-bit input: Data input
         .RST(rstn)                  // 1-bit input: Asynchronous Reset to the DELAY_VALUE
     );

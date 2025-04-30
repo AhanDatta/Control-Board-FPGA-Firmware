@@ -3,6 +3,7 @@
 #
 hdl:
   - shared/ip_repo/read_rst_trig/read_rst_trig.sv
+  - shared/ip_repo/read_rst_trig/ODELAY_set_ctrl.sv
   - shared/ip_repo/UtilityIP/IPIF_common/IPIF_clock_converter.sv
   - shared/ip_repo/UtilityIP/IPIF_common/IPIF_parameterDecode.sv
 # sim:

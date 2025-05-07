@@ -26,7 +26,6 @@ module LTC2600_write #(
     output logic sck,
     output logic sdi,
     output logic csb,
-    output logic clrb, //DAC reset
 
     //outputs
     output logic write_complete
@@ -52,8 +51,6 @@ module LTC2600_write #(
             sck = clk; //write clock always on, since we have csb
         end
     end
-
-    assign clrb = rstn; //chip resets at the same time as of the FPGA
 
     always_ff @(posedge clk or negedge rstn) begin
         if (!rstn) begin

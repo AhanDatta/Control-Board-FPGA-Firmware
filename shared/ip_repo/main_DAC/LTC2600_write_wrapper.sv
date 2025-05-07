@@ -11,7 +11,6 @@ module LTC2600_write_wrapper #(
     output logic sck,
     output logic sdi,
     output logic csb,
-    output logic clrb,
 
     //outputs
     output logic write_complete,
@@ -115,8 +114,7 @@ module LTC2600_write_wrapper #(
         //DAC wires
         .sck (sck),
         .sdi (sdi),
-        .csb (csb),
-        .clrb (clrb)
+        .csb (csb)
     );
 
 endmodule

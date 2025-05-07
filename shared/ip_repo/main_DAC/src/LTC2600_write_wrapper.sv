@@ -11,7 +11,6 @@ module LTC2600_write_wrapper #(
     output logic sck,
     output logic sdi,
     output logic csb,
-    output logic clrb,
 
     //outputs
     output logic write_complete,
@@ -67,7 +66,7 @@ module LTC2600_write_wrapper #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b0}),
      .SELF_RESET(128'b1)
      ) parameterDecoder 
    (
@@ -115,8 +114,7 @@ module LTC2600_write_wrapper #(
         //DAC wires
         .sck (sck),
         .sdi (sdi),
-        .csb (csb),
-        .clrb (clrb)
+        .csb (csb)
     );
 
 endmodule

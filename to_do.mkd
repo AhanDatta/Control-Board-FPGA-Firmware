@@ -23,5 +23,4 @@
     - Make dummy constraints file to check implementation
 
 # Questions/Notes
-    - B33 and B34 on first kria bank should be terminated
-    - D4 to D14 on first kria bank have reversed differential polarity?
+    - 

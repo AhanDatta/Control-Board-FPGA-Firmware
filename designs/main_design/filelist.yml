@@ -16,8 +16,8 @@ bd:
 #
 # project specific XDC files below 
 #
-#xdc:
-#
+xdc:
+  - designs/main_design/xdc/main_design.xdc
 # Vivado target xdc file
 # 
 # xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc

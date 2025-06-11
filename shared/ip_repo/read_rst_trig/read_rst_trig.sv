@@ -36,6 +36,8 @@ module read_rst_trig #(
     output logic                                 IPIF_IP2Bus_Error
 );
 
+    logic [TRIGGER_COUNTER_LENGTH-1:0] trigger_counter;
+
     assign IPIF_IP2Bus_Error = 0;
    
     typedef struct       packed{
@@ -117,7 +119,6 @@ module read_rst_trig #(
     logic prev_trig_from_chip;
     logic prev_software_trig;
     logic [$clog2(NUM_DATA) : 0] clock_counter;
-    logic [TRIGGER_COUNTER_LENGTH-1:0] trigger_counter;
     logic chip_read_clk_en;
 
     logic [8:0] delay_set_value;

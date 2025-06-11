@@ -3,24 +3,18 @@
 # Pll External
     - N/A
 # AD9228 (Main ADC)
-    - use AD9228_read_en to time putting the right data into the fifo
+    - 
 # read_rst_trig 
-    - Implement delay control block
+    - 
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
     - Simulate at top level to check for AXI
         - processing_system7_0 -> zynq object in the block diagram
         - write_data(axi addr, data, err code?)
-    - Check the logic levels for each module (Create xdc file & spreadsheet for pin number <-> signal mapping ex: https://docs.google.com/spreadsheets/d/15U5vb2UzfglZmfIKdkIeGOlO6R88vk2dX_n9gQ0hhtg/edit?gid=0#gid=0)
-        1. Write nets from Kria in Andrew's schematic (column F)
-        2. Follow the connections to Richomond's schematic (samtec connector, column G-I)
-        3. Follow the nets to the final destination/pin 
-        4. Match to the firmware names
-        5. Use column A and firmware names to make xdc file
-    - Put voltages in the spreadsheet
+    - Debug xdc file
+        - Flip polarities of differential signals carefully
     - Write guide
-    - Make dummy constraints file to check implementation
 
 # Questions/Notes
     - 

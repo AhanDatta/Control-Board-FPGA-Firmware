@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x56286F4BCF798F25",
+      "boundary_crc": "0x20AF570CCDCF7322",
       "device": "xck26-sfvc784-2LV-c",
       "name": "cb_block_design_2",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
@@ -224,11 +224,6 @@
       "LTC2600_sck_0": {
         "direction": "O"
       },
-      "LTC2600_clrb_0": {
-        "direction": "O",
-        "left": "31",
-        "right": "0"
-      },
       "LTC2600_sdi_1": {
         "direction": "O"
       },
@@ -356,6 +351,11 @@
       },
       "io0_t_1": {
         "direction": "O"
+      },
+      "LTC2600_clrb_0": {
+        "direction": "O",
+        "left": "1",
+        "right": "0"
       }
     },
     "components": {
@@ -2380,6 +2380,9 @@
           },
           "C_DOUT_DEFAULT": {
             "value": "0xFFFFFFFF"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "2"
           }
         }
       }
@@ -2591,12 +2594,6 @@
           "AD9228_clk_p_1"
         ]
       },
-      "LTC2600_write_wrapper_0_clrb": {
-        "ports": [
-          "axi_gpio_0/gpio_io_o",
-          "LTC2600_clrb_0"
-        ]
-      },
       "LTC2600_write_wrapper_0_csb": {
         "ports": [
           "LTC2600_write_wrapper_0/csb",
@@ -2671,6 +2668,12 @@
         "ports": [
           "SPI_driver_wrapper_0/spi_clk",
           "spi_clk_0"
+        ]
+      },
+      "axi_gpio_0_gpio_io_o": {
+        "ports": [
+          "axi_gpio_0/gpio_io_o",
+          "LTC2600_clrb_0"
         ]
       },
       "axi_quad_spi_0_io0_t": {

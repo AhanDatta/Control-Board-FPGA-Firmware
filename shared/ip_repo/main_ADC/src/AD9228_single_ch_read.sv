@@ -23,10 +23,8 @@ module AD9228_single_ch_read #(
     //AD9228 inputs
     input logic din_p,
     input logic din_n,
-    input logic fco_p,
-    input logic fco_n,
-    input logic dco_p,
-    input logic dco_n,
+    input logic fco,
+    input logic dco,
 
     //FIFO connections
     input logic fifo_rd_en,
@@ -37,12 +35,6 @@ module AD9228_single_ch_read #(
 );
 
     logic din;
-    logic fco;
-    logic dco;
-
-    //fifo logic
-    logic [DATA_WIDTH-1:0] des_data;
-    logic read_complete;
 
     diff_to_single_ended din_conv (
         .diff_p (din_p),
@@ -50,17 +42,8 @@ module AD9228_single_ch_read #(
         .single_out (din)
     );
 
-    diff_to_single_ended fco_conv (
-        .diff_p (fco_p),
-        .diff_n (fco_n),
-        .single_out (fco)
-    );
-
-    diff_to_single_ended dco_conv (
-        .diff_p (dco_p),
-        .diff_n (dco_n),
-        .single_out (dco)
-    );
+    //fifo logic
+    logic [DATA_WIDTH-1:0] des_data;
 
     AD9228_core core_inst (
         //inputs
@@ -73,8 +56,7 @@ module AD9228_single_ch_read #(
         .dco (dco),
 
         //outputs
-        .des_data (des_data),
-        .read_complete (read_complete)
+        .des_data (des_data)
     );
 
     xpm_fifo_async #(
@@ -84,7 +66,7 @@ module AD9228_single_ch_read #(
       .ECC_MODE("no_ecc"),       // String
       .FIFO_MEMORY_TYPE("auto"), // String
       .FIFO_READ_LATENCY(1),     // DECIMAL
-      .FIFO_WRITE_DEPTH(2048),   // DECIMAL
+      .FIFO_WRITE_DEPTH(FIFO_DEPTH),   // DECIMAL
       .FULL_RESET_VALUE(0),      // DECIMAL
       .PROG_EMPTY_THRESH(10),    // DECIMAL
       .PROG_FULL_THRESH(10),     // DECIMAL
@@ -186,7 +168,7 @@ module AD9228_single_ch_read #(
       .wr_clk(clk),               // 1-bit input: Write clock: Used for write operation. wr_clk must be a
                                      // free running clock.
 
-      .wr_en(read_complete && read_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
+      .wr_en(read_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
                                      // signal causes data (on din) to be written to the FIFO. Must be held
                                      // active-low when rst or wr_rst_busy is active high.
 

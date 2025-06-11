@@ -17,7 +17,7 @@ bd:
 # project specific XDC files below 
 #
 xdc:
-  - designs/main_design/xdc/main_design.xdc
+  - designs/main_design/xdc/translator_board.xdc
 # Vivado target xdc file
 # 
 # xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc

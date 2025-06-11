@@ -22,8 +22,8 @@ set_property -dict {PACKAGE_PIN A2 IOSTANDARD LVDS} [get_ports {AD9228_din_p_1[0
 set_property -dict {PACKAGE_PIN A1 IOSTANDARD LVDS} [get_ports {AD9228_din_n_1[0]}]
 set_property -dict {PACKAGE_PIN C3 IOSTANDARD LVDS} [get_ports {AD9228_din_p_1[1]}]
 set_property -dict {PACKAGE_PIN C2 IOSTANDARD LVDS} [get_ports {AD9228_din_n_1[1]}]
-set_property -dict {PACKAGE_PIN F6 IOSTANDARD LVDS} [get_ports {AD9228_din_p_1[2]}]
-set_property -dict {PACKAGE_PIN G6 IOSTANDARD LVDS} [get_ports {AD9228_din_n_1[2]}]
+set_property -dict {PACKAGE_PIN G6 IOSTANDARD LVDS} [get_ports {AD9228_din_p_1[2]}]
+set_property -dict {PACKAGE_PIN F6 IOSTANDARD LVDS} [get_ports {AD9228_din_n_1[2]}]
 set_property -dict {PACKAGE_PIN G8 IOSTANDARD LVDS} [get_ports {AD9228_din_p_1[3]}]
 set_property -dict {PACKAGE_PIN F7 IOSTANDARD LVDS} [get_ports {AD9228_din_n_1[3]}]
 
@@ -38,19 +38,20 @@ set_property -dict {PACKAGE_PIN C1 IOSTANDARD LVDS} [get_ports AD9228_dco_p_1]
 # AD9228_0 Data Pins
 set_property -dict {PACKAGE_PIN F8 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[0]}]
 set_property -dict {PACKAGE_PIN E8 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[0]}]
-set_property -dict {PACKAGE_PIN C4 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[1]}]
-set_property -dict {PACKAGE_PIN D4 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[1]}]
-set_property -dict {PACKAGE_PIN E1 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[2]}]
-set_property -dict {PACKAGE_PIN E2 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[3]}]
-set_property -dict {PACKAGE_PIN F2 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[3]}]
+set_property -dict {PACKAGE_PIN D4 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[1]}]
+set_property -dict {PACKAGE_PIN C4 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[1]}]
+set_property -dict {PACKAGE_PIN E1 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[2]}]
+set_property -dict {PACKAGE_PIN D1 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[2]}]
+set_property -dict {PACKAGE_PIN F2 IOSTANDARD LVDS} [get_ports {AD9228_din_p_0[3]}]
+set_property -dict {PACKAGE_PIN E2 IOSTANDARD LVDS} [get_ports {AD9228_din_n_0[3]}]
 
 # AD9228_0 Sampling Clock and Frame Clock
-set_property -dict {PACKAGE_PIN F1 IOSTANDARD LVDS} [get_ports AD9228_clk_p_0]
-set_property -dict {PACKAGE_PIN G1 IOSTANDARD LVDS} [get_ports AD9228_clk_n_0]
-set_property -dict {PACKAGE_PIN F3 IOSTANDARD LVDS} [get_ports AD9228_fco_p_0]
-set_property -dict {PACKAGE_PIN G3 IOSTANDARD LVDS} [get_ports AD9228_fco_n_0]
-set_property -dict {PACKAGE_PIN D6 IOSTANDARD LVDS} [get_ports AD9228_dco_p_0]
-set_property -dict {PACKAGE_PIN D7 IOSTANDARD LVDS} [get_ports AD9228_dco_n_0]
+set_property -dict {PACKAGE_PIN G1 IOSTANDARD LVDS} [get_ports AD9228_clk_p_0]
+set_property -dict {PACKAGE_PIN F1 IOSTANDARD LVDS} [get_ports AD9228_clk_n_0]
+set_property -dict {PACKAGE_PIN G3 IOSTANDARD LVDS} [get_ports AD9228_fco_p_0]
+set_property -dict {PACKAGE_PIN F3 IOSTANDARD LVDS} [get_ports AD9228_fco_n_0]
+set_property -dict {PACKAGE_PIN D7 IOSTANDARD LVDS} [get_ports AD9228_dco_p_0]
+set_property -dict {PACKAGE_PIN D6 IOSTANDARD LVDS} [get_ports AD9228_dco_n_0]
 
 ###############################################################
 # SPI Interfaces - Bank HPA
@@ -107,7 +108,7 @@ set_property -dict {PACKAGE_PIN AD14 IOSTANDARD LVCMOS18} [get_ports AD4008_sdo_
 set_property -dict {PACKAGE_PIN AD15 IOSTANDARD LVCMOS18} [get_ports AD4008_sck_0]
 set_property -dict {PACKAGE_PIN AE15 IOSTANDARD LVCMOS18} [get_ports AD4008_cnv_0]
 
-# Errors:
-# set_property expects one object: 9, 10, 11, 12, 13, 14, 57, 58, 59, 60, 99, 104
-# wrong side of differential pair: 24, 25, 40, 41, 42, 43, 44, 47, 48, 49, 50, 51, 52
-# pin assigned to more than one port: 80, 91
+##############################################################
+# Misc
+##############################################################
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_1/inst/dco_conv/ibufds_inst/O]

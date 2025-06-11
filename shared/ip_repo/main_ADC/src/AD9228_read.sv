@@ -2,13 +2,10 @@
 
 module AD9228_read #(
     parameter integer NUM_CHANNELS = 4,
-    parameter integer C_S_AXI_DATA_WIDTH = 32,
-    parameter integer C_S_AXI_ADDR_WIDTH = 32,
-    parameter integer N_REG = 4,
     parameter integer DATA_WIDTH = 12
 ) (
     //common inputs
-    input logic clk, // <65 Mhz
+    input logic clk, // <65 Mhz, ~40 Mhz
     input logic rstn,
     input logic read_en,
 
@@ -33,6 +30,21 @@ module AD9228_read #(
     output logic fifo_dout
 );
 
+    logic fco;
+    logic dco;
+
+    diff_to_single_ended fco_conv (
+        .diff_p (fco_p),
+        .diff_n (fco_n),
+        .single_out (fco)
+    );
+
+    diff_to_single_ended dco_conv (
+        .diff_p (dco_p),
+        .diff_n (dco_n),
+        .single_out (dco)
+    );
+
     logic sample_clk;
     logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
     logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
@@ -49,10 +61,8 @@ module AD9228_read #(
 
                 .din_p (din_p[i]),
                 .din_n (din_n[i]),
-                .fco_p (fco_p),
-                .fco_n (fco_n),
-                .dco_p (dco_p),
-                .dco_n (dco_n),
+                .fco (fco),
+                .dco (dco),
 
                 .fifo_rd_en (fifo_rd_en[i]),
                 .fifo_rd_clk (fifo_rd_clk),
@@ -77,7 +87,7 @@ module AD9228_read #(
         end
     end
 
-    //gating the sampling clock on the IPIF command
+    //Should always be sampling
     assign sample_clk = clk;
 
     single_ended_to_diff adc_clk_conv (

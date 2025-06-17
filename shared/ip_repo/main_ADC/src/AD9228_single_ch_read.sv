@@ -12,6 +12,9 @@
 //then put into FIFO (with a trigger)
 
 module AD9228_single_ch_read #(
+    parameter logic DIN_INVERTED = 0,
+    parameter logic DCO_INVERTED = 0,
+    parameter logic FCO_INVERTED = 0,
     parameter integer FIFO_DEPTH = 2048,
     parameter integer DATA_WIDTH = 12
 )(
@@ -45,7 +48,11 @@ module AD9228_single_ch_read #(
     //fifo logic
     logic [DATA_WIDTH-1:0] des_data;
 
-    AD9228_core core_inst (
+    AD9228_core #(
+        .DIN_INVERTED(DIN_INVERTED),
+        .DCO_INVERTED(DCO_INVERTED),
+        .FCO_INVERTED(FCO_INVERTED)
+    ) core_inst (
         //inputs
         .rstn (rstn),
         .clk (clk),

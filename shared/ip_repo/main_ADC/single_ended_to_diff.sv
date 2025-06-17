@@ -5,7 +5,7 @@ module single_ended_to_diff (
 );
 
     OBUFDS #(
-        .IOSTANDARD("LVDS_25"), // Specify the I/O standard
+        .IOSTANDARD("LVDS"), // Specify the I/O standard
         .SLEW("FAST")           // Specify the output slew rate
     ) obufds_inst (
         .I(single_in),          // Single-ended input

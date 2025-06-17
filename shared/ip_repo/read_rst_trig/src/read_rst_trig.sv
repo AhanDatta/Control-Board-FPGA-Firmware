@@ -9,13 +9,13 @@ module read_rst_trig #(
     input logic rstn, //FPGA reset
     input logic clk, //40 MHz, gated to chip_read_clk and with delay to AD9228_clk
     input logic trig_from_chip, //From chip, data ready to read out
-    input logic delay_clk, //400 MHz
+    input logic delay_clk, //200 MHz
     input logic delay_set_clk, //160 MHz
 
-    output logic chip_rst,
-    output logic trig_to_chip,
-    output logic chip_read_clk,
-    output logic AD9228_clk,
+    output logic chip_rst, //resets the chip, tied to IPIF interface
+    output logic trig_to_chip, //triggers stop data taking, tied to IPIF interface
+    output logic chip_read_clk, //reads out data from capacitors
+    output logic AD9228_clk, //reads out from the ADC, should be synchronus to chip_read_clk
     output logic AD9228_read_en, //FIFO wr_en
 
     input wire                                   IPIF_clk,
@@ -36,6 +36,8 @@ module read_rst_trig #(
     output logic                                 IPIF_IP2Bus_Error
 );
 
+    logic [TRIGGER_COUNTER_LENGTH-1:0] trigger_counter;
+
     assign IPIF_IP2Bus_Error = 0;
    
     typedef struct       packed{
@@ -49,7 +51,7 @@ module read_rst_trig #(
       logic [31:0]      padding1;
       // Register 0
       logic [28:0]      padding0;
-      logic             software_trig;
+      logic             spi_readout_ready; //should be set to 1 after the readout command is sent
       logic             trig_to_chip;
       logic             chip_rst;
     } param_t;
@@ -115,9 +117,9 @@ module read_rst_trig #(
 
     state_t state;
     logic prev_trig_from_chip;
-    logic prev_software_trig;
+    logic prev_spi_readout_ready;
+    logic spi_readout_ready;
     logic [$clog2(NUM_DATA) : 0] clock_counter;
-    logic [TRIGGER_COUNTER_LENGTH-1:0] trigger_counter;
     logic chip_read_clk_en;
 
     logic [8:0] delay_set_value;
@@ -125,6 +127,7 @@ module read_rst_trig #(
     logic delay_wr;
     logic delay_ready;
 
+    assign spi_readout_ready = params_to_IP.spi_readout_ready;
     assign chip_rst = params_to_IP.chip_rst;
     assign trig_to_chip = params_to_IP.trig_to_chip;
 
@@ -158,7 +161,7 @@ module read_rst_trig #(
         .DELAY_VALUE(0),                // Output delay tap setting 
         .IS_CLK_INVERTED(1'b0),         // Optional inversion for CLK
         .IS_RST_INVERTED(1'b1),         // Optional inversion for RST
-        .REFCLK_FREQUENCY(400.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
+        .REFCLK_FREQUENCY(200.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
         .SIM_DEVICE("ULTRASCALE_PLUS"), // Set the device version for simulation functionality (ULTRASCALE,
                                         // ULTRASCALE_PLUS, ULTRASCALE_PLUS_ES1, ULTRASCALE_PLUS_ES2)
         .UPDATE_MODE("SYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
@@ -180,33 +183,45 @@ module read_rst_trig #(
         .RST(rstn)                  // 1-bit input: Asynchronous Reset to the DELAY_VALUE
     );
 
-    //Main state machine
+    //counts number of triggers from chip to see if we can send SPI readout
     always_ff @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             trigger_counter <= '0;
-            chip_read_clk_en <= 0;
-            AD9228_read_en <= 0;
-            clock_counter <= '0;
-            prev_trig_from_chip <= '0;
-            prev_software_trig <= 0;
-            state <= IDLE;
+            prev_trig_from_chip <= 0;
         end
         else begin
             prev_trig_from_chip <= trig_from_chip;
-            prev_software_trig <= params_to_IP.software_trig;
+            if (trig_from_chip && !prev_trig_from_chip) begin
+                trigger_counter <= trigger_counter + 1;
+            end
+            else begin
+                trigger_counter <= trigger_counter;
+            end
+        end
+    end
+
+    //Main state machine
+    always_ff @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+            chip_read_clk_en <= 0;
+            AD9228_read_en <= 0;
+            clock_counter <= '0;
+            prev_spi_readout_ready <= 0;
+            state <= IDLE;
+        end
+        else begin
+            prev_spi_readout_ready <= spi_readout_ready;
 
             case (state)
                 IDLE: begin
-                    //start read on trigger
-                    if ((trig_from_chip && !prev_trig_from_chip) || (params_to_IP.software_trig && !prev_software_trig)) begin
-                        trigger_counter <= trigger_counter + 1;
+                    //start read when IPIF says spi has sent readout command
+                    if (spi_readout_ready && !prev_spi_readout_ready) begin
                         chip_read_clk_en <= 1;
                         AD9228_read_en <= 0;
                         clock_counter <= 'b1;
                         state <= READ;
                     end
                     else begin
-                        trigger_counter <= trigger_counter;
                         chip_read_clk_en <= 0;
                         AD9228_read_en <= 0;
                         clock_counter <= '0;
@@ -216,14 +231,12 @@ module read_rst_trig #(
 
                 READ: begin
                     if (clock_counter < NUM_DATA) begin
-                        trigger_counter <= trigger_counter;
                         chip_read_clk_en <= 1;
                         AD9228_read_en <= 1;
                         clock_counter <= clock_counter + 1;
                         state <= READ;
                     end
                     else begin
-                        trigger_counter <= trigger_counter;
                         chip_read_clk_en <= 0;
                         AD9228_read_en <= 1;
                         clock_counter <= '0;

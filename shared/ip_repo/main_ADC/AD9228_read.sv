@@ -1,6 +1,10 @@
 //adc clk (diff -> single ended), csb (single ended) needs to be handled here
 
 module AD9228_read #(
+    parameter logic DIN_INVERTED = 0,
+    parameter logic DCO_INVERTED = 0,
+    parameter logic FCO_INVERTED = 0,
+    parameter logic SAMPLING_CLK_INVERTED = 0,
     parameter integer NUM_CHANNELS = 4,
     parameter integer DATA_WIDTH = 12
 ) (
@@ -32,6 +36,10 @@ module AD9228_read #(
 
     logic fco;
     logic dco;
+    logic sampling_clk;
+    logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
+    logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
+    logic [NUM_CHANNELS-1:0] premux_fifo_full;
 
     diff_to_single_ended fco_conv (
         .diff_p (fco_p),
@@ -45,16 +53,30 @@ module AD9228_read #(
         .single_out (dco)
     );
 
-    logic sample_clk;
-    logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
-    logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
-    logic [NUM_CHANNELS-1:0] premux_fifo_full;
+    single_ended_to_diff adc_clk_conv (
+        .single_in (sampling_clk),
+        .diff_p (clk_p),
+        .diff_n (clk_n)
+    );
+
+    generate 
+        if (SAMPLING_CLK_INVERTED) begin
+            assign sampling_clk = ~clk;
+        end
+        else begin
+            assign sampling_clk = clk;
+        end
+    endgenerate
 
     //generating each of the channels
     genvar i;
     generate
         for (i=0; i < NUM_CHANNELS; i = i+1) begin : channel_instantiations
-            AD9228_single_ch_read  AD9228_single_ch_read_inst (
+            AD9228_single_ch_read #(
+                .DIN_INVERTED(DIN_INVERTED),
+                .DCO_INVERTED(DCO_INVERTED),
+                .FCO_INVERTED(FCO_INVERTED)
+            ) AD9228_single_ch_read_inst (
                 .clk (clk),
                 .rstn (rstn),
                 .read_en (read_en),
@@ -86,13 +108,5 @@ module AD9228_read #(
             fifo_full = premux_fifo_full[fifo_addr];
         end
     end
-
-    //Should always be sampling
-    assign sample_clk = clk;
-
-    single_ended_to_diff adc_clk_conv (
-        .single_in (sample_clk),
-        .diff_p (clk_p),
-        .diff_n (clk_n)
-    );
+    
 endmodule

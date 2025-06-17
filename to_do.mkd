@@ -5,7 +5,7 @@
 # AD9228 (Main ADC)
     - 
 # read_rst_trig 
-    - 
+    - Add SPI readout instruction before starting readout
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
@@ -13,7 +13,7 @@
         - processing_system7_0 -> zynq object in the block diagram
         - write_data(axi addr, data, err code?)
     - Debug xdc file
-        - Flip polarities of differential signals carefully
+        - Flip polarities of differential signals for ADC0
     - Write guide
 
 # Questions/Notes

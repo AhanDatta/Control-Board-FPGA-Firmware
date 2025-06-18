@@ -10,6 +10,7 @@ module AD9228_read #(
 ) (
     //common inputs
     input logic clk, // <65 Mhz, ~40 Mhz
+    input logic inverted_clk,
     input logic rstn,
     input logic read_en,
 
@@ -61,7 +62,7 @@ module AD9228_read #(
 
     generate 
         if (SAMPLING_CLK_INVERTED) begin
-            assign sampling_clk = ~clk;
+            assign sampling_clk = inverted_clk;
         end
         else begin
             assign sampling_clk = clk;

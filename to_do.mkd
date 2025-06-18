@@ -3,9 +3,9 @@
 # Pll External
     - N/A
 # AD9228 (Main ADC)
-    - 
+    - don't assume data comes from adc in one clk cycle for FIFO, look at IDelay to realign data.
 # read_rst_trig 
-    - Add SPI readout instruction before starting readout
+    - look at adding clock mux for psec5 readout clock
 # LTC2600 (Main DAC)
     - Check CSB Low -> SCK High time constraint (7ns) is met
 # Main Design 
@@ -17,4 +17,5 @@
     - Write guide
 
 # Questions/Notes
-    - 
+    - Odelay3 cannot be used for clock? Use mmcm instead? 
+    - Is using an mmcm to phase shift dco by \pi reasonable? 

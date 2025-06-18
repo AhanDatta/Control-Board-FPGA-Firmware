@@ -2,6 +2,9 @@ module read_rst_trig #(
     parameter integer TRIGGER_COUNTER_LENGTH = 16,
     parameter integer NUM_DATA = 1280,
 
+    parameter real CLK_PERIOD = 25.0,
+    parameter real AD9228_CLK_PHASE = 28.8,
+
     parameter integer C_S_AXI_DATA_WIDTH = 32,
     parameter integer C_S_AXI_ADDR_WIDTH = 32,
     parameter integer N_REG = 4
@@ -9,13 +12,12 @@ module read_rst_trig #(
     input logic rstn, //FPGA reset
     input logic clk, //40 MHz, gated to chip_read_clk and with delay to AD9228_clk
     input logic trig_from_chip, //From chip, data ready to read out
-    input logic delay_clk, //200 MHz
-    input logic delay_set_clk, //160 MHz
 
     output logic chip_rst, //resets the chip, tied to IPIF interface
     output logic trig_to_chip, //triggers new data taking, tied to IPIF interface
     output logic chip_read_clk, //reads out data from capacitors
     output logic AD9228_clk, //reads out from the ADC, should be synchronus to chip_read_clk
+    output logic AD9228_inverted_clk,
     output logic AD9228_read_en, //FIFO wr_en
 
     input wire                                   IPIF_clk,
@@ -45,8 +47,7 @@ module read_rst_trig #(
       logic [31-TRIGGER_COUNTER_LENGTH:0]      padding3;
       logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter;
       // Register 2
-      logic [22:0]      padding2;
-      logic [8:0]       delay_target;
+      logic [31:0]      padding2;
       // Register 1
       logic [31:0]      padding1;
       // Register 0
@@ -122,16 +123,11 @@ module read_rst_trig #(
     logic [$clog2(NUM_DATA) : 0] clock_counter;
     logic chip_read_clk_en;
 
-    logic [8:0] delay_set_value;
-    logic [8:0] delay_out;
-    logic delay_wr;
-    logic delay_ready;
-
     assign spi_readout_ready = params_to_IP.spi_readout_ready;
     assign chip_rst = params_to_IP.chip_rst;
     assign trig_to_chip = params_to_IP.trig_to_chip;
 
-    //Clock gating
+    //Clock gating (look at using clock mux)
     always_comb begin
         if (!rstn) begin
             chip_read_clk = 0;
@@ -144,43 +140,68 @@ module read_rst_trig #(
         end
     end
 
-    ODELAY_set_ctrl ODELAY_set_ctrl_inst (
-        .rstb (rstn),
-        .clk160 (delay_set_clk),
-        .delay_target (params_to_IP.delay_target),
-        .delay_out (delay_out),
-        .delay_set_value (delay_set_value),
-        .delay_wr (delay_wr),
-        .delay_ready (delay_ready)
+    logic clkfb_internal;
+    logic ad9228_clk_pre_buff;
+    logic ad9228_clk_b_pre_buff;
+    //Need to delay AD9228_clk by AD9228_CLK_PHASE
+    MMCME4_BASE #(
+        // Frequency synthesis parameters
+        .CLKFBOUT_MULT_F(25.0),          // VCO = CLKIN × this value (2.0-64.0)
+        .DIVCLK_DIVIDE(1),              // Input clock divider (1-106)
+        
+        // Output clock 0 (your primary delayed clock)
+        .CLKOUT0_DIVIDE_F(25.0),         // Output divider (1.0-128.0)
+        .CLKOUT0_DUTY_CYCLE(0.5),       // Duty cycle (0.01-0.99)
+        .CLKOUT0_PHASE(AD9228_CLK_PHASE),           // Phase shift in degrees (-360.0 to 360.0)
+        
+        // Output clock 1 (optional second clock)
+        .CLKOUT1_DIVIDE(25),             // Integer divider only (1-128)  
+        .CLKOUT1_DUTY_CYCLE(0.5),
+        .CLKOUT1_PHASE(AD9228_CLK_PHASE + 180), //creates inversion     
+        
+        // Additional outputs (2-6) available but typically unused
+        .CLKOUT2_DIVIDE(1),
+        .CLKOUT3_DIVIDE(1),
+        .CLKOUT4_DIVIDE(1),
+        .CLKOUT5_DIVIDE(1),
+        .CLKOUT6_DIVIDE(1),
+        
+        // VCO frequency range
+        .CLKFBOUT_PHASE(0.0),           // Feedback clock phase
+        .REF_JITTER1(0.010),            // Input jitter specification (ns)
+        .STARTUP_WAIT("FALSE"),         // Wait for MMCM lock before releasing outputs
+        
+        // Clock input period constraint (ns) - optional but recommended
+        .CLKIN1_PERIOD(CLK_PERIOD)            // 40MHz input = 25ns period
+    ) mmcm_delay_inst (
+        // Clock inputs
+        .CLKIN1(clk),             // Primary clock input
+        .CLKFBIN(clkfb_internal),       // Feedback input (connect to CLKFBOUT)
+        
+        // Clock outputs  
+        .CLKOUT0(ad9228_clk_pre_buff),          // phase-shifted clock
+        .CLKOUT1(ad9228_clk_b_pre_buff),        // phase-shifted compliment clock
+        .CLKOUT2(),                     // Unused outputs
+        .CLKOUT3(),
+        .CLKOUT4(),
+        .CLKOUT5(),
+        .CLKOUT6(),
+        .CLKFBOUT(clkfb_internal),      // Feedback output (connect to CLKFBIN)
+        
+        // Control and status
+        .LOCKED(),           // Lock status output
+        .PWRDWN(1'b0),                  // Power down (active high)
+        .RST(~rstn)                // Reset (active high)
     );
 
-    ODELAYE3 #(
-        .CASCADE("NONE"),               // Cascade setting (MASTER, NONE, SLAVE_END, SLAVE_MIDDLE)
-        .DELAY_FORMAT("COUNT"),          // (COUNT, TIME)
-        .DELAY_TYPE("VAR_LOAD"),           // Set the type of tap delay line (FIXED, VARIABLE, VAR_LOAD)
-        .DELAY_VALUE(0),                // Output delay tap setting 
-        .IS_CLK_INVERTED(1'b0),         // Optional inversion for CLK
-        .IS_RST_INVERTED(1'b1),         // Optional inversion for RST
-        .REFCLK_FREQUENCY(200.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
-        .SIM_DEVICE("ULTRASCALE_PLUS"), // Set the device version for simulation functionality (ULTRASCALE,
-                                        // ULTRASCALE_PLUS, ULTRASCALE_PLUS_ES1, ULTRASCALE_PLUS_ES2)
-        .UPDATE_MODE("SYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
-                                        // SYNC)
-    )
-    ODELAYE3_inst (
-        .CASC_OUT(),       // 1-bit output: Cascade delay output to IDELAY input cascade
-        .CNTVALUEOUT(delay_out), // 9-bit output: Counter value output
-        .DATAOUT(AD9228_clk),         // 1-bit output: Delayed data from ODATAIN input port
-        .CASC_IN(),         // 1-bit input: Cascade delay input from slave IDELAY CASCADE_OUT
-        .CASC_RETURN(), // 1-bit input: Cascade delay returning from slave IDELAY DATAOUT
-        .CE(),                   // 1-bit input: Active-High enable increment/decrement input
-        .CLK(delay_clk),                 // 1-bit input: Clock input
-        .CNTVALUEIN(delay_set_value),   // 9-bit input: Counter value input
-        .EN_VTC(),           // 1-bit input: Keep delay constant over VT
-        .INC(),                 // 1-bit input: Increment/Decrement tap delay input
-        .LOAD(delay_wr),               // 1-bit input: Load DELAY_VALUE input
-        .ODATAIN(clk),         // 1-bit input: Data input
-        .RST(rstn)                  // 1-bit input: Asynchronous Reset to the DELAY_VALUE
+    BUFG ad9228_buffer (
+        .O(AD9228_clk),
+        .I(ad9228_clk_pre_buff)
+    );
+
+    BUFG ad9228_buffer_b (
+        .O(AD9228_inverted_clk),
+        .I(ad9228_clk_b_pre_buff)
     );
 
     //counts number of triggers from chip to see if we can send SPI readout

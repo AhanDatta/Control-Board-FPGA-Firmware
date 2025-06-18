@@ -164,7 +164,7 @@ module read_rst_trig #(
         .REFCLK_FREQUENCY(200.0),       // IDELAYCTRL clock input frequency in MHz (200.0-800.0).
         .SIM_DEVICE("ULTRASCALE_PLUS"), // Set the device version for simulation functionality (ULTRASCALE,
                                         // ULTRASCALE_PLUS, ULTRASCALE_PLUS_ES1, ULTRASCALE_PLUS_ES2)
-        .UPDATE_MODE("SYNC")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
+        .UPDATE_MODE("MANUAL")           // Determines when updates to the delay will take effect (ASYNC, MANUAL,
                                         // SYNC)
     )
     ODELAYE3_inst (

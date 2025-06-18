@@ -3,18 +3,25 @@
 # Pll External
     - N/A
 # AD9228 (Main ADC)
-    - 
+    - add flip polarities option
 # read_rst_trig 
-    - Add SPI readout instruction before starting readout
+    - 
 # LTC2600 (Main DAC)
-    - Check CSB Low -> SCK High time constraint (7ns) is met
+    - 
 # Main Design 
     - Simulate at top level to check for AXI
         - processing_system7_0 -> zynq object in the block diagram
         - write_data(axi addr, data, err code?)
-    - Debug xdc file
-        - Flip polarities of differential signals for ADC0
+
+    - Flip polarities of differential signals for ADC0, understand why not implementing
+    - Fix timing
     - Write guide
 
 # Questions/Notes
-    - 
+    - Odelay3 cannot be used for clock? Use mmcm instead? 
+    - Is using an mmcm to phase shift dco by \pi reasonable? 
+    - Hypothesis on why implementation failed with the "flipped differential pairs" warning
+        1. Vivado sees that the differential pairs are flipped, and promptly ignores the XDC file for those pins only
+        2. Vivado infers the voltage level of those pins from the firmware itself (what is the voltage level on the differential <-> single ended buffers)
+        3. If the voltage level is set to LVDS_25, it causes implementation to fail because that is not allowed on output pins.
+        4. If the voltage level is set to LVDS, implementation succeeds, but the flipped differential signals are assigned to random differential pins (bad)

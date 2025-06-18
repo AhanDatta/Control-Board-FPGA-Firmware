@@ -143,7 +143,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>6b8f3a3f</spirit:value>
+            <spirit:value>c68c7f93</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -159,7 +159,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>6b8f3a3f</spirit:value>
+            <spirit:value>c68c7f93</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -504,7 +504,7 @@
       <spirit:file>
         <spirit:name>AD9228_read.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_d7da1e4b</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_7c3db98f</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -639,8 +639,8 @@
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>19</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-06-17T20:04:33Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>20</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-06-18T15:02:29Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@1180e8c1_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@23ca5dc7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
@@ -863,13 +863,30 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@29939f9c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@528e1e9_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@3cbeb4ed_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3804ccf3_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43de130a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e0ebbdb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@718e83b2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57e7fd2b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@219549eb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@689ccf96_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e5c37ae_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4810d67b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ef6e13a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@195c99d1_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46e4e16f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74db2469_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6312bbc7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@374ac01b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d2174de_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d8a8624_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="e9acdae6"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="9ffb2bf1"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="853054a9"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="6e024e57"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="7d40acda"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="14782988"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="284fd58a"/>

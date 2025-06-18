@@ -41,17 +41,39 @@ module AD9228_read #(
     logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
     logic [NUM_CHANNELS-1:0] premux_fifo_full;
 
-    diff_to_single_ended fco_conv (
-        .diff_p (fco_p),
-        .diff_n (fco_n),
-        .single_out (fco)
-    );
+    generate 
+        if (FCO_INVERTED) begin
+            diff_to_single_ended fco_conv (
+                .diff_p (fco_n),
+                .diff_n (fco_p),
+                .single_out (fco)
+            );
+        end
+        else begin
+            diff_to_single_ended fco_conv (
+                .diff_p (fco_p),
+                .diff_n (fco_n),
+                .single_out (fco)
+            );
+        end
+    endgenerate
 
-    diff_to_single_ended dco_conv (
-        .diff_p (dco_p),
-        .diff_n (dco_n),
-        .single_out (dco)
-    );
+    generate
+        if (DCO_INVERTED) begin
+            diff_to_single_ended dco_conv (
+                .diff_p (dco_n),
+                .diff_n (dco_p),
+                .single_out (dco)
+            );
+        end
+        else begin
+            diff_to_single_ended dco_conv (
+                .diff_p (dco_p),
+                .diff_n (dco_n),
+                .single_out (dco)
+            );
+        end
+    endgenerate
 
     single_ended_to_diff adc_clk_conv (
         .single_in (sampling_clk),
@@ -71,27 +93,45 @@ module AD9228_read #(
     //generating each of the channels
     genvar i;
     generate
-        for (i=0; i < NUM_CHANNELS; i = i+1) begin : channel_instantiations
-            AD9228_single_ch_read #(
-                .DIN_INVERTED(DIN_INVERTED),
-                .DCO_INVERTED(DCO_INVERTED),
-                .FCO_INVERTED(FCO_INVERTED)
-            ) AD9228_single_ch_read_inst (
-                .clk (clk),
-                .rstn (rstn),
-                .read_en (read_en),
+        if (DIN_INVERTED) begin
+            for (i=0; i < NUM_CHANNELS; i = i+1) begin : channel_instantiations
+                AD9228_single_ch_read AD9228_single_ch_read_inst (
+                    .clk (clk),
+                    .rstn (rstn),
+                    .read_en (read_en),
 
-                .din_p (din_p[i]),
-                .din_n (din_n[i]),
-                .fco (fco),
-                .dco (dco),
+                    .din_p (din_n[i]),
+                    .din_n (din_p[i]),
+                    .fco (fco),
+                    .dco (dco),
 
-                .fifo_rd_en (fifo_rd_en[i]),
-                .fifo_rd_clk (fifo_rd_clk),
-                .fifo_not_empty (premux_fifo_not_empty[i]),
-                .fifo_full (premux_fifo_full[i]),
-                .fifo_dout (premux_fifo_dout[i])
-            );
+                    .fifo_rd_en (fifo_rd_en[i]),
+                    .fifo_rd_clk (fifo_rd_clk),
+                    .fifo_not_empty (premux_fifo_not_empty[i]),
+                    .fifo_full (premux_fifo_full[i]),
+                    .fifo_dout (premux_fifo_dout[i])
+                );
+            end
+        end
+        else begin
+            for (i=0; i < NUM_CHANNELS; i = i+1) begin : channel_instantiations
+                AD9228_single_ch_read AD9228_single_ch_read_inst (
+                    .clk (clk),
+                    .rstn (rstn),
+                    .read_en (read_en),
+
+                    .din_p (din_p[i]),
+                    .din_n (din_n[i]),
+                    .fco (fco),
+                    .dco (dco),
+
+                    .fifo_rd_en (fifo_rd_en[i]),
+                    .fifo_rd_clk (fifo_rd_clk),
+                    .fifo_not_empty (premux_fifo_not_empty[i]),
+                    .fifo_full (premux_fifo_full[i]),
+                    .fifo_dout (premux_fifo_dout[i])
+                );
+            end
         end
     endgenerate
 

@@ -16,24 +16,22 @@ module AD9228_core #(
 );
 
    logic [DATA_WIDTH-1:0] des_data_incomplete;
+   logic [1:0] data_q_prime;
    logic [1:0] data_q;
    logic [3:0] dco_counter;
-   logic din_prime;
-
-   assign din_prime = DIN_INVERTED ? ~din : din;
 
    generate
       if (DCO_INVERTED) begin : gen_inverted_dco
          IDDRE1 #(
-            .DDR_CLK_EDGE("SAME_EDGE"),
+            .DDR_CLK_EDGE("SAME_EDGE_PIPELINED"),
             .IS_CB_INVERTED(1'b0),
             .IS_C_INVERTED(1'b1)
          ) IDDRE1_inst (
-            .Q1(data_q[1]),
-            .Q2(data_q[0]),
+            .Q1(data_q_prime[1]),
+            .Q2(data_q_prime[0]),
             .C(dco),
             .CB(dco),
-            .D(din_prime),
+            .D(din),
             .R(!rstn)
          );
       end
@@ -43,13 +41,22 @@ module AD9228_core #(
             .IS_CB_INVERTED(1'b1),
             .IS_C_INVERTED(1'b0)
          ) IDDRE1_inst (
-            .Q1(data_q[1]),
-            .Q2(data_q[0]),
+            .Q1(data_q_prime[1]),
+            .Q2(data_q_prime[0]),
             .C(dco),
             .CB(dco),
-            .D(din_prime),
+            .D(din),
             .R(!rstn)
          );
+      end
+   endgenerate
+
+   generate
+      if (DIN_INVERTED) begin
+         assign data_q = ~data_q_prime;
+      end
+      else begin
+         assign data_q = data_q_prime;
       end
    endgenerate
 

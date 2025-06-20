@@ -32,6 +32,8 @@ module SPI_driver_wrapper #(
     output logic                                 IPIF_IP2Bus_Error,
 
     //FIFO
+    input logic fifo_rstn,
+    input logic fifo_rd_clk,
     input logic fifo_rd_en,
     output logic fifo_not_empty,
     output logic fifo_full,
@@ -92,7 +94,7 @@ module SPI_driver_wrapper #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'd1, 32'h0, 32'b0}),
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b1}),
      .SELF_RESET(128'b11)
      ) parameterDecoder 
    (
@@ -126,12 +128,12 @@ module SPI_driver_wrapper #(
     .params_to_bus(params_to_bus)
     );
 
-  assign full_rstn = rstn & params_to_IP.rstn;
-
   logic [7:0] data_read_from_reg;
   logic fifo_wr_en;
   logic full_rstn;
   logic fifo_rst;
+
+  assign full_rstn = rstn & params_to_IP.rstn;
 
   SPI_driver driver (
     //common inputs
@@ -164,12 +166,9 @@ module SPI_driver_wrapper #(
   logic empty;
   assign fifo_not_empty = ~empty;
 
-  always_ff @(posedge clk) begin
-    fifo_rst <= ~full_rstn;
-  end
-
-  xpm_fifo_sync #(
+      xpm_fifo_async #(
       .CASCADE_HEIGHT(0),        // DECIMAL
+      .CDC_SYNC_STAGES(2),       // DECIMAL
       .DOUT_RESET_VALUE("0"),    // String
       .ECC_MODE("no_ecc"),       // String
       .FIFO_MEMORY_TYPE("auto"), // String
@@ -181,13 +180,14 @@ module SPI_driver_wrapper #(
       .RD_DATA_COUNT_WIDTH(1),   // DECIMAL
       .READ_DATA_WIDTH(8),      // DECIMAL
       .READ_MODE("std"),         // String
+      .RELATED_CLOCKS(0),        // DECIMAL
       .SIM_ASSERT_CHK(0),        // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
       .USE_ADV_FEATURES("0707"), // String
       .WAKEUP_TIME(0),           // DECIMAL
       .WRITE_DATA_WIDTH(8),     // DECIMAL
       .WR_DATA_COUNT_WIDTH($clog2(FIFO_DEPTH) + 1)    // DECIMAL
    )
-   xpm_fifo_sync_inst (
+   xpm_fifo_async_inst (
       .almost_empty(),   // 1-bit output: Almost Empty : When asserted, this signal indicates that
                                      // only one more read can be performed before the FIFO goes to empty.
 
@@ -258,23 +258,26 @@ module SPI_driver_wrapper #(
       .injectsbiterr(1'b0), // 1-bit input: Single Bit Error Injection: Injects a single bit error if
                                      // the ECC feature is used on block RAMs or UltraRAM macros.
 
+      .rd_clk(fifo_rd_clk),               // 1-bit input: Read clock: Used for read operation. rd_clk must be a free
+                                     // running clock.
+
       .rd_en(fifo_rd_en),                 // 1-bit input: Read Enable: If the FIFO is not empty, asserting this
                                      // signal causes data (on dout) to be read from the FIFO. Must be held
                                      // active-low when rd_rst_busy is active high.
 
-      .rst(fifo_rst),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
+      .rst(~fifo_rstn),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
                                      // unstable at the time of applying reset, but reset must be released only
                                      // after the clock(s) is/are stable.
 
-      .sleep(),                 // 1-bit input: Dynamic power saving- If sleep is High, the memory/fifo
+      .sleep(),                 // 1-bit input: Dynamic power saving: If sleep is High, the memory/fifo
                                      // block is in power saving mode.
 
       .wr_clk(clk),               // 1-bit input: Write clock: Used for write operation. wr_clk must be a
                                      // free running clock.
 
       .wr_en(fifo_wr_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
-                                     // signal causes data (on din) to be written to the FIFO Must be held
-                                     // active-low when rst or wr_rst_busy or rd_rst_busy is active high
+                                     // signal causes data (on din) to be written to the FIFO. Must be held
+                                     // active-low when rst or wr_rst_busy is active high.
 
    );
 

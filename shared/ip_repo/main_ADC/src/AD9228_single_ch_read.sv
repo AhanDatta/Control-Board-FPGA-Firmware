@@ -32,6 +32,7 @@ module AD9228_single_ch_read #(
     //FIFO connections
     input logic fifo_rd_en,
     input logic fifo_rd_clk,
+    input logic fifo_rstn,
     output logic fifo_not_empty,
     output logic fifo_full,
     output logic [DATA_WIDTH-1:0] fifo_dout
@@ -165,7 +166,7 @@ module AD9228_single_ch_read #(
                                      // signal causes data (on dout) to be read from the FIFO. Must be held
                                      // active-low when rd_rst_busy is active high.
 
-      .rst(~rstn),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
+      .rst(~fifo_rstn),                     // 1-bit input: Reset: Must be synchronous to wr_clk. The clock(s) can be
                                      // unstable at the time of applying reset, but reset must be released only
                                      // after the clock(s) is/are stable.
 

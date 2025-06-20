@@ -30,6 +30,7 @@ module AD9228_read #(
     input logic [$clog2(NUM_CHANNELS)-1:0] fifo_addr,
     input logic [NUM_CHANNELS-1:0] fifo_rd_en,
     input logic fifo_rd_clk,
+    input logic fifo_rstn,
     output logic fifo_not_empty,
     output logic fifo_full,
     output logic fifo_dout
@@ -89,6 +90,7 @@ module AD9228_read #(
 
                 .fifo_rd_en (fifo_rd_en[i]),
                 .fifo_rd_clk (fifo_rd_clk),
+                .fifo_rstn(fifo_rstn),
                 .fifo_not_empty (premux_fifo_not_empty[i]),
                 .fifo_full (premux_fifo_full[i]),
                 .fifo_dout (premux_fifo_dout[i])

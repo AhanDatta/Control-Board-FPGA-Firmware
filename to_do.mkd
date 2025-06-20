@@ -1,21 +1,22 @@
 # SPI
-    - N/A
+    - Use async fifo instead of sync DONE
+    - sync reset with write clk on fifo DONE
 # Pll External
-    - N/A
+    - Synchronize adc_resetn and dac_resetn with 20M clk DONE
 # AD9228 (Main ADC)
     - don't assume data comes from adc in one clk cycle for FIFO, look at IDelay to realign data.
+    - Add proc_sys_reset block to synchronize rstn with AD9228_clk DONE
+    - sync fifo reset with AD9228_clk 
 # read_rst_trig 
-    - look at adding clock mux for psec5 readout clock
+    - look at adding clock mux for psec5 readout clock DONE
+    - synchronize reset with 40M DONE
 # LTC2600 (Main DAC)
-    - Check CSB Low -> SCK High time constraint (7ns) is met
+    - 
 # Main Design 
     - Simulate at top level to check for AXI
         - processing_system7_0 -> zynq object in the block diagram
         - write_data(axi addr, data, err code?)
-    - Debug xdc file
-        - Flip polarities of differential signals for ADC0
     - Write guide
 
 # Questions/Notes
     - Odelay3 cannot be used for clock? Use mmcm instead? 
-    - Is using an mmcm to phase shift dco by \pi reasonable? 

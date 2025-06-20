@@ -127,18 +127,13 @@ module read_rst_trig #(
     assign chip_rst = params_to_IP.chip_rst;
     assign trig_to_chip = params_to_IP.trig_to_chip;
 
-    //Clock gating
-    always_comb begin
-        if (!rstn) begin
-            chip_read_clk = 0;
-        end
-        else if (chip_read_clk_en) begin
-            chip_read_clk = clk;
-        end
-        else begin
-            chip_read_clk = 0;
-        end
-    end
+    //read clock gating
+    BUFGMUX chip_read_clock_mux (
+    .O(chip_read_clk),     // Clock output
+    .I0(1'b0),            // Clock input 0 (your regular clock)
+    .I1(clk),           // Clock input 1 (ground)
+    .S(chip_read_clk_en && rstn)     // Select signal
+);
 
     logic clkfb_internal;
     logic ad9228_clk_pre_buff;

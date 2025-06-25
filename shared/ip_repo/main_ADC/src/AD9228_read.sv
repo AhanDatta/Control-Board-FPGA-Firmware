@@ -11,6 +11,7 @@ module AD9228_read #(
     //common inputs
     input logic clk, // <65 Mhz, ~40 Mhz
     input logic inverted_clk,
+    input logic refclk_200M,
     input logic rstn,
     input logic read_en,
 
@@ -33,32 +34,113 @@ module AD9228_read #(
     input logic fifo_rstn,
     output logic fifo_not_empty,
     output logic fifo_full,
-    output logic fifo_dout
+    output logic [DATA_WIDTH-1 : 0] fifo_dout
 );
 
+    //processing fco to be usable after inversion
     logic fco;
+    logic fco_inv;
+
+    //processing dco for use in SERDES and gearbox
     logic dco;
+    logic dco_div4;
+    logic dco_inv;
+
     logic sampling_clk;
     logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
     logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
     logic [NUM_CHANNELS-1:0] premux_fifo_full;
 
-    diff_to_single_ended fco_conv (
-        .diff_p (fco_p),
-        .diff_n (fco_n),
-        .single_out (fco)
+    IBUFDS #(
+        .DIFF_TERM("TRUE"),     // Enable internal differential termination
+        .IOSTANDARD("LVDS")     // Specify the I/O standard as LVDS
+    ) fco_conv (
+        .I(fco_p),             // Positive input
+        .IB(fco_n),            // Negative input
+        .O(fco)          // Single-ended output
     );
 
-    diff_to_single_ended dco_conv (
-        .diff_p (dco_p),
-        .diff_n (dco_n),
-        .single_out (dco)
+    generate
+        if (FCO_INVERTED) begin
+            assign fco_inv = ~fco;
+        end
+        else begin
+            assign fco_inv = fco;
+        end
+    endgenerate
+
+    //dco processing
+    IBUFDS #(
+        .DIFF_TERM("TRUE"),     // Enable internal differential termination
+        .IOSTANDARD("LVDS")     // Specify the I/O standard as LVDS
+    ) dco_conv (
+        .I(dco_p),             // Positive input
+        .IB(dco_n),            // Negative input
+        .O(dco)          // Single-ended output
     );
 
-    single_ended_to_diff adc_clk_conv (
-        .single_in (sampling_clk),
-        .diff_p (clk_p),
-        .diff_n (clk_n)
+    //create divided dco at top level for SERDES at channel level
+    generate 
+        if (DCO_INVERTED) begin
+            BUFGCE_DIV #(
+                .BUFGCE_DIVIDE(4),      //divide by 4 for SERDES running in 8bit ddr config
+                .IS_CE_INVERTED(1'b0),
+                .IS_CLR_INVERTED(1'b1),
+                .IS_I_INVERTED(1'b1)
+            ) dco_div4_bufgce_inst (
+                .O(dco_div4),           //divided clock out
+                .CE(1'b1),              //always running clock
+                .CLR(),            
+                .I(dco)                 //data clock
+            );
+
+            BUFGCE #(
+                .CE_TYPE("SYNC"),               // ASYNC, HARDSYNC, SYNC
+                .IS_CE_INVERTED(1'b0),          // Programmable inversion on CE
+                .IS_I_INVERTED(1'b1),           // Programmable inversion on I
+                .SIM_DEVICE("ULTRASCALE_PLUS")  // ULTRASCALE, ULTRASCALE_PLUS
+            )
+            dco_bufgce_inst (
+                .O(dco_inv),   // 1-bit output: Buffer
+                .CE(1'b1), // 1-bit input: Buffer enable
+                .I(dco)    // 1-bit input: Buffer
+            );
+        end
+        else begin
+            BUFGCE_DIV #(
+                .BUFGCE_DIVIDE(4),      //divide by 4 for SERDES running in 8bit ddr config
+                .IS_CE_INVERTED(1'b0),
+                .IS_CLR_INVERTED(1'b1),
+                .IS_I_INVERTED(1'b0)
+            ) dco_div4_inst (
+                .O(dco_div4),           //divided clock out
+                .CE(1'b1),              //always running clock
+                .CLR(),            
+                .I(dco)                 //data clock
+            );
+
+            BUFGCE #(
+                .CE_TYPE("SYNC"),               // ASYNC, HARDSYNC, SYNC
+                .IS_CE_INVERTED(1'b0),          // Programmable inversion on CE
+                .IS_I_INVERTED(1'b0),           // Programmable inversion on I
+                .SIM_DEVICE("ULTRASCALE_PLUS")  // ULTRASCALE, ULTRASCALE_PLUS
+            )
+            dco_bufgce_inst (
+                .O(dco_inv),   // 1-bit output: Buffer
+                .CE(1'b1), // 1-bit input: Buffer enable
+                .I(dco)    // 1-bit input: Buffer
+            );
+        end
+    endgenerate
+
+    //sampling clock processing
+    OBUFDS #(
+        .IOSTANDARD("LVDS"), // Specify the I/O standard
+        .SLEW("FAST")           // Specify the output slew rate
+    ) sampling_clk_inst (
+        .I(sampling_clk),          // Single-ended input
+        .O(clk_p),             // Positive output
+        .OB(clk_n)            // Negative output
     );
 
     generate 
@@ -75,18 +157,18 @@ module AD9228_read #(
     generate
         for (i=0; i < NUM_CHANNELS; i = i+1) begin : channel_instantiations
             AD9228_single_ch_read #(
-                .DIN_INVERTED(DIN_INVERTED),
-                .DCO_INVERTED(DCO_INVERTED),
-                .FCO_INVERTED(FCO_INVERTED)
+                .DIN_INVERTED(DIN_INVERTED)
             ) AD9228_single_ch_read_inst (
                 .clk (clk),
+                .refclk_200M (refclk_200M),
                 .rstn (rstn),
                 .read_en (read_en),
 
                 .din_p (din_p[i]),
                 .din_n (din_n[i]),
-                .fco (fco),
-                .dco (dco),
+                .fco (fco_inv),
+                .dco (dco_inv),
+                .dco_div4 (dco_div4),
 
                 .fifo_rd_en (fifo_rd_en[i]),
                 .fifo_rd_clk (fifo_rd_clk),
@@ -100,7 +182,7 @@ module AD9228_read #(
 
     //Muxing the fifo dout
     always_comb begin
-        if (!rstn) begin
+        if (!fifo_rstn) begin
             fifo_dout = '0;
             fifo_not_empty = 0;
             fifo_full = 0;

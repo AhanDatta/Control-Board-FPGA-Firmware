@@ -109,6 +109,24 @@ set_property -dict {PACKAGE_PIN AD15 IOSTANDARD LVCMOS18} [get_ports AD4008_sck_
 set_property -dict {PACKAGE_PIN AE15 IOSTANDARD LVCMOS18} [get_ports AD4008_cnv_0]
 
 ##############################################################
+# AD9228 Clock Definitions
+# 4.17 ns ~ 240 MHz dco ~ 40 MHz Sampling Clock
+# 25 ns ~ 40 MHz fco ~ 40 MHz Sampling Clock
+##############################################################
+create_clock -period 4.17 -name AD9228_dco_0 [get_ports AD9228_dco_p_0]
+create_clock -period 4.17 -name AD9228_dco_1 [get_ports AD9228_dco_p_1]
+set_clock_groups -asynchronous -group [get_clocks -include_generated_clocks AD9228_dco_0] -group [get_clocks -include_generated_clocks AD9228_dco_1]
+set_clock_groups -asynchronous -group [get_clocks -include_generated_clocks AD9228_fco_0] -group [get_clocks -include_generated_clocks AD9228_fco_1]
+
+##############################################################
+# Input Delays, as found on datasheets
+##############################################################
+
+##############################################################
 # Misc
 ##############################################################
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_0/inst/dco_conv/ibufds_inst/O]
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_1/inst/dco_conv/ibufds_inst/O]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_0/inst/fco_conv/ibufds_inst/O]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_1/inst/fco_conv/ibufds_inst/O]
+set_clock_groups -asynchronous -group [get_clocks -include_generated_clocks ad9228_clk_pre_buff] -group [get_clocks clk_pl_0]

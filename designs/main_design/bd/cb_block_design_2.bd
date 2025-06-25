@@ -2223,10 +2223,10 @@
             "value": "87.180"
           },
           "CLKOUT4_REQUESTED_OUT_FREQ": {
-            "value": "100.000"
+            "value": "200.000"
           },
           "CLKOUT4_USED": {
-            "value": "false"
+            "value": "true"
           },
           "CLKOUT5_JITTER": {
             "value": "83.349"
@@ -2250,7 +2250,7 @@
             "value": "clk_50M"
           },
           "CLK_OUT4_PORT": {
-            "value": "clk_out4"
+            "value": "clk_200M"
           },
           "CLK_OUT5_PORT": {
             "value": "clk_out5"
@@ -2271,7 +2271,7 @@
             "value": "24"
           },
           "MMCM_CLKOUT3_DIVIDE": {
-            "value": "1"
+            "value": "6"
           },
           "MMCM_CLKOUT4_DIVIDE": {
             "value": "1"
@@ -2280,7 +2280,7 @@
             "value": "1"
           },
           "NUM_OUT_CLKS": {
-            "value": "3"
+            "value": "4"
           },
           "RESET_PORT": {
             "value": "resetn"
@@ -2396,7 +2396,7 @@
       },
       "proc_sys_reset_4": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
-        "xci_name": "cb_block_design_2_proc_sys_reset_3_1",
+        "xci_name": "cb_block_design_2_proc_sys_reset_4_0",
         "parameters": {
           "C_EXT_RST_WIDTH": {
             "value": "4"
@@ -2405,7 +2405,7 @@
       },
       "proc_sys_reset_5": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
-        "xci_name": "cb_block_design_2_proc_sys_reset_3_2"
+        "xci_name": "cb_block_design_2_proc_sys_reset_5_0"
       },
       "read_rst_trig_0": {
         "vlnv": "xilinx.com:user:read_rst_trig:1.0",
@@ -2765,6 +2765,13 @@
           "sck_t_1"
         ]
       },
+      "clk_wiz_0_clk_200M": {
+        "ports": [
+          "clk_wiz_0/clk_200M",
+          "AD9228_read_0/refclk_200M",
+          "AD9228_read_1/refclk_200M"
+        ]
+      },
       "clk_wiz_0_clk_20M": {
         "ports": [
           "clk_wiz_0/clk_20M",
@@ -2918,7 +2925,9 @@
           "proc_sys_reset_2/ext_reset_in",
           "proc_sys_reset_3/ext_reset_in",
           "proc_sys_reset_4/ext_reset_in",
-          "proc_sys_reset_5/ext_reset_in"
+          "proc_sys_reset_5/ext_reset_in",
+          "AD9228_read_0/rstn",
+          "AD9228_read_1/rstn"
         ]
       },
       "proc_sys_reset_2_peripheral_aresetn": {
@@ -2937,10 +2946,8 @@
       "proc_sys_reset_4_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_4/peripheral_aresetn",
-          "AD9228_read_0/rstn",
-          "AD9228_read_1/rstn",
-          "AD9228_read_1/fifo_rstn",
-          "AD9228_read_0/fifo_rstn"
+          "AD9228_read_0/fifo_rstn",
+          "AD9228_read_1/fifo_rstn"
         ]
       },
       "proc_sys_reset_5_peripheral_aresetn": {

@@ -1,15 +1,15 @@
 # SPI
-    - Use async fifo instead of sync DONE
-    - sync reset with write clk on fifo DONE
+    - 
 # Pll External
-    - Synchronize adc_resetn and dac_resetn with 20M clk DONE
+    - 
 # AD9228 (Main ADC)
     - don't assume data comes from adc in one clk cycle for FIFO, look at IDelay to realign data.
-    - Add proc_sys_reset block to synchronize rstn with AD9228_clk DONE
-    - sync fifo reset with AD9228_clk 
+    - Add reset bit to AXI for FIFO before set up of dco_div4
+    - add buffer to dco (consider adding a pll) . DONE
+    - remove all treatment of fco as clock
+    - use fco for word alignment
 # read_rst_trig 
-    - look at adding clock mux for psec5 readout clock DONE
-    - synchronize reset with 40M DONE
+    - 
 # LTC2600 (Main DAC)
     - 
 # Main Design 
@@ -17,6 +17,8 @@
         - processing_system7_0 -> zynq object in the block diagram
         - write_data(axi addr, data, err code?)
     - Write guide
-
+    - Understand why design takes so long to implement (improper use of clock resources for fco/dco?)
 # Questions/Notes
-    - Odelay3 cannot be used for clock? Use mmcm instead? 
+    - How does one implement an IDelay block to align inputs with SERDES or FIFO (main_ADC)? necessary?
+    - What to do about failure to route fco and dco differential to single-ended converters?
+    - What is happening with the SPI reset & gearbox reset? Why is an async reset being timed? (can put false path on resets of which the sync is unimportant)

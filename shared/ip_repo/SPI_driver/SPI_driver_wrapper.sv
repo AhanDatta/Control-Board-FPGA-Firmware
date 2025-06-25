@@ -44,6 +44,11 @@ module SPI_driver_wrapper #(
     output logic write_complete
 );
 
+  logic [7:0] data_read_from_reg;
+  logic fifo_wr_en;
+  logic full_rstn;
+  logic fifo_rst;
+
     assign IPIF_IP2Bus_Error = 0;
    
   //add section for read data
@@ -128,11 +133,6 @@ module SPI_driver_wrapper #(
     .params_to_bus(params_to_bus)
     );
 
-  logic [7:0] data_read_from_reg;
-  logic fifo_wr_en;
-  logic full_rstn;
-  logic fifo_rst;
-
   assign full_rstn = rstn & params_to_IP.rstn;
 
   SPI_driver driver (
@@ -164,6 +164,8 @@ module SPI_driver_wrapper #(
   //add read block which puts all bytes into synch FIFO
 
   logic empty;
+  logic fifo_wr_rst_busy;
+  logic fifo_rd_rst_busy;
   assign fifo_not_empty = ~empty;
 
       xpm_fifo_async #(
@@ -230,7 +232,7 @@ module SPI_driver_wrapper #(
       .rd_data_count(), // RD_DATA_COUNT_WIDTH-bit output: Read Data Count: This bus indicates the
                                      // number of words read from the FIFO.
 
-      .rd_rst_busy(),     // 1-bit output: Read Reset Busy: Active-High indicator that the FIFO read
+      .rd_rst_busy(fifo_rd_rst_busy),     // 1-bit output: Read Reset Busy: Active-High indicator that the FIFO read
                                      // domain is currently in a reset state.
 
       .sbiterr(),             // 1-bit output: Single Bit Error: Indicates that the ECC decoder detected
@@ -246,7 +248,7 @@ module SPI_driver_wrapper #(
       .wr_data_count(), // WR_DATA_COUNT_WIDTH-bit output: Write Data Count: This bus indicates
                                      // the number of words written into the FIFO.
 
-      .wr_rst_busy(),     // 1-bit output: Write Reset Busy: Active-High indicator that the FIFO
+      .wr_rst_busy(fifo_wr_rst_busy),     // 1-bit output: Write Reset Busy: Active-High indicator that the FIFO
                                      // write domain is currently in a reset state.
 
       .din(data_read_from_reg),                     // WRITE_DATA_WIDTH-bit input: Write Data: The input data bus used when
@@ -261,7 +263,7 @@ module SPI_driver_wrapper #(
       .rd_clk(fifo_rd_clk),               // 1-bit input: Read clock: Used for read operation. rd_clk must be a free
                                      // running clock.
 
-      .rd_en(fifo_rd_en),                 // 1-bit input: Read Enable: If the FIFO is not empty, asserting this
+      .rd_en(fifo_rd_en && ~fifo_rd_rst_busy),                 // 1-bit input: Read Enable: If the FIFO is not empty, asserting this
                                      // signal causes data (on dout) to be read from the FIFO. Must be held
                                      // active-low when rd_rst_busy is active high.
 
@@ -275,7 +277,7 @@ module SPI_driver_wrapper #(
       .wr_clk(clk),               // 1-bit input: Write clock: Used for write operation. wr_clk must be a
                                      // free running clock.
 
-      .wr_en(fifo_wr_en)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
+      .wr_en(fifo_wr_en && ~fifo_wr_rst_busy)                  // 1-bit input: Write Enable: If the FIFO is not full, asserting this
                                      // signal causes data (on din) to be written to the FIFO. Must be held
                                      // active-low when rst or wr_rst_busy is active high.
 

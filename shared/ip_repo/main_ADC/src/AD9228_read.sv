@@ -46,10 +46,29 @@ module AD9228_read #(
     logic dco_div4;
     logic dco_inv;
 
+    //sampling clock is gated to clk or clk_inverted
     logic sampling_clk;
+
+    //fifo readout logic and reset
+    logic fifo_rstn_sync;
     logic [NUM_CHANNELS-1:0][DATA_WIDTH-1:0] premux_fifo_dout;
     logic [NUM_CHANNELS-1:0] premux_fifo_not_empty;
     logic [NUM_CHANNELS-1:0] premux_fifo_full;
+
+    xpm_cdc_sync_rst #(
+      .DEST_SYNC_FF(4),   // DECIMAL; range: 2-10
+      .INIT(1),           // DECIMAL; 0=initialize synchronization registers to 0, 1=initialize synchronization
+                          // registers to 1
+      .INIT_SYNC_FF(0),   // DECIMAL; 0=disable simulation init values, 1=enable simulation init values
+      .SIM_ASSERT_CHK(0)  // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
+   )
+   ad9228_fifo_rstn_sync_inst (
+      .dest_rst(fifo_rstn_sync), // 1-bit output: src_rst synchronized to the destination clock domain. This output
+                           // is registered.
+
+      .dest_clk(dco_div4), // 1-bit input: Destination clock.
+      .src_rst(fifo_rstn)    // 1-bit input: Source reset signal.
+   );
 
     IBUFDS #(
         .DIFF_TERM("TRUE"),     // Enable internal differential termination
@@ -172,7 +191,7 @@ module AD9228_read #(
 
                 .fifo_rd_en (fifo_rd_en[i]),
                 .fifo_rd_clk (fifo_rd_clk),
-                .fifo_rstn(fifo_rstn),
+                .fifo_rstn(fifo_rstn_sync),
                 .fifo_not_empty (premux_fifo_not_empty[i]),
                 .fifo_full (premux_fifo_full[i]),
                 .fifo_dout (premux_fifo_dout[i])

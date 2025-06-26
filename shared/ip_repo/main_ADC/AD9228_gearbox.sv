@@ -2,7 +2,8 @@ module AD9228_gearbox #(
     parameter integer DATA_WIDTH = 12
 )(
     input logic rstn,
-    input logic data_in_clk, //clk sync with data_in
+    input logic data_in_clk, //clk sync with data_in, dco_div4
+    input logic dco,
     input logic fco, //used for word alignment
     input logic [7:0] data_in,
     input logic data_valid_in,

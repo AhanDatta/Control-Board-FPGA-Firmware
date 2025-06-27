@@ -95,7 +95,6 @@ module AD9228_core_SERDES #(
         .dco(dco),
         .fco(fco),
         .data_in(ddr_data_processed),
-        .data_valid_in(1'b1),
 
         //outputs
         .data_out(des_data),

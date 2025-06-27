@@ -6,7 +6,6 @@ module AD9228_gearbox #(
     input logic dco,
     input logic fco, //used for word alignment
     input logic [7:0] data_in,
-    input logic data_valid_in,
     
     output logic [DATA_WIDTH-1:0] data_out,
     output logic data_valid_out

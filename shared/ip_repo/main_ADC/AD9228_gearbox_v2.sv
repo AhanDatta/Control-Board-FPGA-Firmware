@@ -5,7 +5,7 @@ module AD9228_gearbox_v2 #(
     parameter integer DATA_WIDTH = 12
 )(
     input logic rstn,
-    input logic data_in_clk, //clk sync with data_in, is dco_div4 = dco/4
+    input logic dco_div4, //clk sync with data_in, is dco_div4 = dco/4
     input logic dco, //ddr data clock
     input logic fco, //used for word alignment, fco = dco/6
     input logic [7:0] data_in,
@@ -144,6 +144,7 @@ module AD9228_gearbox_v2 #(
                 end
                 else if (fco_phase_one < dco_div4_phase_one) begin //if fco starts in second part of final third
                     data_out = shift_reg[16 + 2*(dco_div4_phase_one - fco_phase_one) -: DATA_WIDTH];
+                    data_valid_out = 1'b1;
                 end
                 else begin
                     data_out = '0;

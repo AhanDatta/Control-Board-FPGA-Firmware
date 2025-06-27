@@ -91,7 +91,7 @@ module AD9228_core_SERDES #(
     AD9228_gearbox gearbox_8_to_12 (
         //inputs
         .rstn(rstn),
-        .data_in_clk(dco_div4),
+        .dco_div4(dco_div4),
         .dco(dco),
         .fco(fco),
         .data_in(ddr_data_processed),

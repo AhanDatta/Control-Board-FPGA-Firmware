@@ -1,106 +1,189 @@
+//Everything is done mod 12 on dco_phase_counter, should mentally think of a watchface where hours <=> dco_phase counter
+//fco phase one falls somewhere between noon and 5, while phase two is shifted forward 6 hours
+//similarly, dco_div4 phases fall between noon-3, 4-7, 8-11
 module AD9228_gearbox #(
     parameter integer DATA_WIDTH = 12
 )(
     input logic rstn,
-    input logic data_in_clk, //clk sync with data_in
-    input logic fco, //used for word alignment
+    input logic dco_div4, //clk sync with data_in, is dco_div4 = dco/4
+    input logic dco, //ddr data clock
+    input logic fco, //used for word alignment, fco = dco/6
     input logic [7:0] data_in,
-    input logic data_valid_in,
     
     output logic [DATA_WIDTH-1:0] data_out,
     output logic data_valid_out
 );
 
-    logic [31:0] shift_register;  //8 bits larger than strictly necessary for ease
-    logic [5:0] bit_count;        //counts num of valid bits in shift register
-    
-    typedef enum logic [1:0] {
-        IDLE,
-        ACCUMULATE,
-        OUTPUT_READY
-    } state_t;
-    
-    state_t current_state;
-    
-    //shift register for gearbox
-    always_ff @(posedge data_in_clk or negedge rstn) begin
+    //phase trackers relative to arbitrary point
+    //full cycle will repeat every 12 dco cycles since LCM(fco, dco_div4, dco) = LCM(6, 4, 1) = 12
+    logic [3:0] dco_phase_counter; //runs from 0-11
+    logic [3:0] fco_phase_one; //first fco phase relative to dco_phase_counter
+    logic [3:0] fco_phase_two; //second fco phase, should be fco_phase_one + 6
+    logic [3:0] dco_div4_phase_one; //first dco_div4 phase relative to dco_phase_counter
+    logic [3:0] dco_div4_phase_two; //second dco_div4 phase, should be dco_div4_phase_one + 4
+    logic [3:0] dco_div4_phase_three; //third dco_div4 phase, should be dco_div4_phase_one + 8
+
+    //one dco delayed signals
+    logic prev_dco_div4;
+    logic prev_fco;
+    logic dco_div4_sync;
+    logic fco_sync;
+    logic prev_fco_rising_edge;
+    logic prev_dco_div4_rising_edge;
+    logic fco_rising_edge_sync;
+    logic dco_div4_rising_edge_sync;
+    logic fco_rising_edge;
+    logic dco_div4_rising_edge;
+    logic prev_fco_rising_edge_short;
+    logic prev_dco_div4_rising_edge_short;
+
+    //things to check locking phase
+    logic phase_locked; //goes to 1 when all phases are fixed over two cycles
+    logic [3:0] fco_phase_one_d1; //delayed by one full cycle to check lock
+    logic [3:0] dco_div4_phase_one_d1; //delayed by one full cycle
+
+    //objects related to the gearbox itself
+    logic [47:0] shift_reg; //holds two cycles worth of data to make life easier
+
+    always_comb begin
+        fco_phase_two = fco_phase_one + 6;
+        dco_div4_phase_two = dco_div4_phase_one + 4;
+        dco_div4_phase_three = dco_div4_phase_one + 8;
+    end
+
+    assign phase_locked = (fco_phase_one == fco_phase_one_d1) && (dco_div4_phase_one == dco_div4_phase_one_d1);
+    assign fco_rising_edge = fco && !prev_fco;
+    assign dco_div4_rising_edge = dco_div4 && !prev_dco_div4;
+    assign prev_fco_rising_edge_short = prev_fco_rising_edge && fco_rising_edge_sync;
+    assign prev_dco_div4_rising_edge_short = prev_dco_div4_rising_edge && dco_div4_rising_edge_sync;
+
+    //phase tracking and locking logic
+    always_ff @(posedge dco or negedge rstn) begin
         if (!rstn) begin
-            current_state <= IDLE;
-            shift_register <= 32'b0;
-            bit_count <= 6'b0;
-            data_out <= 'b0;
-            data_valid_out <= 1'b0;
-        end else begin
-            case (current_state)
-                IDLE: begin
-                    data_valid_out <= 1'b0;
-                    if (data_valid_in) begin
-                        shift_register <= {24'b0, data_in};
-                        bit_count <= 6'd8;
-                        current_state <= ACCUMULATE;
-                    end else begin
-                        bit_count <= 6'b0;
-                        current_state <= IDLE;
-                    end
-                end
-                
-                ACCUMULATE: begin
-                    data_valid_out <= 1'b0;
-                    if (data_valid_in) begin
-                        shift_register <= {shift_register[23:0], data_in};
-                        bit_count <= bit_count + 8;
-                    end
+            dco_phase_counter <= '0;
+            fco_phase_one <= '0;
+            dco_div4_phase_one <= '0;
+            fco_phase_one_d1 <= 4'd15; //reset to something different than fco_phase_one to not assign phase_locked too early
+            dco_div4_phase_one_d1 <= 4'd15; //reset to something different than dco_div4_phase_one
+            
+            prev_dco_div4 <= 0;
+            prev_fco <= 0;
+            dco_div4_sync <= 0;
+            fco_sync <= 0;
 
-                    //handles if there are enough bits to output yet
-                    if (bit_count >= 12) begin
-                        current_state <= OUTPUT_READY;
-                    end
-                    else begin
-                        current_state <= ACCUMULATE;
-                    end
-                end
-                
-                OUTPUT_READY: begin
-                    //put oldest 12 bits out
-                    data_out <= shift_register[bit_count-1 -: 12];
-                    data_valid_out <= 1'b1;
-                    
-                    //capture new data during output and removes old bits
-                    if (data_valid_in) begin
-                        if (bit_count == 6'd12) begin //handles the special case where putting the data out empties the shift register
-                            shift_register <= {24'd0, data_in};
-                        end
-                        else begin
-                            shift_register <= {4'b0, shift_register[19:0], data_in};
-                        end
+            dco_div4_rising_edge_sync <= 0;
+            fco_rising_edge_sync <= 0;
+            prev_dco_div4_rising_edge <= 0;
+            prev_fco_rising_edge <= 0;
+        end
+        else begin
+            //tracking fco and dco_div4 one dco back for rising edge
+            dco_div4_sync <= dco_div4;
+            fco_sync <= fco;
+            prev_dco_div4 <= dco_div4_sync;
+            prev_fco <= fco_sync;
 
-                        if ((bit_count-12+8) >= 12) begin //if there are still enough bits left after cleaning to output, continue
-                            current_state <= OUTPUT_READY;
-                        end
-                        else begin
-                            current_state <= ACCUMULATE;
-                        end
+            //tracking rising edges one dco back to change phases only once
+            dco_div4_rising_edge_sync <= dco_div4_rising_edge;
+            fco_rising_edge_sync <= fco_rising_edge;
+            prev_dco_div4_rising_edge <= dco_div4_rising_edge_sync;
+            prev_fco_rising_edge <= fco_rising_edge_sync;
 
-                        bit_count <= bit_count - 12 + 8; //removes # emptied bits (12) and adds # added bits (8)
-                    end
-                    else begin
-                        if (bit_count == 6'd12) begin //completely emptied shift_reg
-                            shift_register <= 32'd0;
-                        end
-                        else begin
-                            shift_register <= {12'b0, shift_register[19:0]};
-                        end
-                        bit_count <= bit_count - 12;
+            //handles dco_phase_counter
+            dco_phase_counter <= (dco_phase_counter + 1) % 12;
 
-                        if ((bit_count-12) >= 12) begin //if there are still enough bits left after cleaning to output, continue
-                            current_state <= OUTPUT_READY;
-                        end
-                        else begin
-                            current_state <= IDLE; //no valid data in
-                        end
-                    end
-                end
-            endcase
+            //tracks the phases of fco and dco_div4 on previous full_cycle
+            //tracked at last dco to not intersect with the reset values
+            if (dco_phase_counter == 4'd7) begin
+                fco_phase_one_d1 <= fco_phase_one;
+                dco_div4_phase_one_d1 <= dco_div4_phase_one;
+            end
+
+            //tracks phase of dco_div4
+            if (dco_phase_counter < 4'd4 && dco_div4_rising_edge && !prev_dco_div4_rising_edge_short) begin
+                dco_div4_phase_one <= dco_phase_counter;
+            end
+
+            //tracks phase of fco
+            if (dco_phase_counter < 4'd6 && fco_rising_edge && !prev_fco_rising_edge_short) begin
+                fco_phase_one <= dco_phase_counter;
+            end
         end
     end
+
+    //simple shift register to always capture data
+    always_ff @(posedge dco_div4 or negedge rstn) begin
+        if (!rstn) begin
+            shift_reg <= '0;
+        end
+        else begin
+            shift_reg <= {shift_reg[39:0], data_in}; //shifting in data always, even when phases aren't understood
+        end
+    end
+
+    //logic to output data from shift register properly
+    always_ff @(posedge dco_div4 or negedge rstn) begin
+        if (!rstn) begin
+            data_out = '0;
+            data_valid_out = 1'b0;
+        end
+        else begin
+            if (!phase_locked) begin
+                data_out = '0;
+                data_valid_out = 1'b0;
+            end
+            else begin
+                //handle which dco_div4 third of the full cycle we are in
+                if (dco_phase_counter >= dco_div4_phase_one && dco_phase_counter < dco_div4_phase_two) begin //dco_phase in the first third
+                    if (fco_phase_one >= dco_div4_phase_one && fco_phase_one < dco_div4_phase_two) begin //catching most cases where fco starts in first third
+                        data_out = shift_reg[16 + 2*(dco_div4_phase_two-fco_phase_one) -: DATA_WIDTH]; //add 16 because we are finding data started more than two cycles back
+                        // add second term to account for number of bits between word start and two cycles back
+                        data_valid_out = 1'b1;
+                    end
+                    else if (fco_phase_two < dco_div4_phase_two) begin //catches edge case for dco_div4_phase_two = 7, fco_phase_two = 6
+                        data_out = shift_reg[16 + 2*(dco_div4_phase_two-fco_phase_two) -: DATA_WIDTH]; //same logic as above
+                        data_valid_out = 1'b1;
+                    end
+                    else begin //fco doesn't start in this third
+                        data_out = '0;
+                        data_valid_out = 1'b0;
+                    end
+                end
+
+                else if (dco_phase_counter >= dco_div4_phase_two && dco_phase_counter < dco_div4_phase_three) begin //second third 
+                    //same idea as above, catch when word starts in second third
+                    if (fco_phase_one >= dco_div4_phase_two) begin //edge case: fco_phase_one = 4,5, dco_div4_phase_two = 4,5
+                        data_out = shift_reg[16 + 2*(dco_div4_phase_three - fco_phase_one) -: DATA_WIDTH]; //same logic, just think of the clock
+                        data_valid_out = 1'b1;
+                    end
+                    else if (fco_phase_two >= dco_div4_phase_two && fco_phase_two < dco_div4_phase_three) begin //main case for fco in second third
+                        data_out = shift_reg[16 + 2*(dco_div4_phase_three - fco_phase_two) -: DATA_WIDTH]; //same logic, just think of the clock
+                        data_valid_out = 1'b1;
+                    end
+                    else begin //fco doesn't happen in second third
+                        data_out = '0;
+                        data_valid_out = 1'b0;
+                    end
+                end 
+
+                else begin //final third
+                    //same logic for final third
+                    if (fco_phase_two >= dco_div4_phase_three) begin 
+                        data_out = shift_reg[16 + 2*((1 + dco_div4_phase_one) + (11 - dco_div4_phase_three)) -: DATA_WIDTH]; //this one is strange because we are mod 12
+                        //we need to get back to dco_counter=0 with (1+dco_div4_phase_one), and then get to the fco with (11-dco_div4_phase_three) 
+                        data_valid_out = 1'b1;
+                    end
+                    else if (fco_phase_one < dco_div4_phase_one) begin //if fco starts in second part of final third
+                        data_out = shift_reg[16 + 2*(dco_div4_phase_one - fco_phase_one) -: DATA_WIDTH];
+                        data_valid_out = 1'b1;
+                    end
+                    else begin
+                        data_out = '0;
+                        data_valid_out = 1'b0;
+                    end
+                end
+            end
+        end
+    end
+
 endmodule

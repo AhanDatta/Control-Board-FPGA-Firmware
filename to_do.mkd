@@ -5,9 +5,7 @@
 # AD9228 (Main ADC)
     - don't assume data comes from adc in one clk cycle for FIFO, look at IDelay to realign data.
     - Add reset bit to AXI for FIFO before set up of dco_div4
-    - add buffer to dco (consider adding a pll) . DONE
-    - remove all treatment of fco as clock
-    - use fco for word alignment
+    - fix phase detector in gearbox
 # read_rst_trig 
     - 
 # LTC2600 (Main DAC)

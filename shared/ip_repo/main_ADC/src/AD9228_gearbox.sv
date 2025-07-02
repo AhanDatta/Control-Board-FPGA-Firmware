@@ -28,14 +28,8 @@ module AD9228_gearbox #(
     logic prev_fco;
     logic dco_div4_sync;
     logic fco_sync;
-    logic prev_fco_rising_edge;
-    logic prev_dco_div4_rising_edge;
-    logic fco_rising_edge_sync;
-    logic dco_div4_rising_edge_sync;
     logic fco_rising_edge;
     logic dco_div4_rising_edge;
-    logic prev_fco_rising_edge_short;
-    logic prev_dco_div4_rising_edge_short;
 
     //things to check locking phase
     logic phase_locked; //goes to 1 when all phases are fixed over two cycles
@@ -54,15 +48,13 @@ module AD9228_gearbox #(
     assign phase_locked = (fco_phase_one == fco_phase_one_d1) && (dco_div4_phase_one == dco_div4_phase_one_d1);
     assign fco_rising_edge = fco && !prev_fco;
     assign dco_div4_rising_edge = dco_div4 && !prev_dco_div4;
-    assign prev_fco_rising_edge_short = prev_fco_rising_edge && fco_rising_edge_sync;
-    assign prev_dco_div4_rising_edge_short = prev_dco_div4_rising_edge && dco_div4_rising_edge_sync;
 
     //phase tracking and locking logic
     always_ff @(posedge dco or negedge rstn) begin
         if (!rstn) begin
             dco_phase_counter <= '0;
-            fco_phase_one <= '0;
-            dco_div4_phase_one <= '0;
+            fco_phase_one <= 4'd14;
+            dco_div4_phase_one <= 4'd14;
             fco_phase_one_d1 <= 4'd15; //reset to something different than fco_phase_one to not assign phase_locked too early
             dco_div4_phase_one_d1 <= 4'd15; //reset to something different than dco_div4_phase_one
             
@@ -70,11 +62,6 @@ module AD9228_gearbox #(
             prev_fco <= 0;
             dco_div4_sync <= 0;
             fco_sync <= 0;
-
-            dco_div4_rising_edge_sync <= 0;
-            fco_rising_edge_sync <= 0;
-            prev_dco_div4_rising_edge <= 0;
-            prev_fco_rising_edge <= 0;
         end
         else begin
             //tracking fco and dco_div4 one dco back for rising edge
@@ -82,12 +69,6 @@ module AD9228_gearbox #(
             fco_sync <= fco;
             prev_dco_div4 <= dco_div4_sync;
             prev_fco <= fco_sync;
-
-            //tracking rising edges one dco back to change phases only once
-            dco_div4_rising_edge_sync <= dco_div4_rising_edge;
-            fco_rising_edge_sync <= fco_rising_edge;
-            prev_dco_div4_rising_edge <= dco_div4_rising_edge_sync;
-            prev_fco_rising_edge <= fco_rising_edge_sync;
 
             //handles dco_phase_counter
             dco_phase_counter <= (dco_phase_counter + 1) % 12;
@@ -100,12 +81,20 @@ module AD9228_gearbox #(
             end
 
             //tracks phase of dco_div4
-            if (dco_phase_counter < 4'd4 && dco_div4_rising_edge && !prev_dco_div4_rising_edge_short) begin
+            if (dco_phase_counter < 4'd4 && //want the first phase to be between noon and 3
+                dco_div4_rising_edge && 
+                dco_div4_phase_one != (dco_phase_counter-1) && //don't want to consider falling edge of dco_div4_rising_edge
+                !(dco_div4_phase_three == 4'hb && dco_phase_counter == '0) //fixes a rollover bug
+            ) begin
                 dco_div4_phase_one <= dco_phase_counter;
             end
 
             //tracks phase of fco
-            if (dco_phase_counter < 4'd6 && fco_rising_edge && !prev_fco_rising_edge_short) begin
+            if (dco_phase_counter < 4'd6 && //want first phase in first half
+                fco_rising_edge && 
+                fco_phase_one != (dco_phase_counter-1) && //only want to consider rising edge 
+                !(fco_phase_two == 4'hb && dco_phase_counter == '0) //fixes a rollover bug
+            ) begin
                 fco_phase_one <= dco_phase_counter;
             end
         end
@@ -136,12 +125,11 @@ module AD9228_gearbox #(
                 //handle which dco_div4 third of the full cycle we are in
                 if (dco_phase_counter >= dco_div4_phase_one && dco_phase_counter < dco_div4_phase_two) begin //dco_phase in the first third
                     if (fco_phase_one >= dco_div4_phase_one && fco_phase_one < dco_div4_phase_two) begin //catching most cases where fco starts in first third
-                        data_out = shift_reg[16 + 2*(dco_div4_phase_two-fco_phase_one) -: DATA_WIDTH]; //add 16 because we are finding data started more than two cycles back
-                        // add second term to account for number of bits between word start and two cycles back
+                        data_out = shift_reg[19 + 2*(dco_div4_phase_two-fco_phase_one) -: DATA_WIDTH]; //specific number found by experiment, functional form fixed by
                         data_valid_out = 1'b1;
                     end
                     else if (fco_phase_two < dco_div4_phase_two) begin //catches edge case for dco_div4_phase_two = 7, fco_phase_two = 6
-                        data_out = shift_reg[16 + 2*(dco_div4_phase_two-fco_phase_two) -: DATA_WIDTH]; //same logic as above
+                        data_out = shift_reg[19 + 2*(dco_div4_phase_two-fco_phase_two) -: DATA_WIDTH]; //same logic as above
                         data_valid_out = 1'b1;
                     end
                     else begin //fco doesn't start in this third
@@ -153,11 +141,11 @@ module AD9228_gearbox #(
                 else if (dco_phase_counter >= dco_div4_phase_two && dco_phase_counter < dco_div4_phase_three) begin //second third 
                     //same idea as above, catch when word starts in second third
                     if (fco_phase_one >= dco_div4_phase_two) begin //edge case: fco_phase_one = 4,5, dco_div4_phase_two = 4,5
-                        data_out = shift_reg[16 + 2*(dco_div4_phase_three - fco_phase_one) -: DATA_WIDTH]; //same logic, just think of the clock
+                        data_out = shift_reg[19 + 2*(dco_div4_phase_three - fco_phase_one) -: DATA_WIDTH]; //same logic
                         data_valid_out = 1'b1;
                     end
                     else if (fco_phase_two >= dco_div4_phase_two && fco_phase_two < dco_div4_phase_three) begin //main case for fco in second third
-                        data_out = shift_reg[16 + 2*(dco_div4_phase_three - fco_phase_two) -: DATA_WIDTH]; //same logic, just think of the clock
+                        data_out = shift_reg[19 + 2*(dco_div4_phase_three - fco_phase_two) -: DATA_WIDTH]; //same logic
                         data_valid_out = 1'b1;
                     end
                     else begin //fco doesn't happen in second third
@@ -169,12 +157,12 @@ module AD9228_gearbox #(
                 else begin //final third
                     //same logic for final third
                     if (fco_phase_two >= dco_div4_phase_three) begin 
-                        data_out = shift_reg[16 + 2*((1 + dco_div4_phase_one) + (11 - dco_div4_phase_three)) -: DATA_WIDTH]; //this one is strange because we are mod 12
+                        data_out = shift_reg[15 + 2*(1 + dco_div4_phase_one) + 2*(11 - dco_div4_phase_three) -: DATA_WIDTH]; //this one is strange because we are mod 12
                         //we need to get back to dco_counter=0 with (1+dco_div4_phase_one), and then get to the fco with (11-dco_div4_phase_three) 
                         data_valid_out = 1'b1;
                     end
                     else if (fco_phase_one < dco_div4_phase_one) begin //if fco starts in second part of final third
-                        data_out = shift_reg[16 + 2*(dco_div4_phase_one - fco_phase_one) -: DATA_WIDTH];
+                        data_out = shift_reg[19 + 2*(dco_div4_phase_one - fco_phase_one) -: DATA_WIDTH];
                         data_valid_out = 1'b1;
                     end
                     else begin

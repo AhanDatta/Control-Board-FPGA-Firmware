@@ -4,10 +4,7 @@
 module AD9228_gearbox_testbench #(
     DATA_OUT_WIDTH = 12,
     DATA_IN_WIDTH = 8,
-    FULL_DATA_WIDTH = 72,
-    GLOBAL_PHASE = 0, //any integer, effectively mod 12
-    DCO_DIV4_PHASE = 0, //integer 0-3
-    FCO_PHASE = 0 //integer 0-5
+    FULL_DATA_WIDTH = 72
 ) ();
 
     //simulation signals
@@ -67,7 +64,7 @@ module AD9228_gearbox_testbench #(
 
         do_reset();
 
-        add_dco_phase_shift(GLOBAL_PHASE);
+        add_dco_phase_shift(2);
 
         for (int dco_counter = 0; dco_counter <= FULL_DATA_WIDTH; dco_counter++) begin
             @(posedge clk)

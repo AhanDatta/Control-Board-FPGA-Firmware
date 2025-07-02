@@ -17,6 +17,5 @@
     - Write guide
     - Understand why design takes so long to implement (improper use of clock resources for fco/dco?)
 # Questions/Notes
-    - How does one implement an IDelay block to align inputs with SERDES or FIFO (main_ADC)? necessary?
-    - What to do about failure to route fco and dco differential to single-ended converters?
-    - What is happening with the SPI reset & gearbox reset? Why is an async reset being timed? (can put false path on resets of which the sync is unimportant)
+    - Does the phase detector for the gearbox make sense?
+    - Send SS to Daniel of VCO and Clock Divider blocks 

@@ -2,13 +2,12 @@
 # HDL files
 #
 hdl:
-#  - shared/ip_repo/main_ADC/AD9228_core.sv
   - shared/ip_repo/main_ADC/AD9228_core_SERDES.sv
   - shared/ip_repo/main_ADC/AD9228_gearbox.sv
   - shared/ip_repo/main_ADC/AD9228_single_ch_read.sv
   - shared/ip_repo/main_ADC/AD9228_read.sv
 sim:
-  - designs/main_ADC/hdl/AD9228_gearbox_testbench.sv
+  - designs/main_ADC/hdl/AD9228_core_testbench.sv
 ip_files:
    - shared/ip_repo/main_ADC/component.xml
 #
@@ -29,4 +28,4 @@ xdcTarget: shared/ip_repo/main_ADC/xdc/vivado_target.xdc
 # Top level module name 
 #
 topMod: AD9228_read
-topSim: AD9228_gearbox_testbench
+topSim: AD9228_core_testbench

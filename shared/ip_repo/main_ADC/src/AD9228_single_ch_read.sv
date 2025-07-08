@@ -16,14 +16,13 @@ module AD9228_single_ch_read #(
 )(
     //common inputs
     input logic clk,
-    input logic refclk_200M,
     input logic rstn,
     input logic read_en, //sync to sampling clock, need to be sync to fco_clk
 
     //AD9228 inputs
     input logic din_p,
     input logic din_n,
-    input logic fco, //inversion handled at earlier stage
+    input logic [7:0] fco_byte, //inversion and deserialization handled at earlier stage
     input logic dco, //inversion handled at earlier stage
     input logic dco_div4, //inversion handled at earlier stage
 
@@ -58,11 +57,10 @@ module AD9228_single_ch_read #(
     ) core_inst (
         //inputs
         .rstn (dco_div4_rstn),
-        .refclk_200M (refclk_200M),
 
         //adc inputs
         .din (din),
-        .fco (fco_clk),
+        .fco_byte (fco_byte),
         .dco (dco),
         .dco_div4 (dco_div4),
 

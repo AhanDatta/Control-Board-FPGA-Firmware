@@ -11,7 +11,6 @@ module AD9228_read #(
     //common inputs
     input logic clk, // <65 Mhz, ~40 Mhz
     input logic inverted_clk,
-    input logic refclk_200M,
     input logic rstn,
     input logic read_en,
 
@@ -39,12 +38,17 @@ module AD9228_read #(
 
     //processing fco to be usable after inversion
     logic fco;
-    logic fco_inv;
+    logic [7:0] fco_byte; 
+    logic [7:0] fco_byte_inv; //used down in gearbox
 
     //processing dco for use in SERDES and gearbox
     logic dco;
+    logic dco_bufg; //buffered dco input to MMCM
     logic dco_div4;
-    logic dco_inv;
+    logic dco_for_serdes;
+    logic dco_div4_bufg;
+    logic dco_for_serdes_bufg;
+    logic mmcm_feedback;
 
     //sampling clock is gated to clk or clk_inverted
     logic sampling_clk;
@@ -81,12 +85,33 @@ module AD9228_read #(
 
     generate
         if (FCO_INVERTED) begin
-            assign fco_inv = ~fco;
+            assign fco_byte_inv = ~fco_byte;
         end
         else begin
-            assign fco_inv = fco;
+            assign fco_byte_inv = fco_byte;
         end
     endgenerate
+
+    ISERDESE3 #(
+        .DATA_WIDTH(8),          //8-bit deserializer
+        .FIFO_ENABLE("FALSE"),
+        .FIFO_SYNC_MODE("FALSE"),
+        .IS_CLK_B_INVERTED(1'b1), 
+        .IS_CLK_INVERTED(1'b0),    
+        .IS_RST_INVERTED(1'b1),
+        .SIM_DEVICE("ULTRASCALE_PLUS")
+    ) fco_serdes (
+        .FIFO_EMPTY(),
+        .INTERNAL_DIVCLK(),
+        .Q(fco_byte),        //deserialized output data
+        .CLK(dco_for_serdes),           //high-speed DDR clock
+        .CLKDIV(dco_div4),        //divided clock
+        .CLK_B(dco_for_serdes),
+        .D(fco),
+        .FIFO_RD_CLK(1'b0),
+        .FIFO_RD_EN(1'b0),
+        .RST(rstn)
+    );
 
     //dco processing
     IBUFDS #(
@@ -99,58 +124,160 @@ module AD9228_read #(
     );
 
     //create divided dco at top level for SERDES at channel level
+    BUFG dco_bufg_inst (
+        .I(dco),
+        .O(dco_bufg)
+    );
+
     generate 
         if (DCO_INVERTED) begin
-            BUFGCE_DIV #(
-                .BUFGCE_DIVIDE(4),      //divide by 4 for SERDES running in 8bit ddr config
-                .IS_CE_INVERTED(1'b0),
-                .IS_CLR_INVERTED(1'b1),
-                .IS_I_INVERTED(1'b1)
-            ) dco_div4_bufgce_inst (
-                .O(dco_div4),           //divided clock out
-                .CE(1'b1),              //always running clock
-                .CLR(),            
-                .I(dco)                 //data clock
-            );
-
-            BUFGCE #(
-                .CE_TYPE("SYNC"),               // ASYNC, HARDSYNC, SYNC
-                .IS_CE_INVERTED(1'b0),          // Programmable inversion on CE
-                .IS_I_INVERTED(1'b1),           // Programmable inversion on I
-                .SIM_DEVICE("ULTRASCALE_PLUS")  // ULTRASCALE, ULTRASCALE_PLUS
-            )
-            dco_bufgce_inst (
-                .O(dco_inv),   // 1-bit output: Buffer
-                .CE(1'b1), // 1-bit input: Buffer enable
-                .I(dco)    // 1-bit input: Buffer
+            MMCME4_BASE #(
+                .BANDWIDTH("OPTIMIZED"),     // Jitter programming (OPTIMIZED, HIGH, LOW)
+                .CLKFBOUT_MULT_F(4.0),      // Multiply value for all CLKOUT (2.000-64.000)
+                .CLKFBOUT_PHASE(0.0),       // Phase offset in degrees of CLKFB
+                .CLKIN1_PERIOD(4.17),       // Input clock period in ns 
+                
+                // CLKOUT0 configuration - Inverted version of dco
+                .CLKOUT0_DIVIDE_F(4.0),     // Divide amount for CLKOUT0 (1.000-128.000)
+                .CLKOUT0_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT0 (0.01-0.99)
+                .CLKOUT0_PHASE(0.0),      // Phase offset for CLKOUT0 (-360.000-360.000) - 180° for inversion
+                
+                // CLKOUT1 configuration - Divided by 4 version of dco
+                .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
+                .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
+                .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
+                
+                // Unused outputs
+                .CLKOUT2_DIVIDE(1),
+                .CLKOUT2_DUTY_CYCLE(0.5),
+                .CLKOUT2_PHASE(0.0),
+                .CLKOUT3_DIVIDE(1),
+                .CLKOUT3_DUTY_CYCLE(0.5),
+                .CLKOUT3_PHASE(0.0),
+                .CLKOUT4_DIVIDE(1),
+                .CLKOUT4_DUTY_CYCLE(0.5),
+                .CLKOUT4_PHASE(0.0),
+                .CLKOUT5_DIVIDE(1),
+                .CLKOUT5_DUTY_CYCLE(0.5),
+                .CLKOUT5_PHASE(0.0),
+                .CLKOUT6_DIVIDE(1),
+                .CLKOUT6_DUTY_CYCLE(0.5),
+                .CLKOUT6_PHASE(0.0),
+                
+                .DIVCLK_DIVIDE(1),          // Master division value (1-106)
+                .REF_JITTER1(0.0),          // Reference input jitter in UI (0.000-0.999)
+                .STARTUP_WAIT("FALSE"),      // Delays DONE until MMCM is locked (FALSE, TRUE)
+                .IS_CLKIN1_INVERTED(1'b1),  // Optional inversion for CLKIN1
+                .IS_PWRDWN_INVERTED(1'b0),  // Optional inversion for PWRDWN
+                .IS_RST_INVERTED(1'b1)     // Optional inversion for RST
+            ) dco_mmcm_inst (
+                // Clock Outputs
+                .CLKOUT0(dco_for_serdes),     // 1-bit output: CLKOUT0 (inverted)
+                .CLKOUT1(dco_div4),     // 1-bit output: CLKOUT1 (div4)
+                .CLKOUT2(),                 // 1-bit output: CLKOUT2 (unused)
+                .CLKOUT3(),                 // 1-bit output: CLKOUT3 (unused)
+                .CLKOUT4(),                 // 1-bit output: CLKOUT4 (unused)
+                .CLKOUT5(),                 // 1-bit output: CLKOUT5 (unused)
+                .CLKOUT6(),                 // 1-bit output: CLKOUT6 (unused)
+                
+                // Feedback Clocks
+                .CLKFBOUT(mmcm_feedback),   // 1-bit output: Feedback clock
+                .CLKFBOUTB(),               // 1-bit output: Inverted CLKFBOUT (unused)
+                
+                // Status Ports
+                .LOCKED(),       // 1-bit output: LOCK
+                
+                // Clock Inputs
+                .CLKIN1(dco_bufg),          // 1-bit input: Clock
+                
+                // Control Ports
+                .PWRDWN(1'b0),              // 1-bit input: Power-down
+                .RST(rstn),                // 1-bit input: Reset
+                
+                // Feedback Clocks
+                .CLKFBIN(mmcm_feedback)     // 1-bit input: Feedback clock
             );
         end
         else begin
-            BUFGCE_DIV #(
-                .BUFGCE_DIVIDE(4),      //divide by 4 for SERDES running in 8bit ddr config
-                .IS_CE_INVERTED(1'b0),
-                .IS_CLR_INVERTED(1'b1),
-                .IS_I_INVERTED(1'b0)
-            ) dco_div4_inst (
-                .O(dco_div4),           //divided clock out
-                .CE(1'b1),              //always running clock
-                .CLR(),            
-                .I(dco)                 //data clock
-            );
-
-            BUFGCE #(
-                .CE_TYPE("SYNC"),               // ASYNC, HARDSYNC, SYNC
-                .IS_CE_INVERTED(1'b0),          // Programmable inversion on CE
-                .IS_I_INVERTED(1'b0),           // Programmable inversion on I
-                .SIM_DEVICE("ULTRASCALE_PLUS")  // ULTRASCALE, ULTRASCALE_PLUS
-            )
-            dco_bufgce_inst (
-                .O(dco_inv),   // 1-bit output: Buffer
-                .CE(1'b1), // 1-bit input: Buffer enable
-                .I(dco)    // 1-bit input: Buffer
+            MMCME4_BASE #(
+                .BANDWIDTH("OPTIMIZED"),     // Jitter programming (OPTIMIZED, HIGH, LOW)
+                .CLKFBOUT_MULT_F(4.0),      // Multiply value for all CLKOUT (2.000-64.000)
+                .CLKFBOUT_PHASE(0.0),       // Phase offset in degrees of CLKFB
+                .CLKIN1_PERIOD(4.17),       // Input clock period in ns 
+                
+                // CLKOUT0 configuration - Inverted version of dco
+                .CLKOUT0_DIVIDE_F(4.0),     // Divide amount for CLKOUT0 (1.000-128.000)
+                .CLKOUT0_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT0 (0.01-0.99)
+                .CLKOUT0_PHASE(0.0),      // Phase offset for CLKOUT0 (-360.000-360.000) - 180° for inversion
+                
+                // CLKOUT1 configuration - Divided by 4 version of dco
+                .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
+                .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
+                .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
+                
+                // Unused outputs
+                .CLKOUT2_DIVIDE(1),
+                .CLKOUT2_DUTY_CYCLE(0.5),
+                .CLKOUT2_PHASE(0.0),
+                .CLKOUT3_DIVIDE(1),
+                .CLKOUT3_DUTY_CYCLE(0.5),
+                .CLKOUT3_PHASE(0.0),
+                .CLKOUT4_DIVIDE(1),
+                .CLKOUT4_DUTY_CYCLE(0.5),
+                .CLKOUT4_PHASE(0.0),
+                .CLKOUT5_DIVIDE(1),
+                .CLKOUT5_DUTY_CYCLE(0.5),
+                .CLKOUT5_PHASE(0.0),
+                .CLKOUT6_DIVIDE(1),
+                .CLKOUT6_DUTY_CYCLE(0.5),
+                .CLKOUT6_PHASE(0.0),
+                
+                .DIVCLK_DIVIDE(1),          // Master division value (1-106)
+                .REF_JITTER1(0.0),          // Reference input jitter in UI (0.000-0.999)
+                .STARTUP_WAIT("FALSE"),      // Delays DONE until MMCM is locked (FALSE, TRUE)
+                .IS_CLKIN1_INVERTED(1'b0),  // Optional inversion for CLKIN1
+                .IS_PWRDWN_INVERTED(1'b0),  // Optional inversion for PWRDWN
+                .IS_RST_INVERTED(1'b1)     // Optional inversion for RST
+            ) dco_mmcm_inst (
+                // Clock Outputs
+                .CLKOUT0(dco_for_serdes),     // 1-bit output: CLKOUT0 (non-inverted)
+                .CLKOUT1(dco_div4),     // 1-bit output: CLKOUT1 (div4)
+                .CLKOUT2(),                 // 1-bit output: CLKOUT2 (unused)
+                .CLKOUT3(),                 // 1-bit output: CLKOUT3 (unused)
+                .CLKOUT4(),                 // 1-bit output: CLKOUT4 (unused)
+                .CLKOUT5(),                 // 1-bit output: CLKOUT5 (unused)
+                .CLKOUT6(),                 // 1-bit output: CLKOUT6 (unused)
+                
+                // Feedback Clocks
+                .CLKFBOUT(mmcm_feedback),   // 1-bit output: Feedback clock
+                .CLKFBOUTB(),               // 1-bit output: Inverted CLKFBOUT (unused)
+                
+                // Status Ports
+                .LOCKED(),       // 1-bit output: LOCK
+                
+                // Clock Inputs
+                .CLKIN1(dco_bufg),          // 1-bit input: Clock
+                
+                // Control Ports
+                .PWRDWN(1'b0),              // 1-bit input: Power-down
+                .RST(rstn),                // 1-bit input: Reset
+                
+                // Feedback Clocks
+                .CLKFBIN(mmcm_feedback)     // 1-bit input: Feedback clock
             );
         end
     endgenerate
+
+    //buffering dco mmcm outputs
+    BUFG dco_for_serdes_bufg_inst (
+        .I(dco_for_serdes),
+        .O(dco_for_serdes_bufg)
+    );
+
+    BUFG dco_div4_bufg_inst (
+        .I(dco_div4),
+        .O(dco_div4_bufg)
+    );
 
     //sampling clock processing
     OBUFDS #(
@@ -179,15 +306,14 @@ module AD9228_read #(
                 .DIN_INVERTED(DIN_INVERTED)
             ) AD9228_single_ch_read_inst (
                 .clk (clk),
-                .refclk_200M (refclk_200M),
                 .rstn (rstn),
                 .read_en (read_en),
 
                 .din_p (din_p[i]),
                 .din_n (din_n[i]),
-                .fco (fco_inv),
-                .dco (dco_inv),
-                .dco_div4 (dco_div4),
+                .fco_byte (fco_byte_inv),
+                .dco (dco_for_serdes_bufg),
+                .dco_div4 (dco_div4_bufg),
 
                 .fifo_rd_en (fifo_rd_en[i]),
                 .fifo_rd_clk (fifo_rd_clk),

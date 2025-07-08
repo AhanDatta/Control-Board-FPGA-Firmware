@@ -1,6 +1,7 @@
 module read_rst_trig #(
     parameter integer TRIGGER_COUNTER_LENGTH = 16,
     parameter integer NUM_DATA = 1280,
+    parameter integer READ_DELAY = 3, //max number of clock cycles between chip_read_clk and data read into fifo, max 15
 
     parameter real CLK_PERIOD = 25.0,
     parameter real AD9228_CLK_PHASE = 28.8,
@@ -111,12 +112,16 @@ module read_rst_trig #(
         .params_to_bus(params_to_bus)
     );
 
-    typedef enum logic {
+    typedef enum logic [1:0] {
         IDLE,
-        READ
+        READ,
+        END_READ
     } state_t;
 
     state_t state;
+    logic [3:0] end_read_counter;
+    logic trig_from_chip_prime;
+    logic spi_readout_ready_prime;
     logic prev_trig_from_chip;
     logic prev_spi_readout_ready;
     logic spi_readout_ready;
@@ -203,11 +208,13 @@ module read_rst_trig #(
     always_ff @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             trigger_counter <= '0;
+            trig_from_chip_prime <= 0;
             prev_trig_from_chip <= 0;
         end
         else begin
-            prev_trig_from_chip <= trig_from_chip;
-            if (trig_from_chip && !prev_trig_from_chip) begin
+            trig_from_chip_prime <= trig_from_chip;
+            prev_trig_from_chip <= trig_from_chip_prime;
+            if (trig_from_chip_prime && !prev_trig_from_chip) begin
                 trigger_counter <= trigger_counter + 1;
             end
             else begin
@@ -222,25 +229,30 @@ module read_rst_trig #(
             chip_read_clk_en <= 0;
             AD9228_read_en <= 0;
             clock_counter <= '0;
+            spi_readout_ready_prime <= 0;
             prev_spi_readout_ready <= 0;
+            end_read_counter <= 0;
             state <= IDLE;
         end
         else begin
-            prev_spi_readout_ready <= spi_readout_ready;
+            spi_readout_ready_prime <= spi_readout_ready;
+            prev_spi_readout_ready <= spi_readout_ready_prime;
 
             case (state)
                 IDLE: begin
                     //start read when IPIF says spi has sent readout command
-                    if (spi_readout_ready && !prev_spi_readout_ready) begin
+                    if (spi_readout_ready_prime && !prev_spi_readout_ready) begin
                         chip_read_clk_en <= 1;
                         AD9228_read_en <= 0;
                         clock_counter <= 'b1;
+                        end_read_counter <= 0;
                         state <= READ;
                     end
                     else begin
                         chip_read_clk_en <= 0;
                         AD9228_read_en <= 0;
                         clock_counter <= '0;
+                        end_read_counter <= 0;
                         state <= IDLE;
                     end
                 end
@@ -250,12 +262,31 @@ module read_rst_trig #(
                         chip_read_clk_en <= 1;
                         AD9228_read_en <= 1;
                         clock_counter <= clock_counter + 1;
+                        end_read_counter <= 0;
                         state <= READ;
                     end
                     else begin
                         chip_read_clk_en <= 0;
                         AD9228_read_en <= 1;
                         clock_counter <= '0;
+                        end_read_counter <= 'b1;
+                        state <= END_READ;
+                    end
+                end
+
+                END_READ: begin
+                    if (end_read_counter < READ_DELAY) begin
+                        chip_read_clk_en <= 0;
+                        AD9228_read_en <= 1;
+                        clock_counter <= '0;
+                        end_read_counter <= end_read_counter + 1;
+                        state <= END_READ;
+                    end
+                    else begin
+                        chip_read_clk_en <= 0;
+                        AD9228_read_en <= 0;
+                        clock_counter <= '0;
+                        end_read_counter <= '0;
                         state <= IDLE;
                     end
                 end

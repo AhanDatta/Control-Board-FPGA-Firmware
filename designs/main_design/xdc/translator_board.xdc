@@ -124,3 +124,4 @@ set_clock_groups -asynchronous -group [get_clocks -include_generated_clocks AD92
 ##############################################################
 # Misc
 ##############################################################
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets cb_block_design_2_i/AD9228_read_1/inst/dco_conv/O]

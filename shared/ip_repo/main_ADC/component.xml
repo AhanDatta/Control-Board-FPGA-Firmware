@@ -181,7 +181,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ca18001f</spirit:value>
+            <spirit:value>81c8dc61</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -197,7 +197,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ca18001f</spirit:value>
+            <spirit:value>81c8dc61</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -232,19 +232,6 @@
       </spirit:port>
       <spirit:port>
         <spirit:name>inverted_clk</spirit:name>
-        <spirit:wire>
-          <spirit:direction>in</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>logic</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>refclk_200M</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -559,8 +546,25 @@
       <spirit:file>
         <spirit:name>src/AD9228_read.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_fc2af7c0</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_634e7ff5</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_core_SERDES.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_gearbox.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_single_ch_read.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_read.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_634e7ff5</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -584,6 +588,22 @@
         <spirit:name>src/AD9228_read.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_core_SERDES.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_gearbox.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_single_ch_read.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>AD9228_read.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -671,8 +691,8 @@
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>42</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-07-01T21:52:41Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>58</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-07-08T20:46:34Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@1180e8c1_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@23ca5dc7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
@@ -1185,14 +1205,196 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@59c95f0c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@662900f6_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@5ca40e04_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d1121_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2a18adf9_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b8be581_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2602bd52_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15f342d8_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77554ada_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6882a23c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37db11f9_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c087be4_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a582015_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f634008_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7973ebc0_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5566ec04_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6afca50_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@437b496a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a4a3d11_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@334780eb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@772bc151_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d959182_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6745027d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7340604c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4523ac9e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16d51b7c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f7f8679_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@612ae548_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5792778f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@242c9851_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6634813_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ad9e3b0_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70ca3d59_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e71b5af_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@180fa39d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63d2f457_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3da810be_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53f2350c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@435efd28_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ea08d2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65d50b4d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@264bd884_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@416885cc_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@108d3522_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@25ccccca_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b16d771_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75205dd7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12f35052_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61985ebe_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7bd71300_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48984626_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f41235d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44d26050_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a24c4aa_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@777f6c52_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@392c159e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68d18bf7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@98e97e6_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2a1ad3d2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fca5d97_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77e2e840_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5268f1ec_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67776310_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ceb3d7d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e9a6201_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4afb092a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75319acb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f928b39_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@184e17e5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6907300f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7790739e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c7c9a67_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69183800_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10d000bb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2bea4dc7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@509f3624_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66fc3231_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57b6475d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9b1eef_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@761d0bfc_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65554d18_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e61d14b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45d5ad14_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e10d42_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ba6528b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@760a3308_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@778601f5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37771448_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31b4de19_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d91fb65_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6cdb468f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b45dd45_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@55ceb375_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@591d86a7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5eca31a5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d2dfb28_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66fec35c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17b2468c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43de9849_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57e6974a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@384f5149_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@712602cb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3aea282a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@748be95c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3061273a_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c0f6140_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51802aef_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11fbe330_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c8bea2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3270a781_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d5fff41_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4eb2c959_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9859f5c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d129c5e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a8d4e90_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cc0b7c9_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11a0597b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b78e051_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8e26bc6_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d468673_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@637343cf_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10472025_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a9d2be7_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@794a9fce_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@204939c6_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14533b5d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42ccd909_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ab37524_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6474d845_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@23df0828_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@193e55aa_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3dd991d8_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6455ead8_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e249bff_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@635ddd0f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48a5183c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53c8568b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d37e09e_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a47168d_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67104332_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37178739_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@375aa72f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e0b8606_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33d06184_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ff41f1f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43754c01_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56a4c1ea_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@177b8220_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e810137_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15c4592b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1dd832bc_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f8adc0b_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c12af87_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a2a9371_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74222c76_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@bd93bea_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50852771_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3687ad49_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fd79ffb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19cc3ccb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36662e36_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fcef3f5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ea44596_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64ddbf0_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43320154_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e1f57ec_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@635d8875_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63051606_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36df1437_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11ac39fe_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17c28cdb_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1df80d12_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29d33d3f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2aff884c_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e9cb940_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c754107_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@76a9293_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b04bcc5_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ad87b08_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@646b26f1_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@119e6d5f_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d7276b8_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b29f181_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67e049d2_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@20de1edd_ARCHIVE_LOCATION">c:/Users/ahand/Desktop/School/Frisch_Group/Digital/Control-Board-FPGA-Firmware/shared/ip_repo/main_ADC</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="50340265"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="9ffb2bf1"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="54a5ff91"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="5e22fb5a"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="11845165"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="c1dfc281"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="14782988"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="284fd58a"/>
     </xilinx:packagingInfo>

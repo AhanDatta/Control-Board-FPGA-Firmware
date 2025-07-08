@@ -18,4 +18,5 @@
     - Understand why design takes so long to implement (improper use of clock resources for fco/dco?)
 # Questions/Notes
     - Does the phase detector for the gearbox make sense?
-    - Send SS to Daniel of VCO and Clock Divider blocks 
+    - Check discriminator inputs/outputs
+    - Create list of greivances (don't use iclk for reset SPI, use parallel load shift reg out instead of mux for SPI output)

@@ -12,7 +12,7 @@ module AD9228_gearbox #(
     output logic data_valid_out
 );
 
-    logic [31:0] data_shift_reg;
+    logic [23:0] data_shift_reg;
     logic [23:0] fco_shift_reg;
 
     always_ff @(posedge dco_div4 or negedge rstn) begin
@@ -21,7 +21,7 @@ module AD9228_gearbox #(
             fco_shift_reg <= '0;
         end
         else begin
-            data_shift_reg <= {data_shift_reg[23:0], data_in};
+            data_shift_reg <= {data_shift_reg[15:0], data_in};
             fco_shift_reg <= {fco_shift_reg[15:0], fco_byte};
         end
     end

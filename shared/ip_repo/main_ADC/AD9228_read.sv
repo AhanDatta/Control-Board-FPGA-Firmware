@@ -129,144 +129,72 @@ module AD9228_read #(
         .O(dco_bufg)
     );
 
-    generate 
-        if (DCO_INVERTED) begin
-            MMCME4_BASE #(
-                .BANDWIDTH("OPTIMIZED"),     // Jitter programming (OPTIMIZED, HIGH, LOW)
-                .CLKFBOUT_MULT_F(4.0),      // Multiply value for all CLKOUT (2.000-64.000)
-                .CLKFBOUT_PHASE(0.0),       // Phase offset in degrees of CLKFB
-                .CLKIN1_PERIOD(4.17),       // Input clock period in ns 
-                
-                // CLKOUT0 configuration - Inverted version of dco
-                .CLKOUT0_DIVIDE_F(4.0),     // Divide amount for CLKOUT0 (1.000-128.000)
-                .CLKOUT0_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT0 (0.01-0.99)
-                .CLKOUT0_PHASE(0.0),      // Phase offset for CLKOUT0 (-360.000-360.000) - 180° for inversion
-                
-                // CLKOUT1 configuration - Divided by 4 version of dco
-                .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
-                .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
-                .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
-                
-                // Unused outputs
-                .CLKOUT2_DIVIDE(1),
-                .CLKOUT2_DUTY_CYCLE(0.5),
-                .CLKOUT2_PHASE(0.0),
-                .CLKOUT3_DIVIDE(1),
-                .CLKOUT3_DUTY_CYCLE(0.5),
-                .CLKOUT3_PHASE(0.0),
-                .CLKOUT4_DIVIDE(1),
-                .CLKOUT4_DUTY_CYCLE(0.5),
-                .CLKOUT4_PHASE(0.0),
-                .CLKOUT5_DIVIDE(1),
-                .CLKOUT5_DUTY_CYCLE(0.5),
-                .CLKOUT5_PHASE(0.0),
-                .CLKOUT6_DIVIDE(1),
-                .CLKOUT6_DUTY_CYCLE(0.5),
-                .CLKOUT6_PHASE(0.0),
-                
-                .DIVCLK_DIVIDE(1),          // Master division value (1-106)
-                .REF_JITTER1(0.0),          // Reference input jitter in UI (0.000-0.999)
-                .STARTUP_WAIT("FALSE"),      // Delays DONE until MMCM is locked (FALSE, TRUE)
-                .IS_CLKIN1_INVERTED(1'b1),  // Optional inversion for CLKIN1
-                .IS_PWRDWN_INVERTED(1'b0),  // Optional inversion for PWRDWN
-                .IS_RST_INVERTED(1'b1)     // Optional inversion for RST
-            ) dco_mmcm_inst (
-                // Clock Outputs
-                .CLKOUT0(dco_for_serdes),     // 1-bit output: CLKOUT0 (inverted)
-                .CLKOUT1(dco_div4),     // 1-bit output: CLKOUT1 (div4)
-                .CLKOUT2(),                 // 1-bit output: CLKOUT2 (unused)
-                .CLKOUT3(),                 // 1-bit output: CLKOUT3 (unused)
-                .CLKOUT4(),                 // 1-bit output: CLKOUT4 (unused)
-                .CLKOUT5(),                 // 1-bit output: CLKOUT5 (unused)
-                .CLKOUT6(),                 // 1-bit output: CLKOUT6 (unused)
-                
-                // Feedback Clocks
-                .CLKFBOUT(mmcm_feedback),   // 1-bit output: Feedback clock
-                .CLKFBOUTB(),               // 1-bit output: Inverted CLKFBOUT (unused)
-                
-                // Status Ports
-                .LOCKED(),       // 1-bit output: LOCK
-                
-                // Clock Inputs
-                .CLKIN1(dco_bufg),          // 1-bit input: Clock
-                
-                // Control Ports
-                .PWRDWN(1'b0),              // 1-bit input: Power-down
-                .RST(rstn),                // 1-bit input: Reset
-                
-                // Feedback Clocks
-                .CLKFBIN(mmcm_feedback)     // 1-bit input: Feedback clock
-            );
-        end
-        else begin
-            MMCME4_BASE #(
-                .BANDWIDTH("OPTIMIZED"),     // Jitter programming (OPTIMIZED, HIGH, LOW)
-                .CLKFBOUT_MULT_F(4.0),      // Multiply value for all CLKOUT (2.000-64.000)
-                .CLKFBOUT_PHASE(0.0),       // Phase offset in degrees of CLKFB
-                .CLKIN1_PERIOD(4.17),       // Input clock period in ns 
-                
-                // CLKOUT0 configuration - Inverted version of dco
-                .CLKOUT0_DIVIDE_F(4.0),     // Divide amount for CLKOUT0 (1.000-128.000)
-                .CLKOUT0_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT0 (0.01-0.99)
-                .CLKOUT0_PHASE(0.0),      // Phase offset for CLKOUT0 (-360.000-360.000) - 180° for inversion
-                
-                // CLKOUT1 configuration - Divided by 4 version of dco
-                .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
-                .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
-                .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
-                
-                // Unused outputs
-                .CLKOUT2_DIVIDE(1),
-                .CLKOUT2_DUTY_CYCLE(0.5),
-                .CLKOUT2_PHASE(0.0),
-                .CLKOUT3_DIVIDE(1),
-                .CLKOUT3_DUTY_CYCLE(0.5),
-                .CLKOUT3_PHASE(0.0),
-                .CLKOUT4_DIVIDE(1),
-                .CLKOUT4_DUTY_CYCLE(0.5),
-                .CLKOUT4_PHASE(0.0),
-                .CLKOUT5_DIVIDE(1),
-                .CLKOUT5_DUTY_CYCLE(0.5),
-                .CLKOUT5_PHASE(0.0),
-                .CLKOUT6_DIVIDE(1),
-                .CLKOUT6_DUTY_CYCLE(0.5),
-                .CLKOUT6_PHASE(0.0),
-                
-                .DIVCLK_DIVIDE(1),          // Master division value (1-106)
-                .REF_JITTER1(0.0),          // Reference input jitter in UI (0.000-0.999)
-                .STARTUP_WAIT("FALSE"),      // Delays DONE until MMCM is locked (FALSE, TRUE)
-                .IS_CLKIN1_INVERTED(1'b0),  // Optional inversion for CLKIN1
-                .IS_PWRDWN_INVERTED(1'b0),  // Optional inversion for PWRDWN
-                .IS_RST_INVERTED(1'b1)     // Optional inversion for RST
-            ) dco_mmcm_inst (
-                // Clock Outputs
-                .CLKOUT0(dco_for_serdes),     // 1-bit output: CLKOUT0 (non-inverted)
-                .CLKOUT1(dco_div4),     // 1-bit output: CLKOUT1 (div4)
-                .CLKOUT2(),                 // 1-bit output: CLKOUT2 (unused)
-                .CLKOUT3(),                 // 1-bit output: CLKOUT3 (unused)
-                .CLKOUT4(),                 // 1-bit output: CLKOUT4 (unused)
-                .CLKOUT5(),                 // 1-bit output: CLKOUT5 (unused)
-                .CLKOUT6(),                 // 1-bit output: CLKOUT6 (unused)
-                
-                // Feedback Clocks
-                .CLKFBOUT(mmcm_feedback),   // 1-bit output: Feedback clock
-                .CLKFBOUTB(),               // 1-bit output: Inverted CLKFBOUT (unused)
-                
-                // Status Ports
-                .LOCKED(),       // 1-bit output: LOCK
-                
-                // Clock Inputs
-                .CLKIN1(dco_bufg),          // 1-bit input: Clock
-                
-                // Control Ports
-                .PWRDWN(1'b0),              // 1-bit input: Power-down
-                .RST(rstn),                // 1-bit input: Reset
-                
-                // Feedback Clocks
-                .CLKFBIN(mmcm_feedback)     // 1-bit input: Feedback clock
-            );
-        end
-    endgenerate
+    MMCME4_BASE #(
+        .BANDWIDTH("OPTIMIZED"),     // Jitter programming (OPTIMIZED, HIGH, LOW)
+        .CLKFBOUT_MULT_F(4.0),      // Multiply value for all CLKOUT (2.000-64.000)
+        .CLKFBOUT_PHASE(0.0),       // Phase offset in degrees of CLKFB
+        .CLKIN1_PERIOD(4.17),       // Input clock period in ns 
+        
+        // CLKOUT0 configuration - Inverted version of dco
+        .CLKOUT0_DIVIDE_F(4.0),     // Divide amount for CLKOUT0 (1.000-128.000)
+        .CLKOUT0_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT0 (0.01-0.99)
+        .CLKOUT0_PHASE(0.0),      // Phase offset for CLKOUT0 (-360.000-360.000) - 180° for inversion
+        
+        // CLKOUT1 configuration - Divided by 4 version of dco
+        .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
+        .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
+        .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
+        
+        // Unused outputs
+        .CLKOUT2_DIVIDE(1),
+        .CLKOUT2_DUTY_CYCLE(0.5),
+        .CLKOUT2_PHASE(0.0),
+        .CLKOUT3_DIVIDE(1),
+        .CLKOUT3_DUTY_CYCLE(0.5),
+        .CLKOUT3_PHASE(0.0),
+        .CLKOUT4_DIVIDE(1),
+        .CLKOUT4_DUTY_CYCLE(0.5),
+        .CLKOUT4_PHASE(0.0),
+        .CLKOUT5_DIVIDE(1),
+        .CLKOUT5_DUTY_CYCLE(0.5),
+        .CLKOUT5_PHASE(0.0),
+        .CLKOUT6_DIVIDE(1),
+        .CLKOUT6_DUTY_CYCLE(0.5),
+        .CLKOUT6_PHASE(0.0),
+        
+        .DIVCLK_DIVIDE(1),          // Master division value (1-106)
+        .REF_JITTER1(0.0),          // Reference input jitter in UI (0.000-0.999)
+        .STARTUP_WAIT("FALSE"),      // Delays DONE until MMCM is locked (FALSE, TRUE)
+        .IS_CLKIN1_INVERTED(DCO_INVERTED),  // Optional inversion for CLKIN1
+        .IS_PWRDWN_INVERTED(1'b0),  // Optional inversion for PWRDWN
+        .IS_RST_INVERTED(1'b1)     // Optional inversion for RST
+    ) dco_mmcm_inst (
+        // Clock Outputs
+        .CLKOUT0(dco_for_serdes),     // 1-bit output: CLKOUT0 (non-inverted)
+        .CLKOUT1(dco_div4),     // 1-bit output: CLKOUT1 (div4)
+        .CLKOUT2(),                 // 1-bit output: CLKOUT2 (unused)
+        .CLKOUT3(),                 // 1-bit output: CLKOUT3 (unused)
+        .CLKOUT4(),                 // 1-bit output: CLKOUT4 (unused)
+        .CLKOUT5(),                 // 1-bit output: CLKOUT5 (unused)
+        .CLKOUT6(),                 // 1-bit output: CLKOUT6 (unused)
+        
+        // Feedback Clocks
+        .CLKFBOUT(mmcm_feedback),   // 1-bit output: Feedback clock
+        .CLKFBOUTB(),               // 1-bit output: Inverted CLKFBOUT (unused)
+        
+        // Status Ports
+        .LOCKED(),       // 1-bit output: LOCK
+        
+        // Clock Inputs
+        .CLKIN1(dco_bufg),          // 1-bit input: Clock
+        
+        // Control Ports
+        .PWRDWN(1'b0),              // 1-bit input: Power-down
+        .RST(rstn),                // 1-bit input: Reset
+        
+        // Feedback Clocks
+        .CLKFBIN(mmcm_feedback)     // 1-bit input: Feedback clock
+    );
 
     //buffering dco mmcm outputs
     BUFG dco_for_serdes_bufg_inst (

@@ -17,6 +17,8 @@ module AD9228_core_SERDES #(
     logic [7:0] ddr_data;  //8 bits collected over 4 DDR cycles by SERDES
     logic [7:0] ddr_data_processed; //accounts for DIN_INVERTED and SERDES bit-order inversion
     logic [7:0] fco_byte_ordered; //accounts for reverse bit-ordering from SERDES
+    logic [7:0] ddr_data_pipelined; //pipelined versions of data and fco to satisfy hold timing requirements
+    logic [7:0] fco_byte_pipelined;
 
     //handles DIN_INVERTED
     generate 
@@ -29,6 +31,17 @@ module AD9228_core_SERDES #(
     endgenerate
 
     assign fco_byte_ordered = {<<{fco_byte}};
+
+    always_ff @(posedge dco_div4 or negedge rstn) begin
+        if (!rstn) begin
+            ddr_data_pipelined <= '0;
+            fco_byte_pipelined <= '0;
+        end
+        else begin
+            ddr_data_pipelined <= ddr_data_processed;
+            fco_byte_pipelined <= fco_byte_ordered;
+        end
+    end
 
     ISERDESE3 #(
         .DATA_WIDTH(8),          //8-bit deserializer
@@ -55,8 +68,8 @@ module AD9228_core_SERDES #(
         //inputs
         .rstn(rstn),
         .dco_div4(dco_div4),
-        .fco_byte (fco_byte_ordered),
-        .data_in(ddr_data_processed),
+        .fco_byte (fco_byte_pipelined),
+        .data_in(ddr_data_pipelined),
 
         //outputs
         .data_out(des_data),

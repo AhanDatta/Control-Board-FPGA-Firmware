@@ -46,7 +46,7 @@ module AD4008_read #(
 
     assign amplified_data = temp_amplified_data[ADC_WIDTH+NUM_FRAC_BITS-1:NUM_FRAC_BITS];
 
-    //Main state machine
+    //Main state machine - USE PRIMARY RESET ONLY
     always_ff @(posedge clk or negedge aresetn) begin
         if (!aresetn) begin
             state <= RESET;

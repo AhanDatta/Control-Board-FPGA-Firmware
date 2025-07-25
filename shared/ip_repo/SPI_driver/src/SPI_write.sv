@@ -12,7 +12,7 @@ module SPI_write #(
 
     output logic [REG_WIDTH*(MSG_LEN-1)-1:0] data_read_from_reg,
     output logic serial_out,
-    output logic spi_clk,
+    output logic spi_clk_en,
     output logic transaction_complete
 );
 
@@ -31,19 +31,6 @@ module SPI_write #(
     logic [REG_WIDTH-1:0] addr;
     logic [REG_WIDTH*(MSG_LEN-1)-1:0] data_to_write;
     logic [REG_WIDTH*(MSG_LEN-1)-1:0] serial_in_buffer;
-
-    //clock generation
-    always_comb begin
-        if (!rstn) begin
-            spi_clk = 1'b0;
-        end
-        else if (spi_clk_en) begin
-            spi_clk = ~clk;
-        end
-        else begin
-            spi_clk = 1'b0;
-        end
-    end
 
     //main state machine
     always_ff @(posedge clk or negedge rstn) begin

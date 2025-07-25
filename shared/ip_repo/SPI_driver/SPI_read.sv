@@ -11,7 +11,7 @@ module SPI_read #(
 
     output logic [REG_WIDTH-1:0] data_read_from_reg,
     output logic serial_out,
-    output logic spi_clk,
+    output logic spi_clk_en,
     output logic read_complete,
     output logic read_one_byte_complete //for the mux
 );
@@ -25,24 +25,10 @@ module SPI_read #(
 
     spi_state_t current_state;
     logic prev_new_command;
-    logic spi_clk_en;
     logic [11:0] bit_counter;
     logic [REG_WIDTH-1:0] start_addr;
     logic [7:0] num_regs;
     logic [REG_WIDTH-1:0] serial_in_buffer;
-
-    //clock generation
-    always_comb begin
-        if (!rstn) begin
-            spi_clk = 1'b0;
-        end
-        else if (spi_clk_en) begin
-            spi_clk = ~clk;
-        end
-        else begin
-            spi_clk = 1'b0;
-        end
-    end
 
     //main state machine
     always_ff @(posedge clk or negedge rstn) begin

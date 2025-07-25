@@ -79,7 +79,7 @@ set_property -dict {PACKAGE_PIN F12 IOSTANDARD LVCMOS25} [get_ports spi_clk_0]
 set_property -dict {PACKAGE_PIN J10 IOSTANDARD LVCMOS25} [get_ports LTC2600_csb_0]
 set_property -dict {PACKAGE_PIN K13 IOSTANDARD LVCMOS25} [get_ports LTC2600_sck_0]
 set_property -dict {PACKAGE_PIN J12 IOSTANDARD LVCMOS25} [get_ports LTC2600_sdi_0]
-set_property -dict {PACKAGE_PIN F11 IOSTANDARD LVCMOS25} [get_ports {LTC2600_clrb_0[1]}]
+set_property -dict {PACKAGE_PIN F11 IOSTANDARD LVCMOS25} [get_ports {LTC2600_clrb_0[0]}]
 
 # LTC2600_1
 set_property -dict {PACKAGE_PIN H11 IOSTANDARD LVCMOS25} [get_ports LTC2600_csb_1]
@@ -90,7 +90,6 @@ set_property -dict {PACKAGE_PIN G10 IOSTANDARD LVCMOS25} [get_ports LTC2600_sdi_
 set_property -dict {PACKAGE_PIN AF11 IOSTANDARD LVCMOS25} [get_ports LTC2600_csb_2]
 set_property -dict {PACKAGE_PIN AF12 IOSTANDARD LVCMOS25} [get_ports LTC2600_sdi_2]
 set_property -dict {PACKAGE_PIN AH10 IOSTANDARD LVCMOS25} [get_ports LTC2600_sck_2]
-set_property -dict {PACKAGE_PIN AG10 IOSTANDARD LVCMOS25} [get_ports {LTC2600_clrb_0[1]}]
 
 ###############################################################
 # DAC8411 Interface - Bank HDB/HDC

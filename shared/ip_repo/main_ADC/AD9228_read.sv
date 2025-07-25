@@ -143,7 +143,7 @@ module AD9228_read #(
         // CLKOUT1 configuration - Divided by 4 version of dco
         .CLKOUT1_DIVIDE(16),        // Divide amount for CLKOUT1 (1-128)
         .CLKOUT1_DUTY_CYCLE(0.5),   // Duty cycle for CLKOUT1 (0.01-0.99)
-        .CLKOUT1_PHASE(0.0),        // Phase offset for CLKOUT1 (-360.000-360.000)
+        .CLKOUT1_PHASE(14.06),        // Phase offset for CLKOUT1, specific as has to multiple of (45/D) = 45/16 = 2.812
         
         // Unused outputs
         .CLKOUT2_DIVIDE(1),

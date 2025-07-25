@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x20AF570CCDCF7322",
+      "boundary_crc": "0x7444AB41F2E11CA",
       "device": "xck26-sfvc784-2LV-c",
       "name": "cb_block_design_2",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
@@ -57,7 +57,6 @@
       "axi_quad_spi_0": "",
       "axi_quad_spi_1": "",
       "axi_to_ipif_mux_0": "",
-      "pll_external_0": "",
       "axi_to_ipif_mux_7": "",
       "LTC2600_write_wrapper_0": "",
       "LTC2600_write_wrapper_1": "",
@@ -67,8 +66,9 @@
       "proc_sys_reset_2": "",
       "proc_sys_reset_3": "",
       "proc_sys_reset_5": "",
-      "SPI_driver_wrapper_0": "",
       "read_rst_trig_0": "",
+      "pll_external_0": "",
+      "SPI_driver_wrapper_0": "",
       "AD9228_read_0": "",
       "AD9228_read_1": ""
     },
@@ -358,7 +358,7 @@
       },
       "LTC2600_clrb_0": {
         "direction": "O",
-        "left": "1",
+        "left": "0",
         "right": "0"
       }
     },
@@ -2222,7 +2222,7 @@
             "value": "87.180"
           },
           "CLKOUT4_REQUESTED_OUT_FREQ": {
-            "value": "200.000"
+            "value": "100.000"
           },
           "CLKOUT4_USED": {
             "value": "false"
@@ -2249,7 +2249,7 @@
             "value": "clk_50M"
           },
           "CLK_OUT4_PORT": {
-            "value": "clk_200M"
+            "value": "clk_out4"
           },
           "CLK_OUT5_PORT": {
             "value": "clk_out5"
@@ -2337,10 +2337,6 @@
           }
         }
       },
-      "pll_external_0": {
-        "vlnv": "xilinx.com:user:pll_external:1.0",
-        "xci_name": "cb_block_design_2_pll_external_0_0"
-      },
       "axi_to_ipif_mux_7": {
         "vlnv": "user.org:user:axi_to_ipif_mux:1.0",
         "xci_name": "cb_block_design_2_axi_to_ipif_mux_7_0",
@@ -2373,7 +2369,7 @@
             "value": "0xFFFFFFFF"
           },
           "C_GPIO_WIDTH": {
-            "value": "2"
+            "value": "1"
           }
         }
       },
@@ -2393,10 +2389,6 @@
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "xci_name": "cb_block_design_2_proc_sys_reset_5_0"
       },
-      "SPI_driver_wrapper_0": {
-        "vlnv": "xilinx.com:user:SPI_driver_wrapper:1.0",
-        "xci_name": "cb_block_design_2_SPI_driver_wrapper_0_0"
-      },
       "read_rst_trig_0": {
         "vlnv": "xilinx.com:user:read_rst_trig:1.0",
         "xci_name": "cb_block_design_2_read_rst_trig_0_0",
@@ -2408,6 +2400,14 @@
             "value": "25.0"
           }
         }
+      },
+      "pll_external_0": {
+        "vlnv": "xilinx.com:user:pll_external:1.0",
+        "xci_name": "cb_block_design_2_pll_external_0_0"
+      },
+      "SPI_driver_wrapper_0": {
+        "vlnv": "xilinx.com:user:SPI_driver_wrapper:1.0",
+        "xci_name": "cb_block_design_2_SPI_driver_wrapper_0_0"
       },
       "AD9228_read_0": {
         "vlnv": "xilinx.com:user:AD9228_read:1.0",
@@ -2595,7 +2595,6 @@
           "axi_quad_spi_1/s_axi_aclk",
           "axi_quad_spi_0/s_axi_aclk",
           "axi_to_ipif_mux_0/S_AXI_ACLK",
-          "pll_external_0/IPIF_clk",
           "LTC2600_write_wrapper_0/IPIF_clk",
           "LTC2600_write_wrapper_1/IPIF_clk",
           "LTC2600_write_wrapper_2/IPIF_clk",
@@ -2603,9 +2602,10 @@
           "axi_interconnect_0/M10_ACLK",
           "axi_interconnect_0/M11_ACLK",
           "axi_to_ipif_mux_7/S_AXI_ACLK",
+          "read_rst_trig_0/IPIF_clk",
+          "pll_external_0/IPIF_clk",
           "SPI_driver_wrapper_0/IPIF_clk",
           "SPI_driver_wrapper_0/fifo_rd_clk",
-          "read_rst_trig_0/IPIF_clk",
           "AD9228_read_0/fifo_rd_clk",
           "AD9228_read_1/fifo_rd_clk"
         ]
@@ -2758,8 +2758,8 @@
       "clk_wiz_0_clk_20M": {
         "ports": [
           "clk_wiz_0/clk_20M",
-          "pll_external_0/clk",
-          "proc_sys_reset_3/slowest_sync_clk"
+          "proc_sys_reset_3/slowest_sync_clk",
+          "pll_external_0/clk"
         ]
       },
       "clk_wiz_0_clk_40M": {
@@ -2767,8 +2767,8 @@
           "clk_wiz_0/clk_40M",
           "proc_sys_reset_2/slowest_sync_clk",
           "proc_sys_reset_5/slowest_sync_clk",
-          "SPI_driver_wrapper_0/clk",
-          "read_rst_trig_0/clk"
+          "read_rst_trig_0/clk",
+          "SPI_driver_wrapper_0/clk"
         ]
       },
       "dco_n_0_1": {
@@ -2923,8 +2923,8 @@
       "proc_sys_reset_3_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_3/peripheral_aresetn",
-          "pll_external_0/dac_resetn",
-          "pll_external_0/adc_resetn"
+          "pll_external_0/adc_resetn",
+          "pll_external_0/dac_resetn"
         ]
       },
       "proc_sys_reset_5_peripheral_aresetn": {

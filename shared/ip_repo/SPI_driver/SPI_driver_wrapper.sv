@@ -44,10 +44,9 @@ module SPI_driver_wrapper #(
     output logic write_complete
 );
   logic fifo_rst_sync;
+  logic rstn_sync;
   logic [7:0] data_read_from_reg;
   logic fifo_wr_en;
-  logic full_rstn;
-  logic full_rstn_sync;
   logic fifo_rst;
 
     assign IPIF_IP2Bus_Error = 0;
@@ -71,10 +70,9 @@ module SPI_driver_wrapper #(
       logic [7:0]       write_register_addr;
       logic [7:0]       write_data;
       // Register 0
-      logic [28:0]      padding0;
+      logic [29:0]      padding0;
       logic             is_write; 
       logic             new_command; //Should reset after some time
-      logic             rstn;
    } param_t;
 
     param_t params_from_IP; //use this
@@ -100,8 +98,8 @@ module SPI_driver_wrapper #(
      .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
      .N_REG(N_REG),
      .PARAM_T(param_t),
-     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b1}),
-     .SELF_RESET(128'b11)
+     .DEFAULTS({32'h0, 32'h0, 32'h0, 32'h0}),
+     .SELF_RESET(128'b1)
      ) parameterDecoder 
    (
     .clk(IPIF_clk),
@@ -134,23 +132,31 @@ module SPI_driver_wrapper #(
     .params_to_bus(params_to_bus)
     );
 
-  assign full_rstn = rstn & params_to_IP.rstn;
+  xpm_cdc_async_rst #(
+    .DEST_SYNC_FF(2),        // Number of sync flops (2-10)
+    .INIT_SYNC_FF(0),        // Initialize sync flops to 0
+    .RST_ACTIVE_HIGH(0)      // 0 = active low reset, 1 = active high reset
+  ) rstn_sync_inst (
+      .dest_arst(rstn_sync),   // Output: synchronized reset
+      .dest_clk(clk),          // Input: destination clock
+      .src_arst(rstn)          // Input: asynchronous reset source
+  );
 
   SPI_driver driver (
     //common inputs
-    .rstn (full_rstn_sync),
+    .rstn (rstn_sync),
     .clk (clk),
     .serial_in (serial_in),
     .new_command (params_to_IP.new_command),
-    .is_write (is_write),
+    .is_write (params_to_IP.is_write),
 
     //write inputs
     .write_register_addr (params_to_IP.write_register_addr),
     .write_data (params_to_IP.write_data),
 
     //read inputs
-    .start_read_register_addr (start_read_register_addr),
-    .num_regs_to_read (num_regs_to_read),
+    .start_read_register_addr (params_to_IP.start_read_register_addr),
+    .num_regs_to_read (params_to_IP.num_regs_to_read),
 
     //outputs
     .data_read_from_reg (data_read_from_reg),
@@ -160,21 +166,6 @@ module SPI_driver_wrapper #(
     .read_complete (read_complete),
     .fifo_wr_en (fifo_wr_en)
   );
-
-  //sync the full_rstn to the clk domain
-  xpm_cdc_sync_rst #(
-      .DEST_SYNC_FF(4),   // DECIMAL; range: 2-10
-      .INIT(1),           // DECIMAL; 0=initialize synchronization registers to 0, 1=initialize synchronization
-                          // registers to 1
-      .INIT_SYNC_FF(0),   // DECIMAL; 0=disable simulation init values, 1=enable simulation init values
-      .SIM_ASSERT_CHK(0)  // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
-   ) fifo_sync_rst_inst (
-      .dest_rst(~full_rstn_sync), // 1-bit output: src_rst synchronized to the destination clock domain. This output
-                           // is registered.
-
-      .dest_clk(clk), // 1-bit input: Destination clock.
-      .src_rst(~full_rstn)    // 1-bit input: Source reset signal.
-   );
 
   //sync the reset to the wr_clk domain
   xpm_cdc_sync_rst #(

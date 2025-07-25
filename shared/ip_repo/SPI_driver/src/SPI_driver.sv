@@ -24,16 +24,17 @@ module SPI_driver #(
     output logic read_complete,
     output logic fifo_wr_en
 );
+    logic spi_clk_en;
 
     //write outputs
     logic [REG_WIDTH-1:0] data_read_during_write;
     logic write_serial_out;
-    logic write_spi_clk;
+    logic write_spi_clk_en;
 
     //read outputs
     logic [REG_WIDTH-1:0] data_read_during_read;
     logic read_serial_out;
-    logic read_spi_clk;
+    logic read_spi_clk_en;
     logic read_one_byte_complete;
 
     SPI_write write (
@@ -49,7 +50,7 @@ module SPI_driver #(
         //outputs
         .data_read_from_reg (data_read_during_write),
         .serial_out (write_serial_out),
-        .spi_clk (write_spi_clk),
+        .spi_clk_en (write_spi_clk_en),
         .transaction_complete (write_complete)
     );
 
@@ -66,7 +67,7 @@ module SPI_driver #(
         //outputs
         .data_read_from_reg (data_read_during_read),
         .serial_out (read_serial_out),
-        .spi_clk (read_spi_clk),
+        .spi_clk_en (read_spi_clk_en),
         .read_complete (read_complete),
         .read_one_byte_complete (read_one_byte_complete)
     );
@@ -79,20 +80,33 @@ module SPI_driver #(
         //write inputs
         .data_read_during_write (data_read_during_write),
         .write_serial_out (write_serial_out),
-        .write_spi_clk (write_spi_clk),
+        .write_spi_clk_en (write_spi_clk_en),
         .write_complete (write_complete),
 
         //read inputs
         .data_read_during_read (data_read_during_read),
         .read_serial_out (read_serial_out),
-        .read_spi_clk (read_spi_clk),
+        .read_spi_clk_en (read_spi_clk_en),
         .read_one_byte_complete (read_one_byte_complete),
 
         //final outputs
         .data_read_from_reg (data_read_from_reg),
         .serial_out (serial_out),
-        .spi_clk (spi_clk),
+        .spi_clk_en (spi_clk_en),
         .fifo_wr_en (fifo_wr_en)
     );
+
+    //clock generation
+    BUFGCE #(
+      .CE_TYPE("SYNC"),               // ASYNC, HARDSYNC, SYNC
+      .IS_CE_INVERTED(1'b0),          // Programmable inversion on CE
+      .IS_I_INVERTED(1'b1),           // Programmable inversion on I
+      .SIM_DEVICE("ULTRASCALE_PLUS")  // ULTRASCALE, ULTRASCALE_PLUS
+   )
+   spi_clk_gen (
+      .O(spi_clk),   // 1-bit output: Buffer
+      .CE(rstn && spi_clk_en), // 1-bit input: Buffer enable
+      .I(clk)    // 1-bit input: Buffer
+   );
 
 endmodule

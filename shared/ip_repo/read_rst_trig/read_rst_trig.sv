@@ -46,16 +46,16 @@ module read_rst_trig #(
     typedef struct       packed{
       // Register 3
       logic [31-TRIGGER_COUNTER_LENGTH:0]      padding3;
-      logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter;
+      logic [TRIGGER_COUNTER_LENGTH-1:0]      trigger_counter; //how many triggers has the chip sent back (how many events)
       // Register 2
       logic [31:0]      padding2;
       // Register 1
       logic [31:0]      padding1;
       // Register 0
       logic [28:0]      padding0;
-      logic             spi_readout_ready; //should be set to 1 after the readout command is sent
-      logic             trig_to_chip;
-      logic             chip_rst;
+      logic             spi_readout_ready; //should be set to 1 after the readout command is sent to spi
+      logic             trig_to_chip; //trigger which stops the data collection on the chip
+      logic             chip_rst; //send a reset to the chip
     } param_t;
    
    param_t params_from_IP; //use this

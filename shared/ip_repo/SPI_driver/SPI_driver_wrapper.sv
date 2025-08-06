@@ -58,21 +58,21 @@ module SPI_driver_wrapper #(
    typedef struct       packed{ 
       // Register 3
       logic [21:0]      padding3;
-      logic             read_complete;
-      logic             write_complete;
-      logic [7:0]       data_read_from_reg;
+      logic             read_complete; //confirmation flag for read
+      logic             write_complete; //confirmation flag for write
+      logic [7:0]       data_read_from_reg; //latest bit read out
       // Register 2
       logic [15:0]      padding2;
-      logic [7:0]       num_regs_to_read;
-      logic [7:0]       start_read_register_addr;
+      logic [7:0]       num_regs_to_read; //number of registers to read from
+      logic [7:0]       start_read_register_addr; //address to start reading from
       // Register 1
       logic [15:0]      padding1;
-      logic [7:0]       write_register_addr;
-      logic [7:0]       write_data;
+      logic [7:0]       write_register_addr; //address to write to
+      logic [7:0]       write_data; //data to write in write mode
       // Register 0
       logic [29:0]      padding0;
-      logic             is_write; 
-      logic             new_command; //Should reset after some time
+      logic             is_write; //toggles the output mux to read or write mode
+      logic             new_command; //Should reset after some time, send high to activate driver
    } param_t;
 
     param_t params_from_IP; //use this

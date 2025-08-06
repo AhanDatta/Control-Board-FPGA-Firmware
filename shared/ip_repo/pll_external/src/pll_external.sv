@@ -6,11 +6,12 @@ module pll_external #(
     parameter integer N_REG = 4
 ) (
     input logic clk, //for both adc and dac drivers
-    input logic adc_resetn, //needs to be held
+    input logic adc_resetn, 
     input logic input_from_adc,
     output logic adc_sck,
     output logic adc_cnv,
     output logic adc_resetn_confirm,
+
     input logic dac_resetn, 
     output logic dac_sclk,
     output logic dac_write,
@@ -47,9 +48,7 @@ module pll_external #(
       logic [15:0]      padding1;
       logic [15:0]      gain;
       // Register 0
-      logic [29:0]      padding0;
-      logic             dac_resetn;
-      logic             adc_resetn;
+      logic [31:0]      padding0;
    } param_t;
    
    param_t params_from_IP; //use this
@@ -72,7 +71,7 @@ module pll_external #(
      .N_REG(N_REG),
      .PARAM_T(param_t),
      .DEFAULTS({32'h0, 32'h0, 32'h0, 32'b11}),
-     .SELF_RESET(128'b11)
+     .SELF_RESET(128'b0)
      ) parameterDecoder 
    (
     .clk(IPIF_clk),
@@ -107,7 +106,7 @@ module pll_external #(
 
     AD4008_read adc_in (
         .clk (clk),
-        .aresetn (adc_resetn & params_to_IP.adc_resetn),
+        .aresetn (adc_resetn),
         .data_in (input_from_adc),
         .GAIN (gain),
         .cnv (adc_cnv),
@@ -119,7 +118,7 @@ module pll_external #(
 
     DAC8411_write dac_out (
         .clk (clk),
-        .aresetn (dac_resetn & params_to_IP.dac_resetn),
+        .aresetn (dac_resetn),
         .data_in (amplified_data),
         .sclk (dac_sclk),
         .serial_data_out (dac_write),

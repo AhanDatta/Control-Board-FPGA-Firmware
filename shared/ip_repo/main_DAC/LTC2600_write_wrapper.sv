@@ -35,8 +35,8 @@ module LTC2600_write_wrapper #(
     typedef struct       packed{ 
       // Register 3
       logic [7:0]      padding3;
-      logic [3:0]       command;
-      logic [3:0]       address;
+      logic [3:0]       command; //what command to send to DAC
+      logic [3:0]       address; //address of channel of DAC to write to
       logic[DATA_WIDTH-1:0] data;
       // Register 2
       logic [31:0]      padding2;
@@ -44,7 +44,7 @@ module LTC2600_write_wrapper #(
       logic [31:0]      padding1;
       // Register 0
       logic [30:0]      padding0;
-      logic             send_new_cmd;
+      logic             send_new_cmd; //flag should be set to one when new command is sent
    } param_t;
 
     param_t params_from_IP; //use this

@@ -23,6 +23,7 @@ module AD4008_read #(
     state_t state;
     logic [ADC_WIDTH-1:0] raw_data;
     logic [2*ADC_WIDTH-1:0] temp_amplified_data;
+    logic [2*ADC_WIDTH-1:0] shifted_amplified_data;
     logic [$clog2(ADC_WIDTH)-1:0] readin_counter; // Use proper width for counter
     logic sck_enable;
     logic read_in_progress;
@@ -44,7 +45,17 @@ module AD4008_read #(
       .SR(!aresetn)  // Use primary reset for the primitive
    );
 
-    assign amplified_data = temp_amplified_data[ADC_WIDTH+NUM_FRAC_BITS-1:NUM_FRAC_BITS];
+    //shift out the fractional part to recover the integer part
+    assign shifted_amplified_data = temp_amplified_data >> NUM_FRAC_BITS;
+    //handle the clipping
+    always_comb begin
+        if (shifted_amplified_data > 16'hffff) begin //clips at max 16 bit int
+            amplified_data = 16'hffff;
+        end
+        else begin
+            amplified_data = shifted_amplified_data[ADC_WIDTH-1:0];
+        end
+    end
 
     //Main state machine
     always_ff @(posedge clk or negedge aresetn) begin

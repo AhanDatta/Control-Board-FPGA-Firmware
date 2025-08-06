@@ -27,7 +27,7 @@ module AD9228_read #(
     output logic clk_n,
 
     //FIFO connections (indexed by channel)
-    input logic [$clog2(NUM_CHANNELS)-1:0] fifo_addr,
+    input logic [$clog2(NUM_CHANNELS)-1:0] fifo_addr, //indexes by channel, 
     input logic [NUM_CHANNELS-1:0] fifo_rd_en,
     input logic fifo_rd_clk,
     input logic fifo_rstn,

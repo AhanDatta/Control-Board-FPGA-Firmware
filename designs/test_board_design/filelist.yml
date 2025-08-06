@@ -1,0 +1,29 @@
+# #
+# # HDL files
+# 
+# hdl:
+#   - 
+# sim:
+# ip_files:
+  #  - shared/ip_repo/main_DAC/component.xml
+#
+# IP repositories for the design 
+#
+ip_repo:
+  - shared/ip_repo
+bd:
+  - designs/test_board_design/bd/test_board_bd.bd
+#
+# project specific XDC files below 
+#
+xdc:
+  - designs/test_board_design/xdc/test_board.xdc
+# Vivado target xdc file
+# 
+# xdcTarget: shared/ip_repo/main_DAC/xdc/vivado_target.xdc
+
+#
+# Top level module name 
+#
+topMod: test_board_bd_wrapper
+# topSim: 

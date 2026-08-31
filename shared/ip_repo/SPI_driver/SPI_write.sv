@@ -62,10 +62,14 @@ module SPI_write #(
 
                 SEND_ADDRESS: begin
                     //shift out address bits
-                    if (bit_counter < (REG_WIDTH-1)) begin
-                        serial_out <= addr[REG_WIDTH - 1 - bit_counter];
+                    if (bit_counter == 0) begin 
+                        serial_out <= 1'b1; // sets the is_write flag on PSEC6
                         bit_counter <= bit_counter + 1;
                         spi_clk_en <= 1'b1;
+                    end
+                    else if (bit_counter < (REG_WIDTH-1)) begin
+                        serial_out <= addr[REG_WIDTH - 1 - bit_counter];
+                        bit_counter <= bit_counter + 1;
                     end
                     else begin //transitions and sends the last bit at the same time
                         serial_out <= addr[0];

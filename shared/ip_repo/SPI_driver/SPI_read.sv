@@ -62,7 +62,7 @@ module SPI_read #(
                 SEND_ADDRESS: begin
                     //shift out address bits
                     if (bit_counter < (REG_WIDTH)) begin
-                        serial_out <= start_addr[REG_WIDTH - 1 - bit_counter];
+                        serial_out <= (bit_counter == '0) ? 1'b0 : start_addr[REG_WIDTH - 1 - bit_counter]; // first bit sets is_write on PSEC6
                         bit_counter <= bit_counter + 1;
                         spi_clk_en <= 1'b1;
                     end

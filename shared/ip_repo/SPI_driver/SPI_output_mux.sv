@@ -19,7 +19,7 @@ module SPI_output_mux #(
     //final outputs
     output logic [REG_WIDTH-1:0] data_read_from_reg,
     output logic serial_out,
-    output logic spi_clk_en,
+    output logic cs,
     output logic fifo_wr_en
 );
 
@@ -34,13 +34,13 @@ module SPI_output_mux #(
             if (is_write) begin
                 data_read_from_reg = data_read_during_write;
                 serial_out = write_serial_out;
-                spi_clk_en = write_spi_clk_en;
+                cs = write_spi_clk_en;
                 fifo_wr_en = write_complete;
             end
             else begin
                 data_read_from_reg = data_read_during_read;
                 serial_out = read_serial_out;
-                spi_clk_en = read_spi_clk_en;
+                cs = read_spi_clk_en;
                 fifo_wr_en = read_one_byte_complete;
             end
         end

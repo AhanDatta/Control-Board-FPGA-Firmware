@@ -18,13 +18,13 @@ module SPI_driver #(
 
     //outputs
     output logic [REG_WIDTH-1:0] data_read_from_reg,
+    output logic cs,
     output logic serial_out,
     output logic spi_clk,
     output logic write_complete,
     output logic read_complete,
     output logic fifo_wr_en
 );
-    logic spi_clk_en;
 
     //write outputs
     logic [REG_WIDTH-1:0] data_read_during_write;
@@ -92,7 +92,7 @@ module SPI_driver #(
         //final outputs
         .data_read_from_reg (data_read_from_reg),
         .serial_out (serial_out),
-        .spi_clk_en (spi_clk_en),
+        .cs (cs),
         .fifo_wr_en (fifo_wr_en)
     );
 
@@ -105,8 +105,9 @@ module SPI_driver #(
    )
    spi_clk_gen (
       .O(spi_clk),   // 1-bit output: Buffer
-      .CE(rstn && spi_clk_en), // 1-bit input: Buffer enable
+      .CE(rstn), // 1-bit input: Buffer enable
       .I(clk)    // 1-bit input: Buffer
    );
+
 
 endmodule

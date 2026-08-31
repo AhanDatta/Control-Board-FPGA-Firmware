@@ -13,6 +13,7 @@ module SPI_driver_wrapper #(
     input logic serial_in,
     output logic spi_clk,
     output logic serial_out,
+    output logic cs,
 
     input wire                                   IPIF_clk,
                                                 
@@ -160,6 +161,7 @@ module SPI_driver_wrapper #(
 
     //outputs
     .data_read_from_reg (data_read_from_reg),
+    .cs (cs),
     .serial_out (serial_out),
     .spi_clk (spi_clk),
     .write_complete (write_complete),
